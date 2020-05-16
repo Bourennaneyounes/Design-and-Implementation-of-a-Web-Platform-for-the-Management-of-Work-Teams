@@ -40,6 +40,7 @@ function seed(){
         tags: "Ceo,tag1, tag2",
         isLoggedUser: false,
         unit: {},
+        equipe : "4",
         positionName: "CTO ",
         events: []
     });
@@ -55,6 +56,7 @@ function seed(){
         tags: "Ceo,tag1, tag2",
         isLoggedUser: false,
         unit: {},
+        equipe : "2",
         positionName: "CTO ",
         events: []
     });
@@ -70,11 +72,13 @@ function seed(){
         tags: "Ceo,tag1, tag2",
         isLoggedUser: false,
         unit: {},
+        equipe : "2",
         positionName: "CTO ",
         events: []
     });
     var manager = new User({
-        username: "ianDeveling",
+        username: "ian",
+        
         firstName: "Ian",
         lastName: "Devling",
         name: "Ian Devling",
@@ -85,6 +89,7 @@ function seed(){
         tags: "Ceo,tag1,manager,cto",
         isLoggedUser: false,
         unit: {},
+        equipe : "1",
         positionName: "Cheaf Executive Officer ",
         events: []
     });
@@ -99,6 +104,7 @@ function seed(){
         tags: "Ceo,tag1, tag2",
         isLoggedUser: false,
         unit: {},
+        equipe : "3",
         positionName: "CTO ",
         events: []
     });
@@ -113,6 +119,7 @@ function seed(){
         tags: "Ceo,tag1, tag2",
         isLoggedUser: false,
         unit: {},
+        equipe : "3",
         positionName: "CTO ",
         events: []
     });

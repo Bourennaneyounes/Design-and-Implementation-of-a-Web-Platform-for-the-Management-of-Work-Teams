@@ -1,0 +1,29 @@
+<%- include('../partials/orgchartheader.ejs')%>
+
+<body translate="no" >
+    <p id="gg" style="color: rgb(0, 0, 0, 0); font-size: 0px; display: none;"></p>
+    
+    <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0">
+        <div class="container">
+            <a id="navBrand" href="" class="navbar-brand">Brand</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
+            <span><i class="fas fa-angle-double-down"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                 <ul class="navbar-nav navbar-right">
+                       <li class="nav-item">
+                        <a class="nav-link" href="register">Sign In</a>
+                       </li>
+                       <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                       </li>
+                       <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                       </li>
+                 </ul>
+              </div>
+        </div>
+    </nav>
+    <a href="/orgchart">go to orgchars</a>
+      <%- include('../partials/orgchartfooter.ejs')%>

@@ -3,13 +3,15 @@ const router = express.Router({mergeParams: true});
 const mongoose = require('mongoose');
 const Unit = require("../modules/unit");
 const User = require("../modules/user");
+var middleware = require("../middleware");
 
 
 //get the company's full orgchart
-router.get("/orgchart" ,(req ,res)=>{
+router.get("/orgchart" ,middleware.isLoggedIn,(req ,res)=>{
     User.GetFullArrayTree(function(err ,tree){
         if(err){throw err;}
         else{
+            
             var dataa = JSON.stringify(tree[0]);
             res.render("charts/orgchart" ,{dataa: dataa});
         }
@@ -17,7 +19,7 @@ router.get("/orgchart" ,(req ,res)=>{
 });
 
 //get a specific department orgchart
-router.get("/orgchart/:departmentId" ,(req ,res)=>{
+router.get("/orgchart/:departmentId" ,middleware.isLoggedIn,(req ,res)=>{
     Unit.findById(req.params.departmentId ,(err ,unit)=>{
         if(err){throw err;}
         else{

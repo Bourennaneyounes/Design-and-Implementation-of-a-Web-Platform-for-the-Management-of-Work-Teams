@@ -7,6 +7,7 @@ const Tree = require('../modules/projectTree');
 const Mail = require('../modules/mail');
 const Message = require('../modules/message');
 const mongoose = require('mongoose');
+var middleware = require("../middleware");
 
 
 //adding a function that get rid of duplicates values in an array to the js prototype
@@ -26,7 +27,7 @@ Array.prototype.unique = function() {
 //Assigned projects
 
 //show the user's assigned projects
-router.get("/users/:id/projects/assigned" ,(req ,res)=>{
+router.get("/users/:id/projects/assigned" ,middleware.checkProjectOwnership,(req ,res)=>{
     User.findById(req.params.id).populate('assignedProjects').exec((err ,user)=>{
         if(err){throw err;}
         else{

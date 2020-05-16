@@ -69,7 +69,7 @@ mongoose.set('useCreateIndex', true);
 //connecting to database
 mongoose.connect("mongodb://localhost:27017/companydb" ,{useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false} , ()=>{
     console.log("connected to mongodb !");
-	// seed();
+	 //seed();
 });
 
 
