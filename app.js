@@ -43,7 +43,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req ,res ,next)=>{
 	res.locals.currentUser = req.user;   //(adds {currentUser = req.user} to all render params);
-	Unit.find({type: 'department'} ,'-desc' ,(err ,units)=>{
+	Unit.find({},'-desc' ,(err ,units)=>{
 		if(err){throw err;}
 		else{
 			res.locals.units = units;
@@ -69,7 +69,7 @@ mongoose.set('useCreateIndex', true);
 //connecting to database
 mongoose.connect("mongodb://localhost:27017/companydb" ,{useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false} , ()=>{
     console.log("connected to mongodb !");
-	 //seed();
+	// seed();
 });
 
 

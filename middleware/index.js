@@ -1,40 +1,20 @@
-var user = require("../modules/user");
-var project = require("../modules/project");
-//var comment = require("../models/comment");
+var User = require("../modules/user");
+//var Project = require("../modules/project");
+
 var middlewareObj ={};
 
 
-/*middlewareObj.checkCommentOwnership = function(req,res,next){
+
+
+
+middlewareObj.checkOwnership = function(req,res,next){
 	if(req.isAuthenticated()){
-		 comment.findById(req.params.comment_id, function(err, foundComment){
-			       if(err){
-					   	req.flash("error","Somthing Wrong");
-				              res.redirect("back");
-			        }else{
-				             if(foundComment.author.id.equals(req.user._id)){
-					                                       next();
-				             }else{
-								 	req.flash("error","You don't have permission to do that");
-					                                res.redirect("back");
-				                 }
-			            }
-		     });
-	}else{
-		 res.redirect("back");
-	}
-}
-
-
-*/
-
-middlewareObj.checkProjectOwnership = function(req,res,next){
-	if(req.isAuthenticated()){
-		 project.findById(req.params.id, function(err, foundproject){
+		 User.findById(req.params.id, function(err, foundUser){
 			       if(err){
 					  // req.flash("error","Somthing Wrong");
 				              res.redirect("back");
 			        }else{
-				             if(foundproject.author.id.equals(req.user._id)){
+				             if(foundUser._id.equals(req.user._id)){
 					                                       next();
 				             }else{
 							//	 req.flash("error","You don't have permission to do that");

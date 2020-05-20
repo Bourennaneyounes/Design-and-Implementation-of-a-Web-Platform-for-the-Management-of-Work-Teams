@@ -7,7 +7,7 @@ var middleware = require("../middleware");
 
 
 //get the company's full orgchart
-router.get("/orgchart" ,middleware.isLoggedIn,(req ,res)=>{
+/*router.get("/orgchart" ,middleware.isLoggedIn,(req ,res)=>{
     User.GetFullArrayTree(function(err ,tree){
         if(err){throw err;}
         else{
@@ -16,22 +16,40 @@ router.get("/orgchart" ,middleware.isLoggedIn,(req ,res)=>{
             res.render("charts/orgchart" ,{dataa: dataa});
         }
     });
-});
-
-//get a specific department orgchart
-router.get("/orgchart/:departmentId" ,middleware.isLoggedIn,(req ,res)=>{
-    Unit.findById(req.params.departmentId ,(err ,unit)=>{
-        if(err){throw err;}
-        else{
-            User.GetArrayTree(unit.currentHead, (err ,tree)=>{
-                if(err){throw err;}
-                else{
-                    var dataa =JSON.stringify(tree[0]);
-                    res.render("charts/orgchart" ,{dataa: dataa});
-                }
-            });
-        }
+});*/
+router.get("/orgchart/:userId" ,middleware.isLoggedIn,(req ,res)=>{
+    User.findById(req.params.userId,(err,user)=>{
+        User.GetFullArrayTree(function(err ,tree){
+            if(err){throw err;}
+            else{
+                
+                var dataa = JSON.stringify(tree[0]);
+                res.render("charts/orgchart" ,{dataa: dataa});
+            }
+        });
     });
+   
+});
+//get a specific department orgchart
+router.get("/orgchart/:id/:departmentId" ,middleware.isLoggedIn,(req ,res)=>{
+    User.findById(req.params.id,(err,user)=>{
+        Unit.findById(req.params.departmentId ,(err ,unit)=>{
+            if(err){throw err;}
+            else{
+                User.GetArrayTree(unit.currentHead, (err ,tree)=>{
+                    if(err){throw err;}
+                    else{
+                        Unit.find({} ,'-desc' ,(err ,units)=>{
+                            var dataa =JSON.stringify(tree[0]);
+                            res.render("charts/orgchart" ,{dataa: dataa,user:user ,units:units});
+                        });
+                        
+                    }
+                });
+            }
+        });
+    });
+   
 });
 
 

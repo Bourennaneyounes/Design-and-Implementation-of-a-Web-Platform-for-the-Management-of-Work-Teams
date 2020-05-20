@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,38 @@
     <link rel="stylesheet" href="/stylesheets/lib/semantic.min.css">
     <link rel="stylesheet" href="/stylesheets/forms.css">
 </head>
-<body>
+-->
+  <%- include('../partials/orgchartheader.ejs')%>
+
+<body translate="no" >
+    <p id="gg" style="color: rgb(0, 0, 0, 0); font-size: 0px; display: none;"></p>
+    
+    <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0">
+        <div class="container">
+            <a id="navBrand" href="" class="navbar-brand">Brand</a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
+            <span><i class="fas fa-angle-double-down"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                 <ul class="navbar-nav navbar-right">
+                    <%if(!currentUser){%>
+                       <li class="nav-item">
+                        <a class="nav-link" href="register">Sign In</a>
+                       </li>
+                       <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                       </li>
+                       <% }else{%>
+                       <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                       </li>
+                       <%}%>
+                 </ul>
+              </div>
+        </div>
+    </nav>
+   
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center">
             <dev class="column col-md-8">
@@ -36,5 +67,6 @@
         </div>
     </div>
     <script src="/scripts/lib/jquery-3.4.1.min.js"></script>
-</body>
-</html>
+<!--</body>
+</html>-->
+<%- include('../partials/orgchartfooter.ejs')%>

@@ -7,9 +7,10 @@ const Tree = require('../modules/projectTree');
 const Mail = require('../modules/mail');
 const Message = require('../modules/message');
 const mongoose = require('mongoose');
+var middleware = require("../middleware");
 
 //show the user's calendar
-router.get("/users/:id/events" ,(req ,res)=>{
+router.get("/users/:id/events" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id).exec((err ,user)=>{
         if(err){throw err;}
         else{
@@ -19,7 +20,7 @@ router.get("/users/:id/events" ,(req ,res)=>{
 });
 
 //shows the templet of adding an event to the calendar
-router.get("/users/:id/events/new" ,(req ,res)=>{
+router.get("/users/:id/events/new" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -43,7 +44,7 @@ router.get("/users/:id/events/new" ,(req ,res)=>{
 
 
 //adding a new event to the calendar
-router.post("/users/:id/events" ,(req ,res)=>{
+router.post("/users/:id/events" ,middleware.checkOwnership,(req ,res)=>{
     //initializing event
     var event = req.body.event;
     var dateTime = req.body.dateTime.split(" - ");

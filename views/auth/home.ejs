@@ -12,18 +12,25 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 
                  <ul class="navbar-nav navbar-right">
+                    <%if(!currentUser){%>
                        <li class="nav-item">
                         <a class="nav-link" href="register">Sign In</a>
                        </li>
                        <li class="nav-item">
                         <a class="nav-link" href="login">Login</a>
                        </li>
+                       <% }else{%>
                        <li class="nav-item">
                         <a class="nav-link" href="#">Logout</a>
                        </li>
+                       <%}%>
                  </ul>
               </div>
         </div>
     </nav>
-    <a href="/orgchart">go to orgchars</a>
+    <%if(currentUser){%>
+        <a href="/orgchart/<%= currentUser.id%>">go to orgchars</a>
+   <% }else{%>
+    <a href="/login">go to orgchars</a>
+    <%}%>
       <%- include('../partials/orgchartfooter.ejs')%>

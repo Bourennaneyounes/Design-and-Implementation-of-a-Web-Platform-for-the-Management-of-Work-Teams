@@ -7,10 +7,11 @@ const Tree = require('../modules/projectTree');
 const Mail = require('../modules/mail');
 const Message = require('../modules/message');
 const mongoose = require('mongoose');
+var middleware = require("../middleware");
 
 
 //show the templet of sending new mail
-router.get("/users/:id/mails/sent/new" ,(req ,res)=>{
+router.get("/users/:id/mails/sent/new" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -31,7 +32,7 @@ router.get("/users/:id/mails/sent/new" ,(req ,res)=>{
 
 
 //shows the user's received mails
-router.get("/users/:id/mails/received" ,(req ,res)=>{
+router.get("/users/:id/mails/received" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,'-events')
     .populate({
         path: 'receivedMails',
@@ -65,7 +66,7 @@ router.get("/users/:id/mails/received" ,(req ,res)=>{
 });
 
 //shows the user's sent mails
-router.get("/users/:id/mails/sent" ,(req ,res)=>{
+router.get("/users/:id/mails/sent" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,'-events')
     .populate({
         path: 'sentMails',
@@ -145,7 +146,7 @@ router.get("/users/:id/mails/received/:mailId" ,(req ,res)=>{
 });
 
 //sending new mail
-router.post("/users/:id/mails/sent" ,(req ,res)=>{
+router.post("/users/:id/mails/sent" ,middleware.checkOwnership,(req ,res)=>{
     var receivers = req.body.sentTo.split(",");
     if(req.body.CCs !== undefined){
         var CCs = req.body.CCs.split(",");

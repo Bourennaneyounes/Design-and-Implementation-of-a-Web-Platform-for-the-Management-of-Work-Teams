@@ -7,10 +7,11 @@ const Tree = require('../modules/projectTree');
 const Mail = require('../modules/mail');
 const Message = require('../modules/message');
 const mongoose = require('mongoose');
+var middleware = require("../middleware");
 
 
 //show profil
-router.get("/users/:id/profil" ,(req ,res)=>{
+router.get("/users/:id/profil" ,middleware.isLoggedIn,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{

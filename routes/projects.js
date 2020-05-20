@@ -27,7 +27,7 @@ Array.prototype.unique = function() {
 //Assigned projects
 
 //show the user's assigned projects
-router.get("/users/:id/projects/assigned" ,middleware.checkProjectOwnership,(req ,res)=>{
+router.get("/users/:id/projects/assigned" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id).populate('assignedProjects').exec((err ,user)=>{
         if(err){throw err;}
         else{
@@ -157,7 +157,7 @@ router.delete("/users/:id/projects/assigned/:prjId" ,(req ,res)=>{
 //Received projects
 
 //shows the user's received projects
-router.get("/users/:id/projects/received" ,(req ,res)=>{
+router.get("/users/:id/projects/received" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id).populate('receivedProjects').exec((err ,user)=>{
         if(err){throw err;}
         else{
@@ -249,7 +249,7 @@ router.post("/users/:id/projects/received/:prjId/discussion" ,(req ,res)=>{
 //Sent projects
 
 //show the user's sent projects
-router.get("/users/:id/projects/sent" ,(req ,res)=>{
+router.get("/users/:id/projects/sent" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id).populate('sentProjects').exec((err ,user)=>{
         if(err){throw err;}
         else{
@@ -266,7 +266,7 @@ router.get("/users/:id/projects/sent" ,(req ,res)=>{
 });
 
 //shows the templet of sending new project
-router.get("/users/:id/projects/new" ,(req ,res)=>{
+router.get("/users/:id/projects/new" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id).exec((err ,user)=>{
         if(err){throw err;}
         else{
@@ -424,7 +424,7 @@ router.post("/users/:id/projects/:prjId/progress" ,(req ,res)=>{
 });
 
 //sending new project
-router.post("/users/:id/projects/sent" ,(req ,res)=>{
+router.post("/users/:id/projects/sent" ,middleware.checkOwnership,(req ,res)=>{
     //initializing project
     var project = new Project(req.body.project);
     project.start = project.start.replace(/\//g, "-");

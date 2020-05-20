@@ -35,11 +35,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <div class="dropdown my-0 py-0">
-                        <button class="dropbtn my-1 ml-3">Departments</button>
+                        <button class="dropbtn my-1 ml-3">Units</button>
                         <div class="dropdown-content">
-                            <a class="dropdown-item" href="/orgchart">All Departments</a>
+                            <a class="dropdown-item" href="/orgchart/<%= currentUser._id%>">All Units</a>
                             <% units.forEach(function(unit){ %>
-                              <a class="dropdown-item" href="/orgchart/<%= unit.value%>"><%= unit.value%></a>
+                              <a class="dropdown-item" href="/orgchart/<%= currentUser._id%>/<%= unit._id%>"><%= unit.value%></a>
                             <% }) %>
                         </div>
                       </div>
@@ -48,15 +48,19 @@
                        <li class="nav-item mr-3">
                         <a class="nav-link" href="#"><i class="fa fa-user" aria-hidden="true"></i> Profil</a>
                        </li>
+                       <%if(!currentUser){%>
                        <li class="nav-item">
                         <a class="nav-link" href="register">Sign In</a>
                        </li>
+                       
                        <li class="nav-item">
                         <a class="nav-link" href="login">Login</a>
                        </li>
+                    <%}else{%>
                        <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                        </li>
+                       <%}%>
                  </ul>
               </div>
         </div>

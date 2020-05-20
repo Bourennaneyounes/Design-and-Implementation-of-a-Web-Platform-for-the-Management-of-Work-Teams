@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
   firstName: String,
   lastName: String,
   name: String,
-  under_equipe :String,
+  
   imageUrl: {type: String ,default: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQMDZH1hAZTs5H364fQPBj33spP6P8mi_CkfmHKcOUYArZ3LYTt"},
   area: {type: String ,default: "Corporate"},
   profileUrl: {type: String ,default: ""},
