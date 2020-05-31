@@ -1,5 +1,5 @@
 var User = require("../modules/user");
-//var Project = require("../modules/project");
+var Project = require("../modules/project");
 
 var middlewareObj ={};
 
