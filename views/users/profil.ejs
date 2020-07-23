@@ -1,5 +1,17 @@
 <%- include('../partials/profilHeader')%>
 
 <h1>Profil</h1>
-
+<h1>liste utilisateur</h1>
+<button>Ajouter</button>
+<button>modifier</button>
+<button>Supprimer</button>
+<a href="/users/<%=user._id%>/profil/post">Gestion des post</a>
+<% usersList.forEach(function(user){%>
+    <div class="normalDiv row py-2 px-5 m-2">
+        <div class="column col-9">
+            <img class="ui avatar image" src="<%= user.imageUrl%>">
+            <p class="mt-1 ml-5"><span class="inputsTitles"><%= user.username%></span></p>
+        </div>
+    </div>
+<%});%>
 <%- include('../partials/profilFooter')%>

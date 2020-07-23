@@ -27,6 +27,7 @@ router.get("/users/:id/events/new" ,middleware.checkOwnership,(req ,res)=>{
             User.find({} ,'-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit' ,(err ,usersList)=>{
                 if(err){throw err;}
                 else{
+                  //  console.log(req .query.addTo);
                     if(req.query.addTo == 'self&others'){
                         res.render("users/newEvent" ,{user: user ,addTo: 'self' ,usersList: JSON.stringify(usersList)});
                     }else{

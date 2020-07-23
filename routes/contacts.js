@@ -26,6 +26,7 @@ router.get("/users/:id/contacts" ,middleware.checkOwnership,(req ,res)=>{
                 var chrL = String.fromCharCode(97 + i);
                 var chrU = String.fromCharCode(65 + i);
                 var chrArray = [];
+               // console.log(user.contacts);
                 user.contacts.forEach(function(contact){
                     if(contact.username[0] == chrL || contact.username[0] == chrU){
                         chrArray.push(contact);

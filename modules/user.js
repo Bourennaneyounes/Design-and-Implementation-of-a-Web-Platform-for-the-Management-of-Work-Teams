@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Unit = require("./unit");
+const Post = require("./post");
 const Project = require("./project");
 const Mail = require("./mail");
 const Message = require("./message");
@@ -22,6 +23,7 @@ const userSchema = mongoose.Schema({
   tags: String,
   isLoggedUser: {type: Boolean , default: false},
   unit: {type: mongoose.Schema.Types.ObjectId, ref:'Unit'},
+  post: {type: mongoose.Schema.Types.ObjectId, ref:'Post'},
   positionName: String,
 
   contacts: [{ type: mongoose.Schema.Types.ObjectId, ref:'User'}],

@@ -27,7 +27,7 @@ router.post("/register" , (req ,res)=>{
         lastName: req.body.lastName,
 		name: req.body.firstName+" "+req.body.lastName,
 		equipe: req.body.equipe,
-		unit: req.body.unit,
+		//unit: req.body.unit,
         imageUrl: "https://raw.githubusercontent.com/bumbeishvili/Assets/master/Projects/D3/Organization%20Chart/female.jpg",
         profileUrl: "http://example.com/employee/profile",
         office: "CEO office",
@@ -36,12 +36,12 @@ router.post("/register" , (req ,res)=>{
         positionName: "CTO ",
         events: []
 	});
-	Unit.findById(req.body.unit ,(err ,unit)=>{
+	/*Unit.findById(req.body.unit ,(err ,unit)=>{
         if(err){
 			throw err;
 		}
          else{
-	
+	*/
 			  User.register(newUser ,req.body.password ,function(err ,user){
 				               if(err){
 					                    throw err;
@@ -50,7 +50,7 @@ router.post("/register" , (req ,res)=>{
 								   
 								  var parent = new User({});
 								  //console.log(parent);
-								  User.findById(unit.currentHead,function(err,foundUser){
+								 /* User.findById(unit.currentHead,function(err,foundUser){
                                          if(err){
 											 console.log(err);
 										 }else{
@@ -58,10 +58,10 @@ router.post("/register" , (req ,res)=>{
 											 parent = foundUser;
 											 //console.log(parent.name);
 										 }
-								  });
+								  });*/
 								  user.save(function(err,user){
 									console.log("new child save");
-									parent.appendChild(user,function(err){
+									/*parent.appendChild(user,function(err){
 										if(err){
 	
 											  console.log("new child didnt append");
@@ -71,18 +71,21 @@ router.post("/register" , (req ,res)=>{
 										  passport.authenticate("local")(req ,res ,()=>{
 											console.log(req.params);  
 											res.redirect("/orgchart/"+user._id);   
+												  
+										   });*/
+										   passport.authenticate("local")(req ,res ,()=>{
+											console.log(req.params);  
+											res.redirect("/orgchart/"+user._id);   
 											 
 																		});
-												  
-										   });
 								  });
 								 
 				                 }
 			      });
-		    }
+		   /* }*/
 	});
         
-});
+
 	
 
 //logging in:

@@ -10,8 +10,22 @@ function seed(){
     User.deleteMany({} ,function(err ,result){
         if(err){throw err}
     });
-
-    var unit0 = new Unit({
+    var admin = new User({
+        username: "admin",
+        firstName: "admin",
+        lastName: "leverling11",
+        name: " Leverling Janet 1",
+        imageUrl: "https://raw.githubusercontent.com/bumbeishvili/Assets/master/Projects/D3/Organization%20Chart/female.jpg",
+        profileUrl: "http://example.com/employee/profile",
+        office: "CEO office",
+        tags: "Ceo,tag1, tag2",
+        isLoggedUser: false,
+        unit: {},
+        equipe : "4",
+        positionName: "CTO ",
+        events: []
+    });
+ /*   var unit0 = new Unit({
         type: "unit",
         value: "Business",
         desc: "Laoreet non curabitur gravida arcu ac tortor. Sed adipiscing diam donec adipiscing. Placerat duis ultricies lacus sed turpis tincidunt. Mi sit amet mauris commodo quis imperdiet. Curabitur vitae nunc sed velit dignissim sodales ut eu sem. Mauris pharetra et ultrices neque ornare aenean. Facilisis sed odio morbi quis commodo odio aenean sed. Montes nascetur ridiculus mus mauris vitae ultricies. Risus nec feugiat in fermentum posuere. Aliquet eget sit amet tellus cras. Tristique sollicitudin nibh sit amet commodo nulla. Tortor condimentum lacinia quis vel eros donec ac odio tempor. Vitae sapien pellentesque habitant morbi tristique senectus. Aliquam id diam maecenas ultricies mi eget mauris pharetra. Eleifend donec pretium vulputate sapien. Diam vulputate ut pharetra sit. Non pulvinar neque laoreet suspendisse interdum.",
@@ -216,7 +230,7 @@ function seed(){
         });
     });
     
-    
+*/    
 }
 
 module.exports = seed;

@@ -35,7 +35,9 @@
     <!------------------------------------------------------------------>
     <!-- Contacts List -->
     <div id="contactsList" class="container scrollDiv p-4">
-        <% contacts.forEach(function(chrArray){%>
+        <% contacts.forEach(function(chrArray){
+          //  console.log(chrArray);
+            %>
             <%if(chrArray.length > 0){%>
                 <div class="CharacterHeader"><span class="text-uppercase"><%= chrArray[0].username[0]%></span></div>
                 <% chrArray.forEach(function(contact){%>

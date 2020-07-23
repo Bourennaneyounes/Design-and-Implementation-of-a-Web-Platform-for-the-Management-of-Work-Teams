@@ -5,7 +5,6 @@ const Unit = require("../modules/unit");
 const User = require("../modules/user");
 var middleware = require("../middleware");
 
-
 //get the company's full orgchart
 /*router.get("/orgchart" ,middleware.isLoggedIn,(req ,res)=>{
     User.GetFullArrayTree(function(err ,tree){
@@ -22,8 +21,9 @@ router.get("/orgchart/:userId" ,middleware.isLoggedIn,(req ,res)=>{
         User.GetFullArrayTree(function(err ,tree){
             if(err){throw err;}
             else{
-                
+                console.log(tree);
                 var dataa = JSON.stringify(tree[0]);
+                
                 res.render("charts/orgchart" ,{dataa: dataa});
             }
         });

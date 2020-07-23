@@ -20,6 +20,7 @@
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "jsdom": "^16.2.2",
     "method-override": "^3.0.0",
     "mongoose": "^5.9.3",
     "mongoose-materialized": "^0.2.0",

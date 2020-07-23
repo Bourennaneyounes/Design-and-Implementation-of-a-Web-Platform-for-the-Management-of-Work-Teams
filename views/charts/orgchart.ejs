@@ -1,6 +1,6 @@
 <%- include('../partials/orgchartheader.ejs')%>
 
-<body translate="no" >
+<body translate="no"  >
     <p id="gg" style="color: #e6d0d000-size: 0px; display: none;"><%= dataa%></p>
     
     
@@ -37,6 +37,9 @@
                    </li>
                    <% }else{%>
                        <li class="nav-item">
+                       <a class="nav-link" href="/users/<%= currentUser._id%>/profil">Profil</a>
+                       </li>
+                       <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                        </li>
                        <%}%>
@@ -45,8 +48,10 @@
               </div>
         </div>
     </nav>
-
+    
+    
   <div id="full-container">
+    <button onclick="Functiondarkmode()" class="btn-action ">Dark Mode</button>
     <button class="btn-action btn-fullscreen mt-5" onclick="params.funcs.toggleFullScreen()">Fullscreen <span class='icon'/> <i class="fa fa-arrows-alt" aria-hidden="true"></i></span></button>
     <button class="btn-action btn-show-my-self mt-5" onclick="params.funcs.showMySelf()"> Show myself <span class='icon'/> <i class="fa fa-user" aria-hidden="true"></i></span></button>
 

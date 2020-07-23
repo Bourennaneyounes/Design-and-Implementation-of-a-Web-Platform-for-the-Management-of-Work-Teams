@@ -610,3 +610,14 @@ nav{
     fill: #91a4a5;
     font-size: 12px;
   }
+  html {
+    --primary-color: #ffeb3b;
+    --border-color: var(--primary-color);
+    --text-color: #333;
+    --background-color: #fff;
+  }
+  .dark {
+    border-color: #ccc;
+    --primary-color: #ccc;
+    background: #181818;
+  }
