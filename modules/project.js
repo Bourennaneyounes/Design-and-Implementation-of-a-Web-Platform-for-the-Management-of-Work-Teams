@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const User = require('./user');
 const Tree = require('./projectTree');
 // const treeSchema = require('./projectTree');
+const conn = require('./connection');
 
 const projectSchema = mongoose.Schema({
     title: String,
@@ -12,8 +13,13 @@ const projectSchema = mongoose.Schema({
     detail: String,
     url: String,
     progress: {type: Number ,default: 1},
-    lastUpdateBy: {type: mongoose.Schema.Types.ObjectId ,ref: 'User'},
-    lastUpdateAt: String,
+    progressHistory: [{
+      progressUpdateBy: String,
+      progressUpdateAt: String,
+      oldProgress: Number,
+      newProgress: Number
+    }],
+    lastProjectUpdateAt: String,
     discussion : [{
       userName : String,
       userId: String,
@@ -21,12 +27,19 @@ const projectSchema = mongoose.Schema({
       created_at: String,
       text : String
     }],
+    files: [{type: mongoose.Schema.Types.ObjectId, ref: 'gfsProject' }],
     createdBy: {type: mongoose.Schema.Types.ObjectId ,ref: 'User'},
     sentToList: [{type: mongoose.Schema.Types.ObjectId ,ref: 'User'}],
     assignedToList: [{type: mongoose.Schema.Types.ObjectId ,ref: 'User'}],
     sentTo: [{type: mongoose.Schema.Types.ObjectId ,ref: 'User'}],
     assignedTo: [{type: mongoose.Schema.Types.ObjectId ,ref: 'User'}],
-    tree: {type: mongoose.Schema.Types.ObjectId ,ref: 'Tree'}
+    tree: {type: mongoose.Schema.Types.ObjectId ,ref: 'Tree'},
+    history: [{
+      action: String,
+      actor: {type: mongoose.Schema.Types.ObjectId ,ref: 'User'},
+      receiver: {type: mongoose.Schema.Types.ObjectId ,ref: 'User'},
+      at: String
+    }]
   });
 
   var autoPopulateCreatedBy = function(next) {
@@ -51,4 +64,4 @@ const projectSchema = mongoose.Schema({
   .pre('findOne', autoPopulateAssignedTo)
   .pre('find', autoPopulateAssignedTo);
 
-  module.exports = new mongoose.model('Project' ,projectSchema);
+  module.exports = conn.model('Project' ,projectSchema);

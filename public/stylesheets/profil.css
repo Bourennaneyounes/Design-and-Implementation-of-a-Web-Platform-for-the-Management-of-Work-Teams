@@ -84,19 +84,19 @@
     display: table;
   }
   
-  .container img {
+  /* .container img {
     float: left;
     max-width: 60px;
     width: 100%;
     margin-right: 20px;
     border-radius: 50%;
-  }
+  } */
   
-  .container img.right {
+  /* .container img.right {
     float: right;
     margin-left: 20px;
     margin-right:0;
-  }
+  } */
   
   .time-right {
     float: right;
@@ -150,6 +150,116 @@
   .fromAndAt{
     width: 170px;
   }
+
+  /* file uploader */
+  /* file uploader */
+  /* file uploader */
+  #upload {
+    position: absolute;
+    right: -9999px;
+    visibility: hidden;
+    opacity: 0;
+  }
+   
+  /* #uploadLable {
+    position: relative;
+    padding: 1rem 3rem;
+    background: #eee;
+    display: inline-block;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  #uploadLable:hover {
+    background: #0c8fda;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s all;
+  } */
+  
+  #uploadLable {
+    position: relative;
+    padding: 0;
+    display: inline-block;
+    text-align: center;
+    color: #240b36;
+    overflow: hidden;
+    font-size: 1.3em;
+  }
+  #uploadLable:hover {
+    cursor: pointer;
+    color: #87081e;
+    transition: 0.2s all;
+  }
+
+  #lableTextSpan{
+    font-weight: 600;
+  }
+
+  /* .files {
+    background: #eee;
+    padding: 1rem;
+    margin:1rem 0;
+    border-radius:10px;
+  } */
+
+  .files_ul{
+    /* border: 0.5px solid rgba(176, 16, 43, 0.7);
+    border-radius: 3px; */
+    list-style:none;
+    padding: 0.5em;
+    max-height:150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    border: 1px solid rgba(34,36,38,.15);
+    color: rgba(0,0,0,.87);
+    border-radius: .28571429rem;
+    /* border: 1px solid rgba(176, 16, 43, 0.7); */
+    /* padding: 4px; */
+    /* border-radius: 3px; */
+  }
+
+  .file_li{
+    padding:0.5rem 0;
+    padding-right:2rem;
+    position:relative;
+  }
+
+  .file_delete_i{
+    cursor:pointer;
+    transform:translatey(-50%);
+  }
+  .file_delete_i:hover{
+    color: #87081d;
+  }
+  span.file-size {
+    color: #999;
+    padding-left: 0.5rem;
+  }
+  #filesContainer{
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    border: 1px solid rgba(34,36,38,.15);
+    color: rgba(0,0,0,.87);
+    border-radius: .28571429rem;
+    /* border: 1px solid rgba(176, 16, 43, 0.7); */
+    padding: 4px;
+    /* border-radius: 3px; */
+  }
+  .fileIcone{
+    margin-left: 11px;
+    margin-right: 13px;
+    font-size: 1.6em;
+  }
+  .filesOptionsIcons{
+    color: black;
+    background-color: transparent;
+    border: none;
+  }
+  .filesOptionsIcons:hover{
+    color: #87081e;
+  }
 /* Project css */
 /* Project css */
 /* Project css */
@@ -170,3 +280,47 @@
 /* event css*/
 /* event css*/
 /* event css*/
+
+#plannedForContainer{
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+  border: 1px solid rgba(34,36,38,.15);
+  color: rgba(0,0,0,.87);
+  border-radius: .28571429rem;
+  padding: 4px;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* width */
+.plannedForContainer::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+.plannedForContainer::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+/* Handle */
+.plannedForContainer::-webkit-scrollbar-thumb:hover {
+  background: #c31432;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top,#c31432, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top,#c31432, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+/* Handle on hover */
+.plannedForContainer::-webkit-scrollbar-thumb {
+  background: #c31432;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top,#240b36, #c31432 ,#240b36);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top,#240b36, #c31432 ,#240b36); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+}
+
+
+/* filePreveiw */
+/* filePreveiw */
+/* filePreveiw */
+/* filePreveiw */
+
+#videoId {
+  background-color: black !important;
+}
+

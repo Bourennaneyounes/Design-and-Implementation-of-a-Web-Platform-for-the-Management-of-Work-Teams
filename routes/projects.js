@@ -6,8 +6,133 @@ const Project = require("../modules/project");
 const Tree = require('../modules/projectTree');
 const Mail = require('../modules/mail');
 const Message = require('../modules/message');
+const Event = require("../modules/event");
 const mongoose = require('mongoose');
 var middleware = require("../middleware");
+
+const conn = require('../modules/connection');
+const path = require('path');
+// const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+
+
+
+
+
+// init gfs
+let gfsProject;
+conn.once('open', () => {
+  // init stream
+  gfsProject = Grid(conn.db ,mongoose.mongo);
+  gfsProject.collection('projectFiles');    //gfsProject is now like a mongoose model
+});
+
+// Storage
+const projectFilesStorage = new GridFsStorage({
+	url: "mongodb://localhost:27017/companydb",
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            const fileInfo = {
+                filename: file.originalname,
+                bucketName: "projectFiles"
+              };
+              resolve(fileInfo);
+        });
+      }
+});
+
+//init upload
+const projectFilesUpload = multer({
+    storage: projectFilesStorage
+});
+//upload array of files midware
+const arrUpload = projectFilesUpload.array('files', 12); // 'files' is the name of the input[type="file"] that contains the file
+// multer({
+// 	storage: storage,
+// 	//limits: {fileSize: [size in bytes]},      //sets the max size , if larger than that ,upload func will throw an error.
+// 	fileFilter: function(req ,file ,cb){        //to allow only a certaine type of files/images
+// 		checkFileType(file ,cb);
+// 	}
+// });
+
+
+//check file type
+function checkFileType(file ,cb){;
+	//allowed extentions
+	const filetypes = /txt|webm|mpg|mp2|mpeg|mpe|mpv|ogg|mp4|m4p|m4v|avi|wmv|mov|qt|flv|swf|avchd|tif|tiff|bmp|jpg|jpeg|gif|png|eps|raw|cr2|nef|orf|sr2|flac|m4a|mp3|wav|wma|aac|pptx|ppsx|ppt|pps|pptm|potm|ppa|mpotx|ppsm|doc|dot|docx|dotx|docm|dotm|rtf|wpd|xls|xlsx|xlsm|xlsb|xlt|xltx|xltm|csv|ppt|pptx|pptm|pps|ppsx|ppsm|pot|potx|potm|vsd|vsdx|vsdm|svg|pub|msg|vcf|ics|mpp|odt|odp|ods/;
+	//check extention
+	const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+	//check mime type
+	const mimetype = filetypes.test(file.mimetype);
+	//returning
+	if(extname && mimetype){
+		return cb(null ,true);
+	}else{
+		cb('ERROR : file extention not allowed !');
+	}
+}
+
+
+//Read file
+router.get('/projects/:prjId/files/:fileId' ,(req ,res)=>{
+    const fileIdObj = new mongoose.mongo.ObjectId(req.params.fileId);
+	gfsProject.exist({_id: fileIdObj ,root: 'projectFiles'} ,(err ,found)=>{
+		if(err){throw err;}
+		if(found){
+            const readstream = gfsProject.createReadStream(fileIdObj);
+			readstream.pipe(res);
+		}else{
+			console.log('file not found ............ ' + req.params.fileId);
+		}
+	});
+});
+//this one is for audios only cuz 'howl->src' must end with an extention ,and the audio name has an extention attached to it in the end.
+router.get('/projects/:prjId/files/:fileId/:audioName' ,(req ,res)=>{
+    const fileIdObj = new mongoose.mongo.ObjectId(req.params.fileId);
+	gfsProject.exist({_id: fileIdObj ,root: 'projectFiles'} ,(err ,found)=>{
+		if(err){throw err;}
+		if(found){
+            const readstream = gfsProject.createReadStream(fileIdObj);
+			readstream.pipe(res);
+		}else{
+			console.log('file not found ............ ' + req.params.fileId);
+		}
+	});
+});
+
+//play video
+router.get("/projects/:prjId/files/videos/:fileId/play" ,(req ,res)=>{
+	res.render("users/videoPlayer" ,{iddd: req.params.prjId ,offf: 'projects' ,fileId: req.params.fileId ,filename: req.query.videoName});
+});
+
+//play audio
+router.get("/projects/:prjId/files/audios/:fileId/play" ,(req ,res)=>{
+	res.render("users/audioPlayer" ,{iddd: req.params.prjId ,offf: 'projects' ,fileId: req.params.fileId ,filename: req.query.audioName});
+});
+
+//preview images and texts
+// router.get("/projects/:prjId/files/:fileId/preview" ,(req ,res)=>{
+// 	res.render("users/filePreview" ,{fileId: req.params.fileId});
+// });
+
+
+
+//delete project files
+function deleteProjectFiles(filesToDelete){
+    filesToDelete.forEach(function(fileId){
+        const fileIdObj = new mongoose.mongo.ObjectId(fileId);
+        gfsProject.remove({_id: fileIdObj ,root:'projectFiles'}, function (err) {
+            if (err) {throw err;}
+          });
+    });
+}   
+
+
+
+
+
 
 
 //adding a function that get rid of duplicates values in an array to the js prototype
@@ -15,12 +140,112 @@ Array.prototype.unique = function() {
     var a = this.concat();
     for(var i=0; i<a.length; ++i) {
         for(var j=i+1; j<a.length; ++j) {
-            if(a[i] === a[j])
+            if(a[i] === a[j]){
+                
                 a.splice(j--, 1);
+            }
         }
     }
     return a;
 };
+
+// function unique(array){
+//     var a = array;
+//     var ai = "";
+//     var aj = "";
+//     for(var i=0; i<a.length-1; ++i) {
+//         for(var j=i+1; j<a.length; ++j) {
+//             ai = a[i];
+//             console.log('ai: '+ai);
+//             aj = a[j];
+//             console.log('aj: '+aj);
+//             if(ai == aj){
+//                 console.log('equal');
+//                 a.splice(j--, 1);
+//             }
+//         }
+//     }
+//     return a;
+// }
+
+
+
+
+
+
+//////////////manipulating files
+//files extentions
+const pdfExt = /pdf/;
+const txtExt = /txt/;
+const imageExt = /tif|tiff|bmp|jpg|jpeg|gif|png|eps|raw|cr2|nef|orf|sr2/;
+const videoExt = /webm|mpg|mp2|mpeg|mpe|mpv|ogg|mp4|m4p|m4v|avi|wmv|mov|qt|flv|swf|avchd/;
+const audioExt = /flac|mpa|mp3|wav|wma|aac/;
+const powerPointExt = /pptx|ppsx|ppt|pps|pptm|potm|ppa|mpotx|ppsm|odp/;
+const wordExt = /doc|dot|docx|dotx|docm|dotm|rtf|wpd|odt/;
+const excelExt = /xls|xlsx|xlsm|xlsb|xlt|xltx|xltm|csv|ods/;
+const visioExt = /vsd|vsdx|vsdm|svg/;
+const publisherExt = /pub/;
+//get file and determine its extention
+function getProjectFile(fileId){
+    return new Promise((resolve ,reject) => {
+        const fileIdObj = new mongoose.mongo.ObjectId(fileId);
+        gfsProject.files.findOne({_id: fileIdObj} ,(err ,file)=>{
+            if(err){reject(err);}
+            if(file){
+                switch(true){
+                    case pdfExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'pdf';
+                        break;
+                    case txtExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'text';
+                        break;
+                    case imageExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'image';
+                        break;
+                    case videoExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'video';
+                        break;
+                    case audioExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'audio';
+                        break;
+                    case powerPointExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'powerPoint';
+                        break;
+                    case wordExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'word';
+                        break;
+                    case excelExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'excel';
+                        break;
+                    case visioExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'visio';
+                        break;
+                    case publisherExt.test(path.extname(file.filename).toLowerCase()):
+                        file.fileType = 'publisher';
+                        break;
+                    default:
+                        file.fileType = 'other';
+                        break;
+                }
+                resolve(file);
+            }
+        });
+    });
+}
+//populate files array
+async function populateProjectFiles(projectFiles){
+    try{
+        var files = [];
+        const n = projectFiles.length;
+        for(var i = 0 ; i < n ; i++){
+            file = await getProjectFile(projectFiles[i]);
+            files.push(file);
+        };
+        return files;
+    }catch(err){
+        throw err;
+    }
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +256,7 @@ router.get("/users/:id/projects/assigned" ,middleware.checkOwnership,(req ,res)=
     User.findById(req.params.id).populate('assignedProjects').exec((err ,user)=>{
         if(err){throw err;}
         else{
+            const assignedProjects = user.assignedProjects;
             user.getChildren(function(err ,children){
                 if(err){throw err;}
                 var isLeaf;
@@ -39,7 +265,36 @@ router.get("/users/:id/projects/assigned" ,middleware.checkOwnership,(req ,res)=
                 }else{
                     isLeaf = true;
                 }
-                res.render("users/assignedProjects" ,{user: user ,isLeaf: isLeaf});
+                const promise = new Promise((resolve ,reject) => {
+                    var removedCount = 0;
+                    var updatedBellNotificationsArray = user.bellNotifications.array.filter(notification => {
+                        if(notification.notifType != 'assignedProject'){
+                            return true;
+                        }else{
+                            removedCount = removedCount + notification.count;
+                        }
+                    });
+                    var updatedBellNotificationsCount = user.bellNotifications.count;
+                    if(user.bellNotifications.count >= removedCount){
+                        updatedBellNotificationsCount = updatedBellNotificationsCount - removedCount;
+                    }
+                    const updatedBellNotifications = {
+                        count: updatedBellNotificationsCount,
+                        array: updatedBellNotificationsArray
+                    }
+                    resolve(updatedBellNotifications);
+                });
+                
+                promise
+                .then(updatedBellNotifications => {
+                    User.findByIdAndUpdate(user._id ,{$set:{bellNotifications:updatedBellNotifications}} ,{new: true} ,(err ,user) => {
+                        if(err){throw err;}
+                        var sortedAssignedProjects = assignedProjects.sort( (a ,b) => {
+                            return (a.lastProjectUpdateAt < b.lastProjectUpdateAt) ? 1 : -1;
+                        });
+                        res.render("users/assignedProjects" ,{user: user ,isLeaf: isLeaf ,assignedProjects: sortedAssignedProjects});
+                    });
+                });
             });
         }
     });
@@ -52,12 +307,46 @@ router.get("/users/:id/projects/assigned/:prjId/detail" ,(req ,res)=>{
         else{
             user.getChildren(function(err ,children){
                 if(err){throw err;}
-                Project.findById(req.params.prjId ,'-discussion -tree -sentTo -assignedTo -createdBy').populate({
-                    path: 'lastUpdateBy',
+                Project.findById(req.params.prjId ,'-discussion -tree -sentTo -assignedTo -createdBy').populate([{
+                    path: 'lastProgressUpdateBy',
                     select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
-                }).exec((err ,project)=>{
+                },{
+                    path: 'history.actor',
+                    select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
+                },{
+                    path: 'history.receiver',
+                    select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
+                }]).exec((err ,project)=>{
                     if(err){throw err;}
-                    res.render("users/assignedProjectDetail" ,{user: user ,children: children ,project: project});
+
+                    populateProjectFiles(project.files)
+                    .then(files => {
+                        const promise = new Promise((resolve ,reject) => {
+                            var updatedBellNotificationsArray = user.bellNotifications.array.filter(notification => {
+                                if(notification.projectId != req.params.prjId || notification.notifType != 'assignedProject'){
+                                    return true;
+                                }
+                            });
+                            var updatedBellNotificationsCount = user.bellNotifications.count;
+                            if(user.bellNotifications.count > 0){
+                                updatedBellNotificationsCount = updatedBellNotificationsCount - 1;
+                            }
+                            const updatedBellNotifications = {
+                                count: updatedBellNotificationsCount,
+                                array: updatedBellNotificationsArray
+                            }
+                            resolve(updatedBellNotifications);
+                        });
+                        
+                        promise
+                        .then(updatedBellNotifications => {
+                            User.findByIdAndUpdate(user._id ,{$set:{bellNotifications:updatedBellNotifications}} ,{new: true} ,(err ,user) => {
+                                if(err){throw err;}
+                                res.render("users/assignedProjectDetail" ,{user: user ,children: children ,project: project ,files: files});
+                            });
+                        });
+                    });
+                    
                 });
             });
         }
@@ -93,59 +382,56 @@ router.get("/users/:id/projects/assigned/:prjId/tree" ,(req ,res)=>{
     });
 });
 
-//adding new message to the project's discussion
-router.post("/users/:id/projects/assigned/:prjId/discussion" ,(req ,res)=>{
-    User.findById(req.params.id ,(err ,user)=>{
-        if(err){throw err;}
-        else{
-            Project.findById(req.params.prjId ,(err ,project)=>{
-                if(err){throw err;}  
-                var message = {
-                    userName: user.username,
-                    userImage: user.imageUrl,
-                    userId: user._id,
-                    created_at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-                    text: req.body.text
-                }
-                project.discussion.push(message);
-                project.save(()=>{
-                    res.redirect("/users/"+user._id+"/projects/assigned/"+project._id+"/discussion");
-                });
-            });
-        }
-    });
-});
-
 //unassign a project
 router.delete("/users/:id/projects/assigned/:prjId" ,(req ,res)=>{
+    var io = req.app.get('io');
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
             var index = user.assignedProjects.indexOf(req.params.prjId);
             if (index > -1) {
                 user.assignedProjects.splice(index, 1);
-                for(var i = 0 ;i < user.events.length ;i++){
-                    if(user.events[i]._id == req.params.prjId){
-                        user.events.splice(i ,1);
-                        break;
-                    }
-                }
                 user.save(()=>{
-                    Tree.findOne({user :req.params.id ,project: req.params.prjId} ,(err ,treeNode)=>{
+                    Project.findById(req.params.prjId ,(err ,project)=>{
                         if(err){throw err;}
-                        if(treeNode.sentTo == false){
-                            Tree.findByIdAndRemove(treeNode._id ,(err)=>{
+                        project.history.push({
+                            action: 'unassign',
+                            actor: req.params.id,
+                            at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+                        });
+                        //notify parent 
+                        User.findById(user.parentId ,(err ,parent) => {
+                            if(err){throw err;}
+                            const notification = {
+                                notifType: 'unassignProject',
+                                userId: user._id,
+                                username: user.username,
+                                projectTitle: project.title,
+                                at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+                            }
+                            io.to(parent._id).emit('projectUnassignNotification' ,notification);
+                            parent.bellNotifications.array.push(notification);
+                            parent.bellNotifications.count = parent.bellNotifications.count + 1;
+                            parent.save();
+                        });
+                        project.save(()=>{
+                            Tree.findOne({user :req.params.id ,project: req.params.prjId} ,(err ,treeNode)=>{
                                 if(err){throw err;}
-                                res.redirect("/users/"+req.params.id+"/projects/assigned");
+                                if(treeNode.sentTo == false){
+                                    Tree.findByIdAndRemove(treeNode._id ,(err)=>{
+                                        if(err){throw err;}
+                                        res.redirect("/users/"+req.params.id+"/projects/assigned");
+                                    });
+                                }
+                                else{
+                                    treeNode.assigned = false;
+                                    treeNode.save((err)=>{
+                                        if(err){throw err;}
+                                        res.redirect("/users/"+req.params.id+"/projects/assigned");
+                                    });
+                                }
                             });
-                        }
-                        else{
-                            treeNode.assigned = false;
-                            treeNode.save((err)=>{
-                                if(err){throw err;}
-                                res.redirect("/users/"+req.params.id+"/projects/assigned");
-                            });
-                        }
+                        });
                     });
                 });
             }
@@ -161,6 +447,7 @@ router.get("/users/:id/projects/received" ,middleware.checkOwnership,(req ,res)=
     User.findById(req.params.id).populate('receivedProjects').exec((err ,user)=>{
         if(err){throw err;}
         else{
+            const receivedProjects = user.receivedProjects;
             user.getChildren(function(err ,children){
                 if(err){throw err;}
                 var isLeaf;
@@ -169,7 +456,37 @@ router.get("/users/:id/projects/received" ,middleware.checkOwnership,(req ,res)=
                 }else{
                     isLeaf = true;
                 }
-                res.render("users/receivedProjects" ,{user: user ,isLeaf: isLeaf});
+                const promise = new Promise((resolve ,reject) => {
+                    var removedCount = 0;
+                    var updatedBellNotificationsArray = user.bellNotifications.array.filter(notification => {
+                        if(notification.notifType != 'receivedProject'){
+                            return true;
+                        }else{
+                            removedCount = removedCount + notification.count;
+                        }
+                    });
+                    var updatedBellNotificationsCount = user.bellNotifications.count;
+                    if(user.bellNotifications.count >= removedCount){
+                        updatedBellNotificationsCount = updatedBellNotificationsCount - removedCount;
+                    }
+                    const updatedBellNotifications = {
+                        count: updatedBellNotificationsCount,
+                        array: updatedBellNotificationsArray
+                    }
+                    resolve(updatedBellNotifications);
+                });
+                
+                promise
+                .then(updatedBellNotifications => {
+                    User.findByIdAndUpdate(user._id ,{$set:{bellNotifications:updatedBellNotifications}} ,{new: true} ,(err ,user) => {
+                        if(err){throw err;}
+                        var sortedReceivedProjects = receivedProjects.sort( (a ,b) => {
+                            return (a.lastProjectUpdateAt < b.lastProjectUpdateAt) ? 1 : -1;
+                        });
+                        res.render("users/receivedProjects" ,{user: user ,isLeaf: isLeaf ,receivedProjects: sortedReceivedProjects});
+                    });
+                });
+                
             });
         }
     });
@@ -182,12 +499,47 @@ router.get("/users/:id/projects/received/:prjId/detail" ,(req ,res)=>{
         else{
             user.getChildren(function(err ,children){
                 if(err){throw err;}
-                Project.findById(req.params.prjId ,'-discussion -tree -sentTo -assignedTo -createdBy').populate({
-                    path: 'lastUpdateBy',
+                Project.findById(req.params.prjId ,'-discussion -tree -sentTo -assignedTo -createdBy').populate([{
+                    path: 'lastProgressUpdateBy',
                     select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
-                }).exec((err ,project)=>{
+                },{
+                    path: 'history.actor',
+                    select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
+                },{
+                    path: 'history.receiver',
+                    select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
+                }]).exec((err ,project)=>{
                     if(err){throw err;}
-                    res.render("users/receivedProjectDetail" ,{user: user ,children: children ,project: project});
+
+                    populateProjectFiles(project.files)
+                    .then(files => {
+
+                        const promise = new Promise((resolve ,reject) => {
+                            var updatedBellNotificationsArray = user.bellNotifications.array.filter(notification => {
+                                if(notification.projectId != req.params.prjId || notification.notifType != 'receivedProject'){
+                                    return true;
+                                }
+                            });
+                            var updatedBellNotificationsCount = user.bellNotifications.count;
+                            if(user.bellNotifications.count > 0){
+                                updatedBellNotificationsCount = updatedBellNotificationsCount - 1;
+                            }
+                            const updatedBellNotifications = {
+                                count: updatedBellNotificationsCount,
+                                array: updatedBellNotificationsArray
+                            }
+                            resolve(updatedBellNotifications);
+                        });
+                        
+                        promise
+                        .then(updatedBellNotifications => {
+                            User.findByIdAndUpdate(user._id ,{$set:{bellNotifications:updatedBellNotifications}} ,{new: true} ,(err ,user) => {
+                                if(err){throw err;}
+                                res.render("users/receivedProjectDetail" ,{user: user ,children: children ,project: project ,files: files});
+                            });
+                        });
+                    });
+                
                 });  
             });
         }
@@ -256,6 +608,10 @@ router.get("/users/:id/projects/sent" ,middleware.checkOwnership,(req ,res)=>{
             user.getChildren(function(err ,children){
                 if(err){throw err;}
                 if(children.length > 0){
+                    var sortedSentProjects = user.sentProjects.sort( (a ,b) => {
+                        return (a.lastProjectUpdateAt < b.lastProjectUpdateAt) ? 1 : -1;
+                    });
+                    user.sentProjects = sortedSentProjects;
                     res.render("users/sentProjects" ,{user: user});
                 }else{
                     res.redirect("/users/"+req.params.id+"/projects/assigned");
@@ -285,12 +641,23 @@ router.get("/users/:id/projects/sent/:prjId/detail" ,(req ,res)=>{
         else{
             user.getChildren(function(err ,children){
                 if(err){throw err;}
-                Project.findById(req.params.prjId ,'-discussion -tree -sentTo -assignedTo -createdBy').populate({
-                    path: 'lastUpdateBy',
+                Project.findById(req.params.prjId ,'-discussion -tree -sentTo -assignedTo -createdBy').populate([{
+                    path: 'lastProgressUpdateBy',
                     select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
-                }).exec((err ,project)=>{
+                },{
+                    path: 'history.actor',
+                    select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
+                },{
+                    path: 'history.receiver',
+                    select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
+                }]).exec((err ,project)=>{
                     if(err){throw err;}
-                    res.render("users/sentProjectDetail" ,{user: user ,children: children ,project: project});
+
+                    populateProjectFiles(project.files)
+                    .then(files => {
+                        res.render("users/sentProjectDetail" ,{user: user ,children: children ,project: project ,files: files});
+                    });
+                    
                 });
             });
         }
@@ -386,37 +753,155 @@ router.get("/users/:id/projects/sent/:prjId/edit" ,(req ,res)=>{
         if(err){throw err;}
         else{
             Project.findById(req.params.prjId ,'-discussion -tree -sentTo -assignedTo -createdBy').populate({
-                path: 'lastUpdateBy',
+                path: 'lastProgressUpdateBy',
                 select: '-events -sentProjects -receivedProjects -tags -office -firstName -lastName -area -isLoggedUser -assignedProjects -sentMails -receivedMails -contacts -unit'
             }).exec((err ,project)=>{
                 if(err){throw err;}
-                res.render("users/updateProject" ,{user: user ,project: project});
+                populateProjectFiles(project.files)
+                .then(files => {
+                    res.render("users/updateProject" ,{user: user ,project: project ,files: files});
+                });
             });  
         }
     });
 });
 
+function de_duplicate(array){
+    var a = array;
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j]){
+                a.splice(j--, 1);
+            }
+        }
+    }
+    return a;
+}
+
 //updating a project
-router.put("/users/:id/projects/sent/:prjId" ,(req ,res)=>{
-    Project.findById(req.params.prjId ,(err ,project)=>{
+router.put("/users/:id/projects/sent/:prjId" ,arrUpload ,(req ,res)=>{
+    var io = req.app.get('io');
+    Project.findById(req.params.prjId).populate('createdBy').exec((err ,project)=>{
         if(err){throw err;}
         project.title = req.body.project.title;
-        project.start = req.body.project.start;
-        project.end = req.body.project.end;
         project.detail = req.body.project.detail;
+        project.lastProjectUpdateAt = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        ///////////////updating project files
+        //deleting
+        if(req.body.filesToDelete != undefined){
+            req.body.filesToDelete.forEach(function(fileId){
+                var index = project.files.indexOf(fileId);
+                if (index > -1) {
+                    project.files.splice(index ,1);
+                }
+                const fileIdObj = new mongoose.mongo.ObjectId(fileId);
+                gfsProject.remove({_id: fileIdObj ,root: 'projectMails'});
+            });
+        }
+        
+        //adding
+        if(req.files){
+            req.files.forEach(function(file){
+                project.files.push(file.id);
+            });
+        }
+        
+
+        //updating project start & end ,and the assigned users' event.
+        if((project.start != req.body.project.start) || (project.end != req.body.project.end)){
+            project.start = req.body.project.start;
+            project.end = req.body.project.end;
+            project.assignedToList.forEach(function(atid){
+                User.findById(atid ,(err ,at) => {
+                    if(err){throw err;}
+                    at.events.forEach(function(event){
+                        if(event._id == project.id){
+                            event.start = project.start.replace(/\//g, "-");
+                            event.end = project.end.replace(/\//g, "-");
+                            at.save();
+                        }
+                    });
+                });
+            });
+        }
+        project.history.push({
+            action: 'update',
+            actor: req.params.id,
+            at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+        });
         project.save(()=>{
-            res.redirect("/users/"+req.params.id+"/projects/sent/"+req.params.prjId+"/detail");
+            //notify concerned users
+            
+            
+            Tree.find({project: req.params.prjId},(err ,concernedList)=>{
+                if(err){throw err;}
+                const notification = {
+                    notifType: 'updateProject',
+                    username : project.createdBy.username,
+                    userId: project.createdBy._id,
+                    projectId: project._id,
+                    projectTitle: project.title,
+                    at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+                }
+                var promises = [];
+                concernedList.forEach(function(concernedTree){
+                    if(concernedTree.user != req.params.id){
+                        const promise = new Promise( (reject ,resolve) => {
+                            User.findById(concernedTree.user ,(err ,concerned) => {
+                                if(err){reject(err);}
+                                io.to(concerned._id).emit('projectUpdateNotification' ,notification);
+                                var updatedBellNotifications = {
+                                    count: concerned.bellNotifications.count + 1,
+                                    array: concerned.bellNotifications.array,
+                                }
+                                updatedBellNotifications.array.push(notification);
+                                User.findByIdAndUpdate(concerned._id ,{$set:{bellNotifications:updatedBellNotifications}} ,{new: true} ,(err ,user) => {
+                                    if(err){reject(err);}
+                                    resolve(true)
+                                });
+                            });
+                        });
+                        promises.push(promise);
+                    }
+                });
+                async function myAsncFunc(promises){
+                    try{
+                        for(var i = 0 ;i < promises.length ;i++){
+                            await promises[i];
+                        }
+                    }catch(err){
+                        return err;
+                    }
+                }
+                myAsncFunc(promises)
+                .then(() => {
+                    res.redirect("/users/"+req.params.id+"/projects/sent/"+req.params.prjId+"/detail");
+                })
+                .catch(err => {
+                    throw err;
+                });
+            });
+            
         });
     });
 });
+
 
 //updating a project's progress
 router.post("/users/:id/projects/:prjId/progress" ,(req ,res)=>{
     Project.findById(req.params.prjId ,(err ,project)=>{
         if(err){throw err;}
+        const oldProgress = project.progress;
+        const newProgress = req.body.updatedProgress;
         project.progress = req.body.updatedProgress;
-        project.lastUpdateBy = req.body.lastUpdateBy;
-        project.lastUpdateAt = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        // project.lastProgressUpdateBy = req.body.lastProgressUpdateBy;
+        // project.lastProgressUpdateAt = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        project.progressHistory.push({
+            progressUpdateBy: req.body.lastProgressUpdateBy,
+            progressUpdateAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+            oldProgress: oldProgress,
+            newProgress: newProgress
+        });
         project.save(()=>{
             res.redirect("/users/"+req.params.id+"/projects/assigned/"+req.params.prjId+"/detail");
         });
@@ -424,24 +909,113 @@ router.post("/users/:id/projects/:prjId/progress" ,(req ,res)=>{
 });
 
 //sending new project
-router.post("/users/:id/projects/sent" ,middleware.checkOwnership,(req ,res)=>{
+router.post("/users/:id/projects/sent" ,arrUpload ,(req ,res)=>{
+    var io = req.app.get('io');
+    var assignedTo = [];
+    var sentTo = [];
     //initializing project
     var project = new Project(req.body.project);
     project.start = project.start.replace(/\//g, "-");
     project.end = project.end.replace(/\//g, "-");
     project.createdBy = req.params.id;
+    project.lastProjectUpdateAt = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    req.files.forEach(function(file){
+        project.files.push(file.id);
+    });
+    project.history.push({
+        action: 'create',
+        actor: req.params.id,
+        at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+    });
     if(req.body.sentTo !== undefined){
-        var sentTo = req.body.sentTo.split(",");
+        sentTo = req.body.sentTo.split(",");
         project.sentTo = sentTo;
         project.sentToList = project.sentToList.concat(sentTo).unique();
+        sentTo.forEach(function(st){
+            project.history.push({
+                action: 'send',
+                actor: req.params.id,
+                receiver: st,
+                at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+            });
+        });  
     }
     if(req.body.assignedTo !== undefined){
-        var assignedTo = req.body.assignedTo.split(",");
+        assignedTo = req.body.assignedTo.split(",");
         project.assignedTo = assignedTo;
         project.assignedToList = project.assignedToList.concat(assignedTo).unique();
+        assignedTo.forEach(function(at){
+            project.history.push({
+                action: 'assign',
+                actor: req.params.id,
+                receiver: at,
+                at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+            });
+        });  
     }
     project.save((err ,project)=>{
         if(err){throw err;}
+        //handling received project notification
+        if(req.body.sentTo !== undefined){
+            const newReceivedProject = {
+                count: 1,
+                notifType: 'receivedProject',
+                projectId: project.id,
+                title: project.title,
+                start: project.start,
+                end: project.end,
+                progress: project.progress,
+                at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+            }
+            sentTo.forEach(function(stid){
+                User.findById(stid ,(err ,st) => {
+                    if(err){throw err;}
+                    io.to(st._id).emit('newReceivedProject' ,newReceivedProject);
+                    var count = 1;
+			        st.bellNotifications.array.forEach(notification => {
+			        	if(notification.notifType == 'receivedProject'){
+                            count = notification.count + 1;
+			        		st.bellNotifications.array.splice(st.bellNotifications.array.indexOf(notification) ,1);
+			        	}
+                    });
+                    newReceivedProject.count = count;
+                    st.bellNotifications.array.push(newReceivedProject);
+                    st.bellNotifications.count = st.bellNotifications.count + 1;
+                    st.save();
+                });
+            });
+        }
+        //handling assigned project notification
+        if(req.body.assignedTo !== undefined){
+            const newAssignedProject = {
+                count: 1,
+                notifType: 'assignedProject',
+                projectId: project._id,
+                title: project.title,
+                start: project.start,
+                end: project.end,
+                progress: project.progress,
+                at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+            }
+            assignedTo.forEach(function(atid){
+                User.findById(atid ,(err ,at) => {
+                    if(err){throw err;}
+                    io.to(at._id).emit('newAssignedProject' ,newAssignedProject);
+                    var count = 1;
+			        at.bellNotifications.array.forEach(notification => {
+			        	if(notification.notifType == 'assignedProject'){
+                            count = notification.count + 1;
+			        		at.bellNotifications.array.splice(at.bellNotifications.array.indexOf(notification) ,1);
+			        	}
+                    });
+                    newAssignedProject.count = count;
+                    at.bellNotifications.array.push(newAssignedProject);
+                    at.bellNotifications.count = at.bellNotifications.count + 1;
+                    at.save();
+                });
+            });
+        }
+        //
         Project.findById(project._id ,(err ,project)=>{
             if(err){throw err;}
             var tree = new Tree({
@@ -518,16 +1092,11 @@ router.post("/users/:id/projects/sent" ,middleware.checkOwnership,(req ,res)=>{
                                                 sentTo: false
                                             });
                                             tree.save();
-                                            //pushing the project to the user as an event
+                                            
                                             User.findById(at._id ,(err ,user)=>{
                                                 if(err){throw err;}
-                                                else{
-                                                    user.assignedProjects.push(project);
-                                                    var event = project;
-                                                    event.url = ('/users/'+user._id+'/projects/assigned/'+project._id+'/detail');
-                                                    user.events.push(event);
-                                                    user.save();
-                                                }
+                                                user.assignedProjects.push(project);
+                                                user.save();
                                             });  
                                         }
                                         else{
@@ -538,9 +1107,6 @@ router.post("/users/:id/projects/sent" ,middleware.checkOwnership,(req ,res)=>{
                                                     if(err){throw err;}
                                                     else{
                                                         user.assignedProjects.push(project);
-                                                        var event = project;
-                                                        event.url = ('/users/'+user._id+'/projects/assigned/'+project._id+'/detail');
-                                                        user.events.push(event);
                                                         user.save();
                                                     }
                                                 });  
@@ -566,20 +1132,101 @@ router.post("/users/:id/projects/sent" ,middleware.checkOwnership,(req ,res)=>{
 
 //re-sending a sent project
 router.post("/users/:id/projects/sent/:prjId/reSend" ,(req ,res)=>{
+    var io = req.app.get('io');
+    var assignedTo = [];
+    var sentTo = [];
     Project.findById(req.params.prjId ,(err ,project)=>{
         if(err){throw err;}
+        project.lastProjectUpdateAt = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
         if(req.body.sentTo !== undefined){
-            var sentTo = req.body.sentTo.split(",");
+            sentTo = req.body.sentTo.split(",");
             project.sentTo = sentTo;
             project.sentToList = project.sentToList.concat(sentTo).unique();
+            sentTo.forEach(function(st){
+                project.history.push({
+                    action: 'send',
+                    actor: req.params.id,
+                    receiver: st,
+                    at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+                });
+            });
         }
         if(req.body.assignedTo !== undefined){
-            var assignedTo = req.body.assignedTo.split(",");
+            assignedTo = req.body.assignedTo.split(",");
             project.assignedTo = assignedTo;
             project.assignedToList = project.assignedToList.concat(assignedTo).unique();
+            assignedTo.forEach(function(at){
+                project.history.push({
+                    action: 'assign',
+                    actor: req.params.id,
+                    receiver: at,
+                    at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+                });
+            });
         }
         project.save((err ,project)=>{
             if(err){throw err;}
+            //handling received project notification
+            if(req.body.sentTo !== undefined){
+                const newReceivedProject = {
+                    count: 1,
+                    notifType: 'receivedProject',
+                    projectId: project.id,
+                    title: project.title,
+                    start: project.start,
+                    end: project.end,
+                    progress: project.progress,
+                    at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+                }
+                sentTo.forEach(function(stid){
+                    User.findById(stid ,(err ,st) => {
+                        if(err){throw err;}
+                        io.to(st._id).emit('newReceivedProject' ,newReceivedProject);
+                        var count = 1;
+		    	        st.bellNotifications.array.forEach(notification => {
+		    	        	if(notification.notifType == 'receivedProject'){
+                                count = notification.count + 1;
+		    	        		st.bellNotifications.array.splice(st.bellNotifications.array.indexOf(notification) ,1);
+		    	        	}
+                        });
+                        newReceivedProject.count = count;
+                        st.bellNotifications.array.push(newReceivedProject);
+                        st.bellNotifications.count = st.bellNotifications.count + 1;
+                        st.save();
+                    });
+                });
+            }
+            //handling assigned project notification
+            if(req.body.assignedTo !== undefined){
+                const newAssignedProject = {
+                    count: 1,
+                    notifType: 'assignedProject',
+                    projectId: project._id,
+                    title: project.title,
+                    start: project.start,
+                    end: project.end,
+                    progress: project.progress,
+                    at: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+                }
+                assignedTo.forEach(function(atid){
+                    User.findById(atid ,(err ,at) => {
+                        if(err){throw err;}
+                        io.to(at._id).emit('newAssignedProject' ,newAssignedProject);
+                        var count = 1;
+		    	        at.bellNotifications.array.forEach(notification => {
+		    	        	if(notification.notifType == 'assignedProject'){
+                                count = notification.count + 1;
+		    	        		at.bellNotifications.array.splice(at.bellNotifications.array.indexOf(notification) ,1);
+		    	        	}
+                        });
+                        newAssignedProject.count = count;
+                        at.bellNotifications.array.push(newAssignedProject);
+                        at.bellNotifications.count = at.bellNotifications.count + 1;
+                        at.save();
+                    });
+                });
+            }
+            //
             Project.findById(req.params.prjId ,(err ,project)=>{
                 if(err){throw err;}
                 Tree.findOne({user: req.params.id ,project: req.params.prjId} ,(err ,tree)=>{
@@ -612,6 +1259,7 @@ router.post("/users/:id/projects/sent/:prjId/reSend" ,(req ,res)=>{
                                             user.save();
                                         });
                                     }else {
+                                        //sending history
                                         if(trv.sentTo == false){
                                             User.findById(st._id ,(err ,user)=>{
                                                 if(err){throw err;}
@@ -652,14 +1300,10 @@ router.post("/users/:id/projects/sent/:prjId/reSend" ,(req ,res)=>{
                                                 sentTo: false
                                             });
                                             tree.save();
-                                            //pushing the project to the user as an event
                                             User.findById(at._id ,(err ,user)=>{
                                                 if(err){throw err;}
                                                 else{
                                                     user.assignedProjects.push(project);
-                                                    var event = project;
-                                                    event.url = ('/users/'+user._id+'/projects/assigned/'+project._id+'/detail');
-                                                    user.events.push(event);
                                                     user.save();
                                                 }
                                             });  
@@ -672,9 +1316,6 @@ router.post("/users/:id/projects/sent/:prjId/reSend" ,(req ,res)=>{
                                                     if(err){throw err;}
                                                     else{
                                                         user.assignedProjects.push(project);
-                                                        var event = project;
-                                                        event.url = ('/users/'+user._id+'/projects/assigned/'+project._id+'/detail');
-                                                        user.events.push(event);
                                                         user.save();
                                                     }
                                                 });  
@@ -712,5 +1353,20 @@ router.post("/users/:id/projects/sent/:prjId/reSend" ,(req ,res)=>{
 });
 
 
-
 module.exports = router;
+
+
+
+
+
+
+//
+//
+//
+//
+//
+// unique assignToList
+//
+//
+//
+//

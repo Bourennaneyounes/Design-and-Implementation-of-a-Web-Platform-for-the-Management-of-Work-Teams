@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = require("./user");
 const Post = require("./post");
 var materializedPlugin = require('mongoose-materialized');
+const conn = require('./connection');
 
 
 
@@ -14,4 +15,4 @@ var unitSchema = mongoose.Schema({
 });
 unitSchema.plugin(materializedPlugin);
 
-module.exports = new mongoose.model('Unit',unitSchema);
+module.exports = conn.model('Unit',unitSchema);

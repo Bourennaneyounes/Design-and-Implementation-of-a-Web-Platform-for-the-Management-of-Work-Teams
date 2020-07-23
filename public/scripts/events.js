@@ -119,29 +119,71 @@ $('#clearAddToBtn').on('click', function () {
 	$('#addToList').dropdown('restore defaults')
 });
 
-$('#searchTextbox').on('input' ,function(){
-  setTimeout(function(){
-      var usersList = JSON.parse($('#resultTextArea').text());
-      $('#usersList').text('');
-      usersList.forEach(function(elt){
-          $('#usersList').append([
-              '<div class="item" data-value="'+elt._id+'">',
-              '   <img class="ui avatar image" src="'+elt.imageUrl+'">',
-              '   <span class="bitraf">'+elt.username+'</span>',
-              '</div>'
-          ].join('\n'));
-      });
-  } ,300);
-});
+// $('#searchTextbox').on('input' ,function(){
+//   setTimeout(function(){
+//       var usersList = JSON.parse($('#resultTextArea').text());
+//       $('#usersList').text('');
+//       usersList.forEach(function(elt){
+//           $('#usersList').append([
+//               '<div class="item" data-value="'+elt._id+'">',
+//               '   <img class="ui avatar image" src="'+elt.imageUrl+'">',
+//               '   <span class="bitraf">'+elt.username+'</span>',
+//               '</div>'
+//           ].join('\n'));
+//       });
+//   } ,300);
+// });
 
 
-$('#newEvtFrm').submit(function(){
-  newEventEditor.save().then((savedData) => {
+$('#addEvtBtn').on('click' ,function(){
+  if($('#addToInput').val() == ''){
+    $('#receiversSelectionWarning').removeClass('d-none');
+  }else{
+    newEventEditor.save().then((savedData) => {
       $('#evtDesc').text(JSON.stringify(savedData));
+      $('#newEvtFrm').submit();
     });
-  return true;
+  }
 });
 
+$('#deleteEventBtn').on('click' ,function(){
+  $('#deleteEventFrm').submit();
+});
+
+$('#rePlanEventBtn').on('click' ,function(){
+  if($('#addToInput').val() == ''){
+    $('#receiversSelectionWarning').removeClass('d-none');
+  }else{
+    $('#rePlanEventFrm').submit();
+  }
+});
+
+////////
+$('.intervalDropdown').dropdown();
+$('.plannedForDropdown').dropdown();
+function addEvents(val){
+  $('#plannedForMenu'+val).addClass('d-block');
+  $('#plannedForHeader'+val).addClass('bitraf');
+}
+function removeEvents(val){
+  $('#plannedForMenu'+val).removeClass('d-block');
+  $('#plannedForHeader'+val).removeClass('bitraf');
+}
+function addEvents2(val){
+  $('#intervalMenu'+val).addClass('d-block');
+  $('#intervaleHeader'+val).addClass('bitraf');
+}
+function removeEvents2(val){
+  $('#intervalMenu'+val).removeClass('d-block');
+  $('#intervaleHeader'+val).removeClass('bitraf');
+}
+for(var i = 0 ; i < $('#plannedEventsLength').val() ;i++){
+  $('#plannedForDropdown'+i).on('mouseover' ,addEvents.bind(null,i));
+  $('#plannedForDropdown'+i).on('mouseout' ,removeEvents.bind(null,i));
+  $('#intervalDropdown'+i).on('mouseover' ,addEvents2.bind(null,i));
+  $('#intervalDropdown'+i).on('mouseout' ,removeEvents2.bind(null,i));
+}
+////////
 
 $('#typeSelector')
   .dropdown()
