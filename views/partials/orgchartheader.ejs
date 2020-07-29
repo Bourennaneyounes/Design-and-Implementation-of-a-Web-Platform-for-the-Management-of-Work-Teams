@@ -12,8 +12,96 @@
         <link rel="stylesheet" href="/stylesheets/lib/bootstrap.css">
         <link rel="stylesheet" href="/stylesheets/lib/semantic.min.css">
         <link rel="stylesheet" href="/stylesheets/orgchart.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+        
+        
+        <link href="/stylesheets/diagram.css" rel="stylesheet">  
+        <script type="text/javascript" src="/scripts/diagram.js"></script>  
+        
+        <link href="/stylesheets/diagramWithEditor.css" rel="stylesheet">  
+        <script type="text/javascript" src="/scripts/diagramWithEditor.js"></script> 
+        
+
+        
+		<link rel="stylesheet" href="/stylesheets/common/index.css">
+		<link rel="stylesheet" href="/stylesheets/common/diagram.css">
+		<script type="text/javascript" src="/scripts/common/customsvg.js"></script>
+		<!-- custom sample head -->
+		<script type="text/javascript" src="/scripts/common/menu.js"></script>
+        <!--<script type="text/javascript" src="/scripts/ejs.js"></script>
+        <script type="text/javascript" src="/scripts/lib/ejs.js"></script> -->
+		<link rel="stylesheet" href="/stylesheets/common/menu.css">
+        <link rel="stylesheet" href="/stylesheets/common/fonts">
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
- 
+<style>
+    .dhx_sample-container__without-editor {
+        height: calc(100% - 121px);
+    }
+    .dhx_sample-container__with-editor {
+        height: calc(100% - 61px);
+    }
+    .dhx_sample-widget {
+        height: 100%;
+    }
+    .template {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        color: rgba(0, 0, 0, 0.7);
+        border: 1px solid #DFDFDF;
+        padding: 10px 12px;
+    }
+    .template span {
+        display: flex;
+    }
+    .template h3, .template p {
+        text-align: left;
+        font-size: 14px;
+        line-height: 20px;
+        height: 20px;
+        margin: 0 0 4px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;	
+    }
+    .template_container {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+    .template_img-container {
+        min-width: 93px;
+        width: 93px;
+        margin-right: 12px;
+    }
+    .template_img-container img {
+        width: inherit;
+        height: auto;
+    }
+    .template_icon {
+        height: 20px;
+        width: 20px;
+        margin-right: 4px;
+    }
+    .toggle_container {
+        position: absolute;
+        right: 2px;
+        top: 10px;
+        cursor: pointer;
+        height: 20px;
+        width: 20px;
+    }
+    .toggle_container .template_icon {
+        height: 14px;
+        width: 4px;
+        margin: 0;
+    }
+</style>
+
 </head>

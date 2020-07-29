@@ -10,7 +10,7 @@ function seed(){
     User.deleteMany({} ,function(err ,result){
         if(err){throw err}
     });
-    var admin = new User({
+   /* var admin = new User({
         username: "admin",
         firstName: "admin",
         lastName: "leverling11",
@@ -24,7 +24,7 @@ function seed(){
         equipe : "4",
         positionName: "CTO ",
         events: []
-    });
+    });*/
  /*   var unit0 = new Unit({
         type: "unit",
         value: "Business",

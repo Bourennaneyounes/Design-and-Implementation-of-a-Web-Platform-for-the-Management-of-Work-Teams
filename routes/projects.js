@@ -795,7 +795,7 @@ router.put("/users/:id/projects/sent/:prjId" ,arrUpload ,(req ,res)=>{
                     project.files.splice(index ,1);
                 }
                 const fileIdObj = new mongoose.mongo.ObjectId(fileId);
-                gfsProject.remove({_id: fileIdObj ,root: 'projectMails'});
+                gfsProject.remove({_id: fileIdObj ,root: 'projectFiles'});
             });
         }
         

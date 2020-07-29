@@ -1,6 +1,6 @@
 <%- include('../partials/orgchartheader.ejs')%>
 
-<body translate="no" >
+<body id="body" dataaa="<%=dataa%>" translate="no" >
     <!-- connected user id input here -->
     
     <p id="gg" style="color: rgb(0, 0, 0, 0); font-size: 0px; display: none;"><%= dataa%></p>
@@ -37,16 +37,14 @@
                     <a class="nav-link" href="login">Login</a>
                    </li>
                    <% }else{%>
-                       <li class="nav-item">
-                       <a class="nav-link" href="/users/<%= currentUser._id%>/profil">Profil</a>
+                       <li class="nav-item mr-3">
+                       <a class="nav-link" href="/users/<%= currentUser._id%>/profil" ><i class="fa fa-user" aria-hidden="true"></i>Profil</a>
                        </li>
                        <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                        </li>
                        <%}%>
-                  <li class="nav-item mr-3">
-                    <a class="nav-link" href=""><i class="fa fa-user" aria-hidden="true"></i> Profil</a>
-                  </li>
+                 
                   <li class="nav-item mr-3">
                     <div class="notificationDropdown my-0 py-0">
                         <a class="nav-link"><i class="fas fa-comments"></i></a>
@@ -74,17 +72,402 @@
                           </div>
                       </div>
                   </li>
-                  <li class="nav-item">
-                   <a class="nav-link" href="#">Logout</a>
-                  </li>
+                  
                  </ul>
                 
               </div>
         </div>
     </nav>
+    <section id="control" class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="runEditor()">Edit</button>
+		</section>
+    <section id="container" class="dhx_sample-container__with-editor">
+		<!--  <div class="dhx_sample-widget" id="diagram"></div> -->	
+			<div class="dhx_sample-widget" id="editor" style="display: block;"></div>
+    </section>
+    <%
+     
+     //console.log(JSON.parse(dataa));
+    // dat = JSON.parse(dataa);
+     dat = [
+   // shapes
+   {
+       "id" : "1",
+      // "text": "Chairman & CEO",
+       //"title": "Henry Bennett",
+       //"img": "../common/img/avatar-1.png"
+   },
+   {
+       "id": "2",
+       "parentId" :"1"
+      // "text": "Manager",
+       //"title": "Mildred Kim",
+       //"img": "../common/img/avatar-2.png"
+   },
+  // {
+      // "id": "3",
+       //"text": "Technical Director",
+       //"title": "Jerry Wagner",
+       //"img": "../common/img/avatar-3.png"
+   //},
+
+   // connectors
+   { "id": "1-2", "from": "1", "to": "2", "type": "line" },
+   //{ "id": "1-3", "from": "1", "to": "3", "type": "line" }
+];
+
+    %>
+    <%=
+    console.log(dat);
+    %>
+    <div id="myDiv" data-test="<%=dat%>"></div>
+   <!--  <form  action="/register" method="POST"> --> 
+    <script>
+     // console.log(JSON.parse(dataa));
+      //console.log(dat);
+     /* const div = document.createElement('div');
+      div.innerHTML = '<%=dat%>';
+       console.log(div); 
+       */
+      
+     // var data = getElementById('body').attr("dataaa");
+      //alert(data);
+      data = [
+   // shapes
+   {
+       "id" : "1",
+      // "text": "Chairman & CEO",
+       //"title": "Henry Bennett",
+       //"img": "../common/img/avatar-1.png"
+   },
+   {
+       "id": "2",
+       "parentId" :"1"
+      // "text": "Manager",
+       //"title": "Mildred Kim",
+       //"img": "../common/img/avatar-2.png"
+   },
+  // {
+      // "id": "3",
+       //"text": "Technical Director",
+       //"title": "Jerry Wagner",
+       //"img": "../common/img/avatar-3.png"
+   //},
+
+   // connectors
+   { "id": "1-2", "from": "1", "to": "2", "type": "line" },
+   //{ "id": "1-3", "from": "1", "to": "3", "type": "line" }
+];
+
+     
+var diagram = new dhx.Diagram("diagram", {
+				type: "org",
+				defaultShapeType: "template"
+			});
+			
+			var editor = new dhx.DiagramEditor("editor", {
+				type: "org",
+				shapeType: "template"
+			});
+			editor.parse(data);
+      editor.paint();
+			function template(config) {
+				var template = '<section class="template">';
+					template += '<div class="template_container template_img-container">';
+					template += '<img src="'+ config.photo +'" alt="'+ config.name + "-" + config.post +'"></img>';
+					template += '</div>';
+					template += '<div class="template_container">';
+					template += '<h3>'+ config.name +'</h3>';
+					template += '<p>'+ config.post +'</p>';
+					template += '<span>';
+					template += '<img class="template_icon" src="../common/img/icons/cellphone-android.svg" alt="phone number"></img>';
+					template += '<p>'+ config.phone +'</p>';
+					template += '</span>';
+          template += '<span>';
+            
+					template += '<img class="template_icon" src="../../DHTMLX JS/samples/common/img/icons/email-outline.svg" alt="email"></img>';
+					template += '<a style="color:#0288D1" href="mailto:'+ config.mail +'" target="_blank">'+ config.mail +'</a> ';
+					template += '</span></div>';
+					template += '<div class="toggle_container"><img class="template_icon" src="../common/img/icons/toggle.svg" alt="toggle"></img></div>';
+					template += '</section>';
+				return template;
+			}
+
+			diagram.addShape("template", {
+				template: template,
+				defaults: {
+					height: 115,
+					width: 330
+				}
+			});
+
+			editor.diagram.addShape("template", {
+				template: template,
+				defaults: {
+					name: "Name and First name",
+					post: "Position held",
+					phone: "(405) 000-00-00",
+					mail: "some@mail.com",
+					photo: "../common/big_img/big-avatar-1.jpg",
+
+					height: 115, width: 330
+				},
+				properties: [
+					{ type: "position" },
+					{ type: "size" },
+					{ type: "text", label: "name", property: "name" },
+					{ type: "text", label: "post", property: "post" },
+					{ type: "text", label: "phone", property: "phone" },
+					{ type: "text", label: "email", property: "mail" },
+					{ type: "img", label: "photo",  property: "photo" }
+				]
+			});
+
+			var item;
+
+			diagram.events.on("ShapeClick", function (id) {
+				item = diagram.data.getItem(id);
+			});
+
+			var contextMenu = new dhx.ContextMenu(null, {
+				css: "dhx_widget--bg_gray"
+			});
+
+			contextMenu.data.parse([
+				{
+					"type": "menuItem",
+					"id": "mail",
+					"value": "Mail",
+					"icon": "mdi mdi-email"
+				},
+				{
+					"type": "menuItem",
+					"id": "call",
+					"value": "Call",
+					"icon": "mdi mdi-phone"
+				},
+				{
+					"type": "menuItem",
+					"id": "site",
+					"value": "Open Site",
+					"icon": "mdi mdi-open-in-new"
+				}
+			]);
+
+			contextMenu.events.on("click", function (id) {
+				switch (id) {
+					case "mail":
+						window.open('mailto:' + item.mail + ',_blank');
+						break;
+					case "call":
+						window.open('tel:' + item.phone + ',_blank');
+						break;
+					case "site":
+						window.open('https://dhtmlx.com/docs/products/dhtmlxDiagram/', '_blank');
+						break;
+				}
+			});
+
+			var toggleItem;
+
+			function show(event) {
+				event.preventDefault();
+				contextMenu.showAt(event.target, "bottom");
+			}
+
+			function showMenu() {
+				dhx.awaitRedraw().then(function () {
+					if (toggleItem) {
+						for (var index = 0; index < toggleItem.length; index++) {
+							toggleItem[index].removeEventListener("click", show);
+						}
+					}
+					toggleItem = document.querySelectorAll(".toggle_container");
+					for (var index = 0; index < toggleItem.length; index++) {
+						toggleItem[index].addEventListener("click", show);
+					}
+				});
+			}
+
+			showMenu();
+
+			diagram.events.on("afterexpand", function() {
+				showMenu();           
+			});
+
+			var editorCont = document.querySelector("#editor");
+			var diagramCont = document.querySelector("#diagram");
+			var control = document.querySelector("#control");
+			var container = document.querySelector("#container");
+			
+			var withEditor = "dhx_sample-container__with-editor";
+			var withoutEditor = "dhx_sample-container__without-editor";
+
+			function expand() {
+				diagramCont.style.display = "none";
+				control.style.display = "none";
+				editorCont.style.display = "block";
+				container.classList.remove(withoutEditor);
+				container.classList.add(withEditor);
+			}
+
+			function collapse() {
+				diagramCont.style.display = "block";
+				control.style.display = "flex";
+				editorCont.style.display = "none";
+				container.classList.remove(withEditor);
+				container.classList.add(withoutEditor);
+			}
+
+			function runEditor() {
+				expand();
+				editor.import(diagram);
+			}
+
+			editor.events.on("ApplyButton", function () {
+				collapse();
+        diagram.data.parse(editor.serialize());
+        
+			});
+
+			editor.events.on("ResetButton", function () {
+				collapse();
+			});
+
+      diagram.data.parse(medCardShape);
+      //console.log(tree);
+    </script>
     
+     <!--
+<div class="field">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Username">
+      </div>
+      
+      <div class="field">
+          <label>Unit</label>
+          <select class="ui search dropdown" name="unit">
+            <option value="">Unit</option>
+            <% units.forEach(function(unit){ %>
+                <option value="<%= unit._id%>"><%= unit.value%></option>
+            <% }) %>
+          </select>
+      </div>      
+      
+      <button class="btn btn-outline-success" type="submit">Submit</button>
+     --> 
+      
+   <!-- </form> --> 
+
+
+    <script>
+
     
-  <div id="full-container">
+///////////////////////////////////////////////////////////////////////
+/*      var data = [
+    // the Diagram shape
+    {
+        "id": "1",
+        "type": "rectangle",         "text": "Company",
+    },
+ 
+    // the Org Chart shape
+    {
+        "id": "2",
+        "type": "card",
+        "text": "Support Department",
+ 
+        "parent": "1"
+    },
+ 
+    // more options
+];
+ 
+// initializing an org chart
+var diagram = new dhx.Diagram("diagram", {
+    type: "org", 
+    defaultShapeType: "img-card" 
+});
+diagram.data.parse(data);
+
+editor.diagram.addShape("template", {
+    template: config => (
+        `<section class="template">
+            <div class="template_container template_img-container">
+                <img src="${config.photo}"></img>
+            </div>
+            <div class="template_container">
+                <h3>${config.name}</h3>
+                <p>${config.post}</p>
+                <span>
+                    <img class="template_icon" src="../phone.svg"></img>
+                    <p>${config.phone}</p>
+                </span>
+                <span>
+                    <img class="template_icon" src="../email.svg"></img>
+                    <a style="color:#0288D1">${config.mail}</a>
+                </span>
+            </div>
+            <div class="toggle_container">
+                <img class="template_icon" src="../toggle.svg"></img>
+            </div>
+        </section>`
+    ),
+    defaults: {
+        name: "Name and First name",
+        post: "Position held",  
+        phone: "(405) 000-00-00",
+        mail: "some@mail.com",
+        photo: "../common/big_img/big-avatar-1.jpg",
+        height: 115, width: 330
+    },
+    properties: [         { type: "grid" },        { type: "position" },        { type: "size" },        { type: "text", label: "name", property: "name" },        { type: "text", label: "post", property: "post" },        { type: "text", label: "phone", property: "phone" },        { type: "text", label: "email", property: "mail" },        { type: "img", label: "photo", property: "photo" }    ]});
+  */
+    ///////////////////////////////////////////////////////
+
+         /*   var myDiagram = new dhx.Diagram("diagram_container", {type:"org",defaultShapeType: "rectangle"});
+            diagram.addShape("networkCard", {
+    template: config => (
+        `<section class='network_template'>
+            <img src='${config.img}' alt='${config.text}'></img>
+            <span>${config.text}</span>
+            <span>${config.ip}</span>
+        </section>`
+    ),
+    defaults: {
+        width: 160,
+        height: 160,
+        img: "../network_image/desktop.svg",
+        text: "Network Card",
+        ip: "138.68.41.78"
+    }
+});
+
+var networkDiagram = [
+    {
+        "id": 1,
+        "type": "networkCard",         "x": 0,
+        "y": 0,
+        "text": "Remote expert desktop",
+        "ip": "192.168.32.2"
+    },
+    // more options
+]
+diagram.data.parse(networkDiagram);*/
+</script> 
+    <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+              'gtm.start':
+                      new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+              j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                      'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-5M5RCSJ');
+  
+  </script>
+  
+   <!--
+ <div id="full-container">
     <button onclick="Functiondarkmode()" class="btn-action ">Dark Mode</button>
     <button class="btn-action btn-fullscreen mt-5" onclick="params.funcs.toggleFullScreen()">Fullscreen <span class='icon'/> <i class="fa fa-arrows-alt" aria-hidden="true"></i></span></button>
     <button class="btn-action btn-show-my-self mt-5" onclick="params.funcs.showMySelf()"> Show myself <span class='icon'/> <i class="fa fa-user" aria-hidden="true"></i></span></button>
@@ -125,8 +508,10 @@
       </div>
     </div>
     <div id="svgChart"></div>
-    <!--
+    <!-
      <button class="btn btn-expand" onclick="params.funcs.expandAll()">Expand All</button>
-    -->
-</div>
+  --
+  </div>
+   --> 
+ 
 <%- include('../partials/orgchartfooter.ejs')%>

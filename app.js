@@ -27,7 +27,8 @@ const unitRoutes = require("./routes/units");
 const chartsRoutes = require("./routes/charts");
 
 //app config
-app.use(express.static("public"));
+//app.use(express.static("public"));
+app.use(express.static(__dirname + "/public/"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine" ,"ejs");
 app.use(methodOverride("_method"));
@@ -282,7 +283,7 @@ io.on('connection' ,socket => {
 app.set('io', io);
 
 
-// seed();
+//seed();
 //--------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------

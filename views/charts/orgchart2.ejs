@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+        <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+        <title>CodePen - Redesigned - Company Employees Hierarchy Chart </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
+        <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto'>
+        <link rel="stylesheet" href="/stylesheets/lib/bootstrap.css">
+        <link rel="stylesheet" href="/stylesheets/lib/semantic.min.css">
+        <link rel="stylesheet" href="/stylesheets/orgchart.css">
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        
+
+
+		<!-- meta block -->
+		<title>Image card editor - DHTMLX Diagram</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Diagram to explore its org chart editor and other details.">
+		<!-- end meta block -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+        
+
+        <link href="/stylesheets/diagram.css" rel="stylesheet">  
+        <script type="text/javascript" src="/scripts/diagram.js"></script>  
+        
+        <link href="/stylesheets/diagramWithEditor.css" rel="stylesheet">  
+        <script type="text/javascript" src="/scripts/diagramWithEditor.js"></script>
+        <script type="text/javascript" src="/scripts/fs-js/index.js"></script>
+
+
+        <link rel="stylesheet" href="/stylesheets/common/index.css">
+		<link rel="stylesheet" href="/stylesheets/common/diagram.css">
+        <script type="text/javascript" src="/scripts/common/data.js"></script>
+        <script type="text/javascript" src="/scripts/ddatttaaa.js"></script>
+		<!-- custom sample head -->
+		
+		<style>
+			body > .dhx_widget {
+				max-height: calc(100% - 61px);
+			}
+		</style>
+    </head>
+     <!-- connected user id input here -->
+    
+     <p id="gg" style="color: rgb(0, 0, 0, 0); font-size: 0px; display: none;"><%= dataa%></p>
+    
+     <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0">
+         <div class="container">
+             <a id="navBrand" href="" class="navbar-brand">Brand</a>
+             <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
+             <span><i class="fas fa-angle-double-down"></i></span>
+             </button>
+             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                 <ul class="navbar-nav mr-auto">
+                     <div class="dropdown my-0 py-0">
+                         <button class="dropbtn ml-3 my-0 py-0">Units</button>
+                         <div class="dropdown-content">
+                             <a class="dropdown-item" href="/orgchart/<%= currentUser._id%>">All Units</a>
+                             <% units.forEach(function(unit){ %>
+                               
+                               <a class="dropdown-item" href="/orgchart/<%= currentUser._id%>/<%= unit._id%>"><%= unit.value%></a>
+                             <% }); %>
+                         </div>
+                       </div>
+                  </ul>
+                  <ul class="navbar-nav navbar-right">
+                   <li class="nav-item">
+                     
+                     <a class="nav-link" href="/user/<%=currentUser._id%>/units/new">new Unit</a>
+                    </li>
+                    <%if(!currentUser){%>
+                   <li class="nav-item">
+                     <a class="nav-link" href="register">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                     <a class="nav-link" href="login">Login</a>
+                    </li>
+                    <% }else{%>
+                        <li class="nav-item mr-3">
+                        <a class="nav-link" href="/users/<%= currentUser._id%>/profil" ><i class="fa fa-user" aria-hidden="true"></i>Profil</a>
+                        </li>
+                        <li class="nav-item">
+                         <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                        <%}%>
+                  
+                   <li class="nav-item mr-3">
+                     <div class="notificationDropdown my-0 py-0">
+                         <a class="nav-link"><i class="fas fa-comments"></i></a>
+                         <div class="floating ui red label" style="top: 0em;"><span id="msgNotifsNumber"></span></div>
+                         <div id="msgNotificationsContent" class="notificationDropdownContent">
+                             <!-- nofications items -->
+                         </div>
+                     </div>
+                   </li>   
+                   <li class="nav-item mr-3">
+                       <div class="notificationDropdown my-0 py-0">
+                           <a class="nav-link"><i class="fas fa-envelope"></i></a>
+                           <div class="floating ui red label" style="top: 0em;"><span id="mailNotifsNumber"></span></div>
+                           <div id="mailNotificationsContent" class="notificationDropdownContent">
+                               <!-- nofications items -->
+                           </div>
+                       </div>
+                   </li>
+                   <li class="nav-item mr-3">
+                       <div class="notificationDropdown my-0 py-0">
+                           <a class="nav-link"><i class="fas fa-bell"></i></a>
+                           <div class="floating ui red label" style="top: 0em;"><span id="bellNotifsNumber"></span></div>
+                           <div id="bellNotificationsContent" class="notificationDropdownContent">
+                               <!-- nofications items -->
+                           </div>
+                       </div>
+                   </li>
+                   
+                  </ul>
+                 
+               </div>
+         </div>
+     </nav>
+	<body>
+	    
+		<script >
+           // var fs = require("fs");
+            // var data = JSON.parse(<%-dataa%>);
+			var editor = new dhx.DiagramEditor(document.body, {
+				type: "org",
+				shapeType: "img-card",
+				controls: { 
+					apply: true,
+					reset: true,
+					import: true,
+					export: true,
+					gridStep: false
+				},
+            });
+            
+            editor.parse(data);
+          //  console.log((JSON.stringify(data)));
+            editor.events.on("ApplyButton", function(){
+                //var fs = require("fs");
+               //console.log(data);
+               //var fse = fs;
+                fs.outputFile('C:/myapp/master/public/scripts/ddatttaaa.js', data, function(err){
+                    if (err) return console.log(err) // => null
+                    console.log('success!')
+                  })
+                editor.diagram.data.parse(editor.serialize());       
+                console.log("The changes are applied");
+                       
+                 });
+                 
+            //var data = JSON.stringify(editor.serialize());
+            //alert(JSON.stringify(data));
+           // diagram.data.parse(editor.serialize());
+           // editor.data.serialize(data);
+        </script>
+        
+
+
+
+
+
+
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src='/scripts/socket-io.js'></script>
+        <script src="/scripts/orgchart.js"></script>
+	</body>
+</html>
