@@ -1,0 +1,128 @@
+<%- include('../partials/profilHeader.ejs')%>
+<script>
+    // Material Select Initialization
+$(document).ready(function() {
+$('.mdb-select').materialSelect();
+});
+        </script>
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+        
+        <dev class="column col-md-8">
+            <h1 class="ui header">Edit unit</h1>
+            <form id="register-form" class="ui form" action="/users/<%=user._id%>/units/<%=unit._id%>" method="post">
+                <div class="field">
+                    <label>Unit currentHead</label>
+                    <!--<input type="text" name="unit[currentHead]" placeholder="First Name">-->
+                    <select  name="currentHead">
+                      <%if(unit.currentHead){%>
+                      <%users.forEach(u=>{
+                        if(unit.currentHead.equals(u._id)){%>
+
+                          <option value="<%=u._id%>"  selected hidden ><%=u.name%></option>
+                        <%}})%>
+                       <%}else{%>
+                        <option  disabled selected hidden >choose</option>
+                       <%}%>
+                        <!--<option value="aa" selected disabled hidden>Choose here</option>-->
+                      <%users.forEach(u=>{%>
+                        
+                        <option value="<%=u._id%>"><%=u.name%></option>
+                      <%})%>
+                      
+                      
+                    </select>
+                  </div>
+                  
+                  <div class="container my-4">
+                   
+                    
+                   <!-- <div class="ui search selection dropdown">
+                        <input name="states" type="hidden">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">States</div>
+                        <div class="menu">
+                          <div class="unfilterable item" data-value="AL">Alabama (unfilterable)</div>
+                          <div class="item" data-value="AK">Alaska</div>
+                          <div class="unfilterable item" data-value="AZ">Arizona (unfilterable)</div>
+                          <div class="unfilterable item" data-value="AR">Arkansas (unfilterable)</div>
+                          <div class="item" data-value="CA">California</div>
+                          <div class="item" data-value="OH">Ohio</div>
+                          <div class="item" data-value="OK">Oklahoma</div>
+                        </div>
+                      </div>
+                    -->
+                  <!-- <div class="ui fluid multiple search selection dropdown" style="width: 100%;">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select Users</div>
+                        <div class="menu">
+                           
+                            <div class="item">
+                                <i class="attention right floated icon"></i>
+                                Important
+                              </div>
+                              <div class="item">
+                                <i class="comment right floated icon"></i>
+                                Announcement
+                              </div>
+                              <div class="item">
+                                <i class="conversation right floated icon"></i>
+                                Discussion
+                              </div>
+                             
+                        </div>
+                    </div>--> 
+
+                    
+
+                    
+                  </div>
+                  <div id="contactsList" class="container scrollDiv p-4">
+                    <% users.forEach(function(user){
+                      //  console.log(chrArray);
+                        %>
+                        <%if(users.length > 0){%>
+                            <div id="kkkkkkkk">
+                                <div class="CharacterHeader"><span class="text-uppercase"><%= user.username[0]%></span></div>
+                                
+                                    <div class="normalDiv row py-2 px-5 m-2">
+                                        <div class="column col-9 d-flex">
+                                            
+                                            <p class="mt-1 ml-5"><span class="inputsTitles"><%= user.username%></span></p>
+                                        </div>
+                                        <div class="column col-3 d-flex justify-content-around text-align-center">
+                                            <div class="ui toggle checkbox">
+                                              <%if(unit._id.equals(user.unit)){%>
+                                                <input type="checkbox" name="unitE" value="<%=user._id%>"  checked>
+                                                <%}else{%>
+                                                  <input type="checkbox" name="unitE" value="<%=user._id%>" >
+                                                  <%}%> 
+                                                <label></label>
+                                              </div>
+                                           <a href="/users/<%=currentUser._id%>/units/<%=unit._id%>/settings" class="contactsIcons" data-inverted="" data-tooltip="Settings" data-position="top center"></a> 
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                            <br>
+                        <%}%>
+                    <%});%>
+                </div>
+            
+                <button class="btn btn-outline-success" type="submit">Save Unit</button>
+              </form>
+        </dev>
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
+
+
+
+
+<%- include('../partials/profilFooter')%>

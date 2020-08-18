@@ -10,6 +10,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 materializedPlugin = require('mongoose-materialized');
 const conn = require('./connection');
 
+
 messageNotificationSchema = mongoose.Schema({
   from: String,
   count: Number,
@@ -17,21 +18,35 @@ messageNotificationSchema = mongoose.Schema({
 });
 
 const userSchema = mongoose.Schema({
+  id : {type: mongoose.Schema.Types.ObjectId, ref:'User'},
   username: String,
   password : String,
   firstName: String,
   lastName: String,
   name: String,
-  
-  imageUrl: {type: String ,default: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQMDZH1hAZTs5H364fQPBj33spP6P8mi_CkfmHKcOUYArZ3LYTt"},
-  area: {type: String ,default: "Corporate"},
-  profileUrl: {type: String ,default: ""},
-  office: String,
-  tags: String,
+  admin : {type: Boolean , default: false},
+  dateNaissance : Date,
+  email : String,
+  telephone : Number,
+  address : String,
+  country : String,
+  city : String,
+  codePostal : Number,
+  aboutMe : String,
+  image : String,
+  key: Number,
+  parent:Number,
+  //parentId : {type: mongoose.Schema.Types.ObjectId, ref:'User', default: '000000000000000000000000'},
+  //imageUrl: {type: String ,default: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQMDZH1hAZTs5H364fQPBj33spP6P8mi_CkfmHKcOUYArZ3LYTt"},
+  //area: {type: String ,default: "Corporate"},
+  //profileUrl: {type: String ,default: ""},
+  title: {type : String, default : ''},
+
+  //tags: String,
   isLoggedUser: {type: Boolean , default: false},
   unit: {type: mongoose.Schema.Types.ObjectId, ref:'Unit'},
-  post: {type: mongoose.Schema.Types.ObjectId, ref:'Post'},
-  positionName: String,
+  //post: {type: mongoose.Schema.Types.ObjectId, ref:'Post'},
+  positionName: {type : String, default: ''},
 
   contacts: [{ type: mongoose.Schema.Types.ObjectId, ref:'User'}],
 

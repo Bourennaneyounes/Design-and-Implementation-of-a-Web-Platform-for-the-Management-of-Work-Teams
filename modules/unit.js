@@ -11,7 +11,7 @@ var unitSchema = mongoose.Schema({
     value: String,
     desc: String,
     currentHead: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
-    postList:[{type: mongoose.Schema.Types.ObjectId, ref:'Post'}]
+    userList:[{type: mongoose.Schema.Types.ObjectId, ref:'User'}]
 });
 unitSchema.plugin(materializedPlugin);
 

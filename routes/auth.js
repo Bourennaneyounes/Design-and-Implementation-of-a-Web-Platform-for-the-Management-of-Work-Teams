@@ -27,6 +27,8 @@ router.post("/register" , (req ,res)=>{
         lastName: req.body.lastName,
 		name: req.body.firstName+" "+req.body.lastName,
 		equipe: req.body.equipe,
+		
+	//	parentId: '000000000000000000000000',
 		//unit: req.body.unit,
         imageUrl: "https://raw.githubusercontent.com/bumbeishvili/Assets/master/Projects/D3/Organization%20Chart/female.jpg",
         profileUrl: "http://example.com/employee/profile",
@@ -59,6 +61,7 @@ router.post("/register" , (req ,res)=>{
 											 //console.log(parent.name);
 										 }
 								  });*/
+								  user.id = user._id;
 								  user.save(function(err,user){
 									console.log("new child save");
 									/*parent.appendChild(user,function(err){

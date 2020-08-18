@@ -1,17 +1,336 @@
 <%- include('../partials/profilHeader.ejs')%>
 
-<h1>Profil</h1>
-<h1>liste utilisateur</h1>
-<button>Ajouter</button>
-<button>modifier</button>
-<button>Supprimer</button>
-<a href="/users/<%=user._id%>/profil/post">Gestion des post</a>
-<% usersList.forEach(function(user){%>
-    <div class="normalDiv row py-2 px-5 m-2">
-        <div class="column col-9">
-            <img class="ui avatar image" src="<%= user.imageUrl%>">
-            <p class="mt-1 ml-5"><span class="inputsTitles"><%= user.username%></span></p>
+
+<body>
+ <!--<style type="text/css">
+    .thumb-image{
+     float:left;width:100px;
+     position:relative;
+     padding:5px;
+    }</style>--> 
+  <script>
+    function editInputField(){
+     // if($("#input-username").Attr('readonly',true)){
+
+        $("#input-username").toggleClass("readonly");
+        $("#input-username-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        
+        $("#input-first-name").toggleClass("readonly");
+        $("#input-first-name-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        
+        $("#input-last-name").toggleClass("readonly");
+        $("#input-last-name-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        
+        $("#input-email").toggleClass("readonly");
+        $("#input-email-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        
+        $("#input-telephone").toggleClass("readonly");
+        $("#input-telephone-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        
+        $("#input-address").toggleClass("readonly");
+        $("#input-address-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        
+        $("#input-country").toggleClass("readonly");
+        $("#input-country-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        
+        $("#input-city").toggleClass("readonly");
+        $("#input-city-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        
+        $("#input-aboutme").toggleClass("readonly");
+        $("#input-aboutme-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        
+        $("#input-postal-code").toggleClass("readonly");
+        $("#input-postal-code-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+
+        $("#btnSave").toggleClass("readonly");
+        $("#btnEdit").toggleClass("readonly");
+        ////////////////////////////////////////
+      }
+   //document.getElementById("username").readOnly = false;
+  // $("#input-username").removeAttr("readonly");
+//}
+    /*$(document).ready(function(){
+      $(input).prop("readonly",true);
+     $('#btnEdit').click(function(e){
+         e.preventDefault();
+           $("input[name='username']").prop("readonly", false);  
+});
+});*/
+    //$("input").prop("readonly",true);
+    //$("#btnEdit").on('click', function() {
+      /*function editInputField(){
+
+        //$('#F1').children('[readonly]').toggle();
+      $("#input-username").toggleClass("readonly");*/
+
+   /* var prev = $(this).prev('input'),
+        ro   = prev.prop('readonly');
+    prev.prop('readonly', !ro).focus();
+    $(this).val(ro ? 'Save' : 'Edit');*/
+//};
+  </script>
+  <!--<script>
+    $(document).ready(function() {
+            $("#fileUpload").on('change', function() {
+              //Get count of selected files
+              var countFiles = $(this)[0].files.length;
+              var imgPath = $(this)[0].value;
+              console.log(imgPath);
+              var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+              var image_holder = $("#image-holder");
+              image_holder.empty();
+              if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                if (typeof(FileReader) != "undefined") {
+                  //loop for each file selected for uploaded.
+                  for (var i = 0; i < countFiles; i++) 
+                  {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                      //console.log(e.target.result);
+                      $("<img />", {
+                        "src": e.target.result,
+                        "class": "rounded-circle"
+                      }).appendTo(image_holder);
+                    }
+                    image_holder.show();
+                    reader.readAsDataURL($(this)[0].files[i]);
+                  }
+                } else {
+                  alert("This browser does not support FileReader.");
+                }
+              } else {
+                alert("Pls select only images");
+              }
+            });
+          });
+    </script>--> 
+  <div class="main-content">
+    <!-- Top navbar -->
+    
+    <!-- Header -->
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+      <!-- Mask -->
+      <span class="mask bg-gradient-default opacity-8"></span>
+      <!-- Header container -->
+      <div class="container-fluid d-flex align-items-center">
+        <div class="row">
+          <div class="col-lg-7 col-md-10">
+            <%if(currentUser && user._id.equals(currentUser._id)){%>
+            <h1 class="display-2 text-white">Hello <%=user.name%></h1>
+            <%}else{%>
+            <h1 class="display-2 text-white">wellcome to <%=user.name%> profil</h1>
+            <%}%>
+            <%if(currentUser && user._id.equals(currentUser._id)){%>
+            <a href="/users/<%=currentUser._id%>/profil/settings" class="btn btn-info">Settings</a>
+            <%}%>
+            <a href="/users/<%= currentUser._id%>/units" class="btn btn-info">Gestion Units</a>
+            
+          </div>
         </div>
+      </div>
     </div>
-<%});%>
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+          <div class="card card-profile shadow">
+            <div class="row justify-content-center">
+              <div class="col-lg-3 order-lg-2">
+                <div class="card-profile-image">
+                  <div id="image-holder">
+                  <a href="#">
+                    <img src="C:\Users\younes\Desktop\<%=currentUser.image%>"  class="rounded-circle">
+                    
+                  </a>
+                </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+              <div class="d-flex justify-content-between">
+                  <%if(currentUser && user._id.equals(currentUser._id)){%>
+                    <form action="/users/<%=user._id%>/profil/mod" method="POST" enctype="multipart/form-data">
+                      <div id="wrapper" style="margin-top: 20px;">
+                      <input type="button" class="btn btn-sm btn-info mr-4" onclick="document.getElementById('fileUpload').click()" value="Change Picture">  
+                        <input id="fileUpload" class="btn btn-sm btn-info mr-4 d-none" multiple="multiple" name="imgUrl" type="file"/> 
+                        <button type="submit" class="btn btn-sm btn-info mr-4 float-right">Save Image</button>
+                        
+                        </div>
+                        
+                       
+                      <!--<input type="file" class="fileInput d-none" id="upload" name="files" multiple>
+                      <button type="submit" class="btn btn-sm btn-info mr-4">Change Picture</button>-->
+                    </form>
+                
+                
+                <%}else{%> 
+                      <%if(currentUser.contacts.includes(user._id)){%>
+                       <form action="/users/<%= currentUser._id%>/contacts/<%= user._id %>?_method=DELETE" method="post">
+                        <button type="submit" class="btn btn-sm btn-info mr-4">Delate Contact</button>
+                      </form>
+                      <%}else{%>
+                    <form action="/users/<%=currentUser._id%>/contacts" method="POST">
+                      <input type="text" class="d-none" name="newContactId" value="<%=user._id%>">
+                      <button type="submit" class="btn btn-sm btn-info mr-4">Add Contact</button>
+                    </form>
+                    <%}%>
+                    <a href="/users/<%=currentUser._id%>/contacts/<%=user._id%>/chat" class="btn btn-sm btn-default float-right">Message</a>
+                    <%}%>
+                    
+                     
+              </div>
+            </div>
+            <div class="card-body pt-0 pt-md-4">
+              <div class="row">
+                <div class="col">
+                  <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                   
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+                <h3>
+                  <%=user.name%><span class="font-weight-light">, 27</span>
+                </h3>
+                <div class="h5 font-weight-300">
+                  <i class="ni location_pin mr-2"></i><%=user.city%>, <%=user.country%>
+                </div>
+                <div class="h5 mt-4">
+                  <i class="ni business_briefcase-24 mr-2"></i><%=user.title%> - <%=user.position%>
+                </div>
+                <div>
+                  <i class="ni education_hat mr-2"></i>University of Computer Science
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-xl-8 order-xl-1">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+
+                  <h3 class="mb-0">My account</h3>
+                </div>
+               
+              </div>
+            </div>
+            <div class="card-body">
+              <form  action="/users/<%=user._id%>/profil" method="POST">
+                <div class="col-4 text-right float-right">
+                  <%if(currentUser && user._id.equals(currentUser._id)){%>
+                  <a id="btnEdit" class="btn btn-sm btn-primary" name="EditProfil"  onclick="editInputField()" style="color: aliceblue;">Edit Profil</a>
+                  <button id="btnSave" class="btn btn-sm btn-primary readonly " name="SaveProfil" type="submit" onclick="editInputField()"  style="color: aliceblue;">Save</button>
+                  <%}%>
+                </div>
+                <h6 class="heading-small text-muted mb-4">User information</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">Username</label>
+                        <input type="text" name="usernameAff" id="input-username-afficher" class="form-control form-control-alternative" placeholder="Username" value="<%=user.username%>" readonly>
+                        <input type="text" name="username" id="input-username" class="form-control form-control-alternative readonly" placeholder="Username" value="<%=user.username%>" >
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Email address</label>
+                        <input type="email" id="input-email-afficher" class="form-control form-control-alternative" placeholder="jesse@example.com" value="<%=user.email%>" readonly>
+                        <input type="email" name="email" id="input-email" class="form-control form-control-alternative readonly" placeholder="jesse@example.com" value="<%=user.email%>">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-first-name">First name</label>
+                        <input type="text" id="input-first-name-afficher" class="form-control form-control-alternative" placeholder="First name" value="<%=user.firstName%>" readonly>
+                        <input type="text" name="firstName" id="input-first-name" class="form-control form-control-alternative readonly" placeholder="First name" value="<%=user.firstName%>">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-last-name">Last name</label>
+                        <input type="text" id="input-last-name-afficher" class="form-control form-control-alternative" placeholder="Last name" value="<%=user.lastName%>" readonly>
+                        <input type="text" name="lastName" id="input-last-name" class="form-control form-control-alternative readonly" placeholder="Last name" value="<%=user.lastName%>">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4">
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group focused">
+                            <label class="form-control-label" for="input-address">Telephone</label>
+                            <input id="input-telephone-afficher" class="form-control form-control-alternative" placeholder="Telephone" value="<%=user.telephone%>" type="number" readonly>
+                            <input id="input-telephone" name="telephone" class="form-control form-control-alternative readonly" placeholder="Telephone" value="<%=user.telephone%>" type="number">
+                          </div>
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-address">Address</label>
+                        <input id="input-address-afficher" class="form-control form-control-alternative" placeholder="Home Address" value="<%=user.address%>" type="text" readonly> 
+                        <input id="input-address" name="address" class="form-control form-control-alternative readonly" placeholder="Home Address" value="<%=user.address%>" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-city">City</label>
+                        <input type="text" id="input-city-afficher" class="form-control form-control-alternative" placeholder="City" value="<%=user.city%>" readonly>
+                        <input type="text" id="input-city" name="city" class="form-control form-control-alternative readonly" placeholder="City" value="<%=user.city%>">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-country">Country</label>
+                        <input type="text" id="input-country-afficher" class="form-control form-control-alternative" placeholder="Country" value="<%=user.country%>" readonly>
+                        <input type="text" id="input-country" name="country" class="form-control form-control-alternative readonly" placeholder="Country" value="<%=user.country%>">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-country">Postal code</label>
+                        <input type="number" id="input-postal-code-afficher" class="form-control form-control-alternative" placeholder="Postal code" value="<%=user.codePostal%>" readonly>
+                        <input type="number" id="input-postal-code" name="codePostal" class="form-control form-control-alternative readonly" placeholder="Postal code" value="<%=user.codePostal%>">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4">
+                <!-- Description -->
+                <h6 class="heading-small text-muted mb-4">About me</h6>
+                <div class="pl-lg-4">
+                  <div class="form-group focused">
+                    <label>About Me</label>
+                    <textarea id="input-aboutme-afficher" rows="4" class="form-control form-control-alternative" placeholder="A few words about you ..." value="<%=user.aboutMe%>" readonly></textarea>
+                    <textarea id="input-aboutme"  name="aboutMe" rows="4" class="form-control form-control-alternative readonly" placeholder="A few words about you ..." value="<%=user.aboutMe%>"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</body>
+
 <%- include('../partials/profilFooter')%>

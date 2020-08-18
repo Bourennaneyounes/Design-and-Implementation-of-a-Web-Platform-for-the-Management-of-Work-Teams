@@ -1,0 +1,60 @@
+<%- include('../partials/profilHeader')%>
+    <div id="units" class="container">
+        <!-- some needed data -->
+        <p id="contactsForSearchData" style="color: rgb(0, 0, 0, 0); font-size: 0px; display: none;"><%= unitsForSearch%></p>
+        <p id="usersListData" style="color: rgb(0, 0, 0, 0); font-size: 0px; display: none;"><%= units%></p>
+        <!-- users list -->
+        <textarea name="" id="itemsTextArea" cols="100" rows="10" class="d-none">
+            <%= unitsForSearch%>
+        </textarea>
+       
+        <!-- results -->
+        <textarea id="resultTextArea" cols="100" rows="5" class="nohighlight m-0 p-0 d-none"></textarea>
+        <div class="form-group d-none">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="sortCheckbox" checked="checked">Sort
+              </label>
+              <span id="helpBlock" class="help-block">Whether to sort the result list, by score.</span>
+            </div>
+          </div>
+        <div class="form-group form-inline d-none">
+            <label for="thresholdRange">Threshold</label>
+            <input type="number" id="thresholdRange" min="0" step="0.1" max="1" value="0.6">
+            <span id="helpBlock" class="help-block">At what point does the match algorithm give up. A threshold of <code>0.0</code> requires a perfect match (of both letters and location), a threshold of <code>1.0</code> would match anything.</span>
+        </div>
+    </div>
+    <!------------------------------------------------------------------>
+    <!-- Contacts List -->
+    <div id="contactsList" class="container scrollDiv p-4">
+        <% units.forEach(function(unit){
+          //  console.log(chrArray);
+            %>
+            <%if(units.length > 0){%>
+                <div id="kkkkkkkk">
+                    <div class="CharacterHeader"><span class="text-uppercase"><%= unit.value[0]%></span></div>
+                    
+                        <div class="normalDiv row py-2 px-5 m-2">
+                            <div class="column col-9 d-flex">
+                                
+                                <p class="mt-1 ml-5"><span class="inputsTitles"><%= unit.value%></span></p>
+                            </div>
+                            <div class="column col-3 d-flex justify-content-around text-align-center">
+                                <a href="/users/<%=currentUser._id%>/units/<%=unit._id%>/settings" class="contactsIcons" data-inverted="" data-tooltip="Settings" data-position="top center"><i class="cogs icon"></i></a>  
+                            </div>
+                        </div>
+                    
+                </div>
+                <br>
+            <%}%>
+        <%});%>
+    </div>
+   
+
+
+
+
+<!-- SCRIPTS -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.min.css" integrity="sha512-8Tb+T7SKUFQWOPIQCaLDWWe1K/SY8hvHl7brOH8Nz5z1VT8fnf8B+9neoUzmFY3OzkWMMs3OjrwZALgB1oXFBg==" crossorigin="anonymous" />
+<%- include('../partials/profilFooter')%>

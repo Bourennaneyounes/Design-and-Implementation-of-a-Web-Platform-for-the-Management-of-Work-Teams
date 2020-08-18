@@ -257,14 +257,18 @@ router.get("/users/:id/projects/assigned" ,middleware.checkOwnership,(req ,res)=
         if(err){throw err;}
         else{
             const assignedProjects = user.assignedProjects;
+           
+           // User.findById(user.parentId,function(err ,children){
             user.getChildren(function(err ,children){
                 if(err){throw err;}
+                //console.log(children);
                 var isLeaf;
                 if(children.length > 0){
                     isLeaf = false;
                 }else{
                     isLeaf = true;
                 }
+                
                 const promise = new Promise((resolve ,reject) => {
                     var removedCount = 0;
                     var updatedBellNotificationsArray = user.bellNotifications.array.filter(notification => {

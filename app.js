@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+//const fileUpload = require('express-fileupload');
 
 const methodOverride = require("method-override");
 const connection = require('./modules/connection'); ///////////////////////////////////////////////////
@@ -32,6 +33,7 @@ app.use(express.static(__dirname + "/public/"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine" ,"ejs");
 app.use(methodOverride("_method"));
+//app.use(fileUpload());
 
 //authentification
 app.use(expressSession({

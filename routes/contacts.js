@@ -48,9 +48,11 @@ router.post("/users/:id/contacts" ,middleware.checkOwnership,(req ,res)=>{
         if(err){throw err;}
         User.findById(req.body.newContactId ,(err ,newContact)=>{
             if(err){throw err;}
+            console.log(newContact);
             user.contacts.push(newContact);
             user.save(()=>{
-                res.redirect("/users/"+req.params.id+"/contacts");
+                res.redirect("back");
+               // res.redirect("/users/"+req.params.id+"/contacts");
             });
         });
     });
@@ -64,7 +66,8 @@ router.delete("/users/:id/contacts/:contactId" ,(req ,res)=>{
         if (index > -1) {
             user.contacts.splice(index, 1);
             user.save(()=>{
-                res.redirect("/users/"+req.params.id+"/contacts");
+                res.redirect("back");
+               // res.redirect("/users/"+req.params.id+"/contacts");
             });
         }
     });
