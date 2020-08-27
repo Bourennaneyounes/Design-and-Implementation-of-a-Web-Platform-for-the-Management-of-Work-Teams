@@ -131,10 +131,12 @@
             <h1 class="display-2 text-white">wellcome to <%=user.name%> profil</h1>
             <%}%>
             <%if(currentUser && user._id.equals(currentUser._id)){%>
-            <a href="/users/<%=currentUser._id%>/profil/settings" class="btn btn-info">Settings</a>
+            <a href="/users/<%=currentUser._id%>/profil/settings" class="btn btn-info mb-5" >Settings</a>
             <%}%>
-            <a href="/users/<%= currentUser._id%>/units" class="btn btn-info">Gestion Units</a>
-            
+            <%if(currentUser && user._id.equals(currentUser._id) && currentUser.admin===true){%>
+            <a href="/users/<%= currentUser._id%>/units" class="btn btn-info mb-5">Gestion Units</a>
+            <a href="/users/<%= currentUser._id%>/profil/gestionUsers" class="btn btn-info">Gestion Users</a>
+            <%}%>
           </div>
         </div>
       </div>

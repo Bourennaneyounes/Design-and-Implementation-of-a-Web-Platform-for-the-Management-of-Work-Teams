@@ -145,7 +145,7 @@
         if (key < 0 || key > 16) return "images/HSnopic.jpg"; // There are only 16 images on the server
         //return "images/HS" + key + ".jpg"
       }
-
+      if(currentUser.admin===true){
       // define the Node template
       myDiagram.nodeTemplate =
         $(go.Node, "Auto",
@@ -245,18 +245,100 @@
             )  // end Table Panel
           ) // end Horizontal Panel
         );  // end Node
+      }else{
+        myDiagram.nodeTemplate =
+        $(go.Node, "Auto",
+         
+          
+          // for sorting, have the Node.text be the data.name
+          new go.Binding("text", "name"),
+          // bind the Part.layerName to control the Node's layer depending on whether it isSelected
+          new go.Binding("layerName", "isSelected", function(sel) { return sel ? "Foreground" : ""; }).ofObject(),
+          // define the node's outer shape
+          $(go.Shape, "Rectangle",
+            {
+              name: "SHAPE", fill: "#333333", stroke: 'white', strokeWidth: 3.5,
+              // set the port properties:
+              portId: "", fromLinkable: true, toLinkable: true, cursor: "pointer"
+            }),
+          $(go.Panel, "Horizontal",
+            $(go.Picture,
+              {
+                name: "Picture",
+                desiredSize: new go.Size(70, 70),
+                margin: 1.5,
+              },
+              new go.Binding("source", "key", findHeadShot)),
+            // define the panel where the text will appear
+            $(go.Panel, "Table",
+              {
+                minSize: new go.Size(130, NaN),
+                maxSize: new go.Size(150, NaN),
+                margin: new go.Margin(6, 10, 0, 6),
+                defaultAlignment: go.Spot.Left
+              },
+              $(go.RowColumnDefinition, { column: 2, width: 4 }),
+              $(go.TextBlock, textStyle(),  // the name
+                {
+                  row: 0, column: 0, columnSpan: 5,
+                  font: "12pt Segoe UI,sans-serif",
+                  editable: true, isMultiline: false,
+                  minSize: new go.Size(10, 16)
+                },
+                new go.Binding("text", "name").makeTwoWay()),
+              $(go.TextBlock, "Title: ", textStyle(),
+                { row: 1, column: 0 }),
+              $(go.TextBlock, textStyle(),
+                {
+                  row: 1, column: 1, columnSpan: 4,
+                  editable: true, isMultiline: false,
+                  minSize: new go.Size(10, 14),
+                  margin: new go.Margin(0, 0, 0, 3)
+                },
+                new go.Binding("text", "title").makeTwoWay()),
+              $(go.TextBlock, textStyle(),
+                { row: 2, column: 0 },
+                new go.Binding("text", "key", function(v) { return "ID: " + v; })),
+              $(go.TextBlock, textStyle(),
+                { name: "boss", row: 2, column: 3, }, // we include a name so we can access this TextBlock when deleting Nodes/Links
+                new go.Binding("text", "parent", function(v) { return "Boss: " + v; })),
+              $(go.TextBlock, textStyle(),  // the comments
+                {
+                  row: 3, column: 0, columnSpan: 5,
+                  font: "italic 9pt sans-serif",
+                  wrap: go.TextBlock.WrapFit,
+                  editable: true,  // by default newlines are allowed
+                  minSize: new go.Size(10, 14)
+                },
+                new go.Binding("text", "comments").makeTwoWay())
+            )  // end Table Panel
+          ) // end Horizontal Panel
+        );  // end Node
 
+      }
       // the context menu allows users to make a position vacant,
       // remove a role and reassign the subtree, or remove a department
-      myDiagram.nodeTemplate.contextMenu =
-        $("ContextMenu",
+      if(currentUser.admin===true){
+        myDiagram.nodeTemplate.contextMenu =
+      //console.log(JSON.parse(div.textContent).admin);
+     // var currentUser = JSON.parse(div.textContent)
+
+      //console.log(currentUser.admin)
+      //console.log(JSON.parse(div.textContent));
+      //var currentUser = JSON.parse(div.textContent)
+     
+       $("ContextMenu",
+        
+        
         $("ContextMenuButton",
             $(go.TextBlock, "Visit Profil"),
             {
+              
               click: function(e, obj) {
                 
                 var node = obj.part.adornedPart;
-               // console.log(node.jb._id);
+               // console.log(JSON.parse(div.textContent)); 
+                //console.log(node.jb);
                 if (node !== null) {
                   window.location.href="/users/"+node.jb._id+"/profil";
                   
@@ -264,11 +346,14 @@
               }
             }
           ),  
+          
         $("ContextMenuButton",
             $(go.TextBlock, "Vacate Position"),
             {
+       
               click: function(e, obj) {
-                var node = obj.part.adornedPart;
+            // if(currentUser.admin===true){
+                  var node = obj.part.adornedPart;
                 if (node !== null) {
                   var thisemp = node.data;
                   myDiagram.startTransaction("vacate");
@@ -277,6 +362,8 @@
                   myDiagram.model.setDataProperty(thisemp, "comments", "");
                   myDiagram.commitTransaction("vacate");
                 }
+            // }
+               
               }
             }
           ),
@@ -314,8 +401,46 @@
                 }
               }
             }
-          )
+          
+        )
+       
+ 
         );
+      }else{
+        myDiagram.nodeTemplate.contextMenu =
+      //console.log(JSON.parse(div.textContent).admin);
+     // var currentUser = JSON.parse(div.textContent)
+
+      //console.log(currentUser.admin)
+      //console.log(JSON.parse(div.textContent));
+      //var currentUser = JSON.parse(div.textContent)
+     
+       $("ContextMenu",
+        
+        
+        $("ContextMenuButton",
+            $(go.TextBlock, "Visit Profil"),
+            {
+              
+              click: function(e, obj) {
+                
+                var node = obj.part.adornedPart;
+               // console.log(JSON.parse(div.textContent)); 
+                //console.log(node.jb);
+                if (node !== null) {
+                  window.location.href="/users/"+node.jb._id+"/profil";
+                  
+                }
+              }
+            }
+          ),  
+         
+       
+ 
+        );
+      }
+   
+       
 
       // define the Link template
       myDiagram.linkTemplate =
@@ -326,19 +451,44 @@
       // read in the JSON-format data from the "mySavedModel" element
       load();
 
-
+      if(currentUser.admin===true){
       // support editing the properties of the selected person in HTML
       if (window.Inspector) myInspector = new Inspector("myInspector", myDiagram,
         {
+          
           properties: {
             "key": { readOnly: true },
-            "id": { readOnly: true },
-            
-            "comments": {}
+            "id": { readOnly: true, },
+            "_id": { readOnly: true, },
+            "admin": { readOnly: true, },
+            "contacts":{show : false},
+            "messageNotifications":{show : false},
+            "mailNotifications":{show : false},
+            "bellNotifications":{show : false},
+            "isLoggedUser":{show : false},
+            "comments": { show : false},
+            "positionName":{show : false},
+            "events":{show : false},
+            "sentProjects":{show : false},
+            "assignedProjects":{show : false},
+            "receivedProjects":{show : false},
+            "sentMails":{show : false},
+            "sentMailsStorage":{show : false},
+            "usedSentMailsStorage":{show : false},
+            "receivedMails":{show : false},
+            "receivedMailsStorage":{show : false},
+            "usedReceivedMailsStorage":{show : false},
+            "sentMessages":{show : false},
+            "receivedMessages":{show : false},
+            "_w":{show : false},
+            "path":{show : false},
+            "__v":{show : false},
           }
         });
+      }
 
       // Setup zoom to fit button
+      
       document.getElementById('zoomToFit').addEventListener('click', function() {
         myDiagram.commandHandler.zoomToFit();
       });
@@ -375,6 +525,20 @@
 
 </head>
 <body onload="init()">
+  <% user = currentUser%>
+  <!--<div id="myDiv" data-test="<%=currentUser%>"></div>-->
+  <script>
+    
+    const div = document.createElement("div");
+      div.innerHTML = "<%=JSON.stringify(currentUser)%>";
+      var currentUser = JSON.parse(div.textContent)
+     // console.log(JSON.parse(div.textContent).admin);
+       //console.log(JSON.parse(div.textContent)); 
+   // alert(dat)
+    //console.log(dat);
+   // alert(user);
+    //console.log("//"+currentUser._id)
+  </script>
   <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0">
     <div class="container">
         <a id="navBrand" href="" class="navbar-brand">Brand</a>
@@ -397,12 +561,12 @@
              <ul class="navbar-nav navbar-right">
               <li class="nav-item">
                 
-                <a class="nav-link" href="/user/<%=currentUser._id%>/units/new">new Unit</a>
+                <!--<a class="nav-link" href="/user/<%=currentUser._id%>/units/new">new Unit</a>-->
                </li>
                <%if(!currentUser){%>
-              <li class="nav-item">
+              <!--<li class="nav-item">
                 <a class="nav-link" href="register">Sign In</a>
-               </li>
+               </li>-->
                <li class="nav-item">
                 <a class="nav-link" href="login">Login</a>
                </li>
@@ -450,12 +614,17 @@
 </nav>
 <div id="sample">
   <div id="myDiagramDiv" style="background-color: #34343C; border: solid 1px black; height: 570px;"></div>
-  <p><button id="zoomToFit">Zoom to Fit</button> <button id="centerRoot">Center on root</button></p>
-
+  
+  <script>
+    //document.getElementsBy("table").classList.add("table");
+  </script>
+  <button id="zoomToFit" class="btn btn-outline-success pr-4 pl-4" >Zoom to Fit</button> <button id="centerRoot" class="btn btn-outline-success">Center on root</button>
   <div>
-    <div id="myInspector">
+    
+    <div id="myInspector" >
     </div>
   </div>
+  
   <!--<p>
     This editable organizational chart sample color-codes the Nodes according to the tree level in the hierarchy.
   </p>
@@ -488,31 +657,55 @@
   </p>-->
   <div>
     <%console.log(A)%>
+    
     <%if(A===0){%>
     <div>
         <form action="/orgchart/<%= currentUser.id%>" method="POST"> 
-            <button id="SaveButton" onclick="save()" type="submit">Save</button>
+          <%if(currentUser.admin===true){%>
+            <button id="SaveButton" class="btn btn-success" onclick="save()" type="submit">Save</button>
+            <%}%>
+            <%if(currentUser.admin===true){%>
+              Diagram Model saved in JSON format:
+              <textarea name="dat" id="mySavedModel" class="form-control" style="width:100%; height:270px;">
+                  {"class": "go.TreeModel","nodeDataArray":<%=dataa%>}
+                      </textarea>
+              <%}else{%>
+                
+                <textarea name="dat" id="mySavedModel" class="form-control" style="width:100%; height:270px; display: none;">
+                    {"class": "go.TreeModel","nodeDataArray":<%=dataa%>}
+                        </textarea>
+                <%}%>
             
-            Diagram Model saved in JSON format:
-            <textarea name="dat" id="mySavedModel" style="width:100%; height:270px;">
-                {"class": "go.TreeModel","nodeDataArray":<%=dataa%>}
-                    </textarea>
         </form>
-        <button onclick="load()">Load</button>
+        <%if(currentUser.admin===true){%>
+        <button class="btn btn-outline-success" onclick="load()">Load</button>
+        <%}%>
     </div>
     <%}else{%>
       <div>
         <form action="/orgchart/<%= currentUser.id%>/units/<%=unit._id%>" method="POST"> 
-            <button id="SaveButton" onclick="save()" type="submit">Save units</button>
-            
-            Diagram Model saved in JSON format:
-            <textarea name="dat" id="mySavedModel" style="width:100%; height:270px;">
+          <%if(currentUser.admin===true){%>
+            <button id="SaveButton" class="btn btn-outline-success" onclick="save()" type="submit">Save units</button>
+            <%}%>
+            <%if(currentUser.admin===true){%>
+              Diagram Model saved in JSON format:
+              <textarea name="dat" id="mySavedModel" class="form-control" style="width:100%; height:270px;">
+                  {"class": "go.TreeModel","nodeDataArray":<%=dataa%>}
+                      </textarea>
+              <%}else{%>
+                
+            <textarea name="dat" id="mySavedModel" class="form-control" style="width:100%; height:270px; display: none;">
                 {"class": "go.TreeModel","nodeDataArray":<%=dataa%>}
                     </textarea>
+                <%}%>
+            
         </form>
-        <button onclick="load()">Load</button>
+        <%if(currentUser.admin===true){%>
+        <button class="btn btn-outline-success" onclick="load()">Load</button>
+        <%}%>
     </div>
  <% }%>
+
 <!--
 {"key":1, "name":"Stella Payne Diaz", "title":"CEO"},
 {"key":2, "name":"Luke Warm", "title":"VP Marketing/Sales", "parent":1},

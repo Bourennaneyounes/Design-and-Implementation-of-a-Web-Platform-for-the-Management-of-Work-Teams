@@ -155,6 +155,13 @@ Inspector.prototype.inspectObject = function(object) {
     if (!data) return;
     // Build table:
     var table = document.createElement('table');
+    table.classList.add("table");
+    table.classList.add("table-dark");
+    table.classList.add("mb-0");
+    //table.classList.add("table-hover");
+    
+    //table.classList.add("table-bordered");
+    
     var tbody = document.createElement('tbody');
     this._inspectedProperties = {};
     this.tabIndex = 0;
@@ -395,10 +402,14 @@ Inspector.prototype.buildPropertyRow = function(propertyName, propertyValue) {
   var tr = document.createElement("tr");
 
   var td1 = document.createElement("td");
+  td1.style.borderTop="0px";
+  
   td1.textContent = propertyName;
   tr.appendChild(td1);
 
   var td2 = document.createElement("td");
+  td2.style.borderTop="0px";
+  td2.classList.add("pr-4");
   var decProp = this.declaredProperties[propertyName];
   var input = null;
   var self = this;
@@ -410,6 +421,12 @@ Inspector.prototype.buildPropertyRow = function(propertyName, propertyValue) {
     input.addEventListener("change", updateall);
   } else {
     input = document.createElement("input");
+    input.classList.add("form-control");
+    input.style.width="110%";
+    //input.style.paddingLeft="0px"
+    //input.classList.add("pr-0");
+    //input.classList.add("pl-0");
+    
 
     input.value = this.convertToString(propertyValue);
     if (decProp) {

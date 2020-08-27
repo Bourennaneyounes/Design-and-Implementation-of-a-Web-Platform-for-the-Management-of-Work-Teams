@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Unit</title>
-    <link rel="stylesheet" href="/stylesheets/lib/bootstrap.css">
-    <link rel="stylesheet" href="/stylesheets/lib/semantic.min.css">
-    <link rel="stylesheet" href="/stylesheets/forms.css">
-</head>
-<body>
+<%- include('../partials/profilHeader.ejs')%>
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center">
             <dev class="column col-md-8">
@@ -27,9 +17,19 @@
                       <textarea name="unit[desc]"></textarea>
                     </div>
                     <button class="btn btn-outline-success" type="submit">Create Unit</button>
+                    <button class="btn btn-outline-danger" style="margin-left: 350px;" href="/users/<%=user._id%>/units">Cancel</button>
                   </form>
             </dev>
         </div>
     </div>
-</body>
-</html>
+<!--</body>
+</html>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
+
+
+
+
+<%- include('../partials/profilFooter')%>

@@ -8,7 +8,7 @@
             <%= contactsForSearch%>
         </textarea>
         <!-- search -->
-        <div id="search" class="ui search text-center mt-5">
+        <div id="search" class="ui search text-center mt-0 pt-5">
             <div class="ui icon input form-group form-inline">
               <input id="searchTextbox" class="prompt" type="text" placeholder="Search contacts...">
               <i class="search icon"></i>
@@ -41,7 +41,14 @@
     </div>
     <!------------------------------------------------------------------>
     <!-- Contacts List -->
-    <div id="contactsList" class="container scrollDiv p-4">
+    <style>
+        .scrollDiv {
+    max-height: 900px;
+    min-height: 800px;
+    overflow-y: scroll;
+}
+    </style>
+    <div id="contactsList" class="container scrollDiv p-4 " style="max-width: 1400px;">
         <% contacts.forEach(function(chrArray){
           //  console.log(chrArray);
             %>
@@ -84,9 +91,9 @@
     </div>
     <!------------------------------------------------------------------>
     <!--Search results within contacts-->
-    <div id="resultsWithinContacts" class="container scrollDiv px-4 py-5 d-none"></div>
+    <div id="resultsWithinContacts" class="container scrollDiv  py-5 d-none" style="max-width: 1400px;"></div>
     <!------------------------------------------------------------------>
     <!--Search results outside contacts-->
-    <div id="resultsOutsideContacts" class="container scrollDiv px-4 py-5 d-none"></div>
+    <div id="resultsOutsideContacts" class="container scrollDiv  py-5 d-none" style="max-width: 1400px;"></div>
     <!------------------------------------------------------------------>
 <%- include('../partials/contactsFooter')%>

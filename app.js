@@ -402,8 +402,49 @@ app.set('io', io);
 //--------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------
+//admin default
 
-
+User.find(function(err,users){
+	function userExists(username) {
+		return users.some(function(el) {
+			//console.log(el.id+"===="+id);
+		  return el.username == username;
+		}); 
+	  }
+	
+			if(!userExists("admin")){
+				
+				var newUser = new User({
+					username: "admin",
+					firstName: "admin",
+					lastName: "admin",
+					name: "admin"+" "+"admin",
+					admin: true
+				
+					
+				});
+				
+						  User.register(newUser ,"admin" ,function(err ,user){
+										   if(err){
+													throw err;
+													
+										   }else{
+											  user.id = user._id;
+											  user.save(function(err,user){
+												
+											  });
+											 
+											 }
+							  });
+							}
+			})
+		
+	
+	
+		  
+	
+//////////////////////////
+/////////////////////////
 server.listen(3000 ,()=>{
     console.log("the server has started !");
 });

@@ -70,7 +70,7 @@ router.post("/user/:id/units" ,middleware.isLoggedIn,(req ,res)=>{
          });
             
             // console.log(unit.currentHead );
-            res.redirect("/orgchart/"+req.params.id);
+            res.redirect("/users/"+req.params.id+"/units");
         }
     })
 });
@@ -171,7 +171,7 @@ router.post("/users/:userId/units/:unitId" ,middleware.isLoggedIn,(req ,res)=>{
                       }
                       users.forEach(user=>{
                        // console.log(unit._id.equals(user.unit)&&(userExists(user._id)));
-                        req.body.unitE.forEach(element=>{
+                        //req.body.unitE.forEach(element=>{
                           
                             if((userExists(user._id)==false)&&(unit._id.equals(user.unit))){
                               User.findById(user._id,function(err,user1){
@@ -198,7 +198,7 @@ router.post("/users/:userId/units/:unitId" ,middleware.isLoggedIn,(req ,res)=>{
                                   
                                 })
                             }
-                        })
+                        //})
                     })
                     req.body.unitE.forEach(employeId=>{
                         User.findById(employeId,function(err,user){

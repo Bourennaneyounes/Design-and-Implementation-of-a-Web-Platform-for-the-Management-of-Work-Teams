@@ -7,7 +7,8 @@
         <textarea name="" id="itemsTextArea" cols="100" rows="10" class="d-none">
             <%= unitsForSearch%>
         </textarea>
-       
+        
+        
         <!-- results -->
         <textarea id="resultTextArea" cols="100" rows="5" class="nohighlight m-0 p-0 d-none"></textarea>
         <div class="form-group d-none">
@@ -26,6 +27,10 @@
     </div>
     <!------------------------------------------------------------------>
     <!-- Contacts List -->
+    <div class="column col-sm-6 d-flex justify-content-center">
+        <a href="/user/<%=currentUser._id%>/units/new" class="d-block standardBtnStyle" style="padding: 7px; width: 60% ;height: 37.67px;margin-top: 30px;">new Unit</a>  
+    </div>
+    
     <div id="contactsList" class="container scrollDiv p-4">
         <% units.forEach(function(unit){
           //  console.log(chrArray);
@@ -48,6 +53,9 @@
                 <br>
             <%}%>
         <%});%>
+    </div>
+    <div class="column col-sm-6 d-flex justify-content-center">
+        <a href="/users/<%=currentUser._id%>/profil" class="d-block standardBtnStyle" style="padding: 7px; width: 60% ;height: 37.67px;margin-top: 30px;">back</a>  
     </div>
    
 

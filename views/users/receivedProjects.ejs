@@ -61,7 +61,7 @@
         <input type="text" id="arrayLength" class="d-none" value="<%= receivedProjects.length%>">
         <% var i = 0;%>
         <% receivedProjects.forEach(function(project){%>
-            <div onclick='location.href="/users/<%= user._id%>/projects/received/<%= project._id%>/detail"' class="hoverableDiv py-2 px-5 m-2">
+            <div onclick='location.href="/users/<%= user._id%>/projects/sent/<%= project._id%>/detail"' class="hoverableDiv py-2 px-5 m-2">
                 <p class="mb-2"><span class="inputsTitles"><%= project.title%></span></p>
                 <div class="row">
                     <div class="column col-sm-5"><p class="mb-0">Start : <%=project.start%></p></div>
