@@ -7,29 +7,16 @@ const Tree = require('../modules/projectTree');
 const Mail = require('../modules/mail');
 const Message = require('../modules/message');
 const mongoose = require('mongoose');
-var middleware = require("../middleware");
 
 
 //show the user's contact list
-router.get("/users/:id/contacts" ,middleware.checkOwnership,(req ,res)=>{
+router.get("/users/:id/contacts" ,(req ,res)=>{
     User.findById(req.params.id ,'-events -unit').populate({
         path: 'contacts',
         select: '-events -sentProjects -area -office -tags -firstName -lastName -isLoggedUser -receivedProjects -assignedProjects -sentMails -receivedMails -contacts -unit'
     }).exec((err ,user)=>{
         if(err){throw err;}
         else{
-           /* var contactsForSearch = user.contacts;
-            var contacts = [];
-            for (i = 0; i < 26; i++) {
-                // console.log((i+10).toString(36));
-                // console.log(String.fromCharCode(97 + i)); //(97 lowerCase) - (65 upperCase)
-                var chrL = String.fromCharCode(97 + i);
-                var chrU = String.fromCharCode(65 + i);
-                var chrArray = [];
-               // console.log(user.contacts);
-                user.contacts.forEach(function(contact){
-                    if(contact.username[0] == chrL || contact.username[0] == chrU){
-                        chrArray.push(contact);*/
             user.getChildren((err ,descendants) => {
                 if(err){throw err;}
                 var contactsForSearch = [];
@@ -100,16 +87,14 @@ router.get("/users/:id/contacts" ,middleware.checkOwnership,(req ,res)=>{
 });
 
 //add new contact
-router.post("/users/:id/contacts" ,middleware.checkOwnership,(req ,res)=>{
+router.post("/users/:id/contacts" ,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         User.findById(req.body.newContactId ,(err ,newContact)=>{
             if(err){throw err;}
-            console.log(newContact);
             user.contacts.push(newContact);
             user.save(()=>{
-                res.redirect("back");
-               // res.redirect("/users/"+req.params.id+"/contacts");
+                res.redirect("/users/"+req.params.id+"/contacts");
             });
         });
     });
@@ -123,8 +108,7 @@ router.delete("/users/:id/contacts/:contactId" ,(req ,res)=>{
         if (index > -1) {
             user.contacts.splice(index, 1);
             user.save(()=>{
-                res.redirect("back");
-               // res.redirect("/users/"+req.params.id+"/contacts");
+                res.redirect("/users/"+req.params.id+"/contacts");
             });
         }
     });
