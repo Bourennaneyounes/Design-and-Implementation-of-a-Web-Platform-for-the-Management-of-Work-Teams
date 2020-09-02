@@ -1,23 +1,23 @@
 <%- include('../partials/profilHeader.ejs')%>
     <div class="container">
-        <div class="row d-flex justify-content-center align-items-center">
+        <div class="row d-flex justify-content-center align-items-center mt-5">
             <dev class="column col-md-8">
-                <h1 class="ui header">Creating new unit</h1>
+                <h1 class="ui header"><span class="inputsTitles">Creating new unit</span></h1>
                 <form id="register-form" class="ui form" action="/user/<%=user._id%>/units" method="post">
                     <div class="field">
-                      <label>Unit type</label>
+                      <label><span class="inputsTitles">Unit type</span></label>
                       <input type="text" name="unit[type]" placeholder="First Name">
                     </div>
                     <div class="field">
-                      <label>Unit name</label>
+                      <label><span class="inputsTitles">Unit name</span></label>
                       <input type="text" name="unit[value]" placeholder="Last Name">
                     </div>
                     <div class="field">
-                      <label>Unit description</label>
+                      <label><span class="inputsTitles">Unit description</span></label>
                       <textarea name="unit[desc]"></textarea>
                     </div>
-                    <button class="btn btn-outline-success" type="submit">Create Unit</button>
-                    <button class="btn btn-outline-danger" style="margin-left: 350px;" href="/users/<%=user._id%>/units">Cancel</button>
+                    <button class="btn btn-outline-success" style="margin-top: 20px; margin-left: 42px;" type="submit">Create Unit</button>
+                    <a class="btn btn-outline-danger" style="margin-left: 400px;margin-top: 20px;" href="/users/<%=user._id%>/units">Back</a>
                   </form>
             </dev>
         </div>

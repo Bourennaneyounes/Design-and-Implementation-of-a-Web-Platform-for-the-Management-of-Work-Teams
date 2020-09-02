@@ -51,13 +51,33 @@ passport.deserializeUser(User.deserializeUser());
 //midware
 app.use((req ,res ,next)=>{
 	res.locals.currentUser = req.user;   //(adds {currentUser = req.user} to all render params);
-	Unit.find({type: 'department'} ,'-desc' ,(err ,units)=>{
-		if(err){throw err;}
-		else{
-			res.locals.units = units;
-			next();
+	User.find(function(err,allUsers){
+		if(err){
+			console.log(err)
+		}else{
+			res.locals.allUsers = allUsers;
+			/* user.getChildren(function(err,children){
+				if(err){throw err;}
+				var isLeaf;
+				if(children.length > 0){
+					isLeaf = false;
+				}else{
+					isLeaf = true;
+				}
+				res.locals.isLeaf = isLeaf;
+			}) */
+			Unit.find({type: 'department'} ,'-desc' ,(err ,units)=>{
+				if(err){throw err;}
+				else{
+					
+					res.locals.units = units;
+					next();
+				}
+			});
 		}
-	});
+		
+	})
+	
 });
 
 //use routes

@@ -6,6 +6,7 @@ const User = require("../modules/user");
 var middleware = require("../middleware");
 //var fs = require("fs-js");
 var fs = require("fs-extra");
+const user = require("../modules/user");
 
 
 //get the company's full orgchart
@@ -45,7 +46,7 @@ router.get("/orgchart/:userId" ,middleware.isLoggedIn,(req ,res)=>{
                 //console.log(tree);
                 Unit.find(function(err ,units){
                     var A = 0;
-                    res.render("charts/orgchart4" ,{dataa: dataa,treee:tree,units:units,A:A});
+                    res.render("charts/orgchart4" ,{dataa: dataa,treee:tree,units:units,A:A,user:user});
                 })
                 // console.log(dataa);
                // res.render("charts/orgchart4" ,{dataa: dataa,treee:tree});
@@ -372,37 +373,43 @@ var dataa = req.body.dat.slice(43);
         //User.GetFullArrayTree(function(err ,tree){
             //console.log(user)
             
-            
-               
-                User.find(function(err,users){
+          User.findById(req.params.userId,function(err,user1){
+                  if(err){
+                      console.log(err);
+                  }else{
+                    User.find(function(err,users){
                    
-                    Unit.findById(req.params.unitId,function(err ,unit){
-                        function userExists(id) {
-                            return unit.userList.some(function(el) {
-                                //console.log(el+"===="+id);
-                                //console.log(el.equals(id));
-                              return el.equals(id);
-                            }); 
-                          }
-                        var tree = [];
-                        users.forEach(user=>{
-                            if(userExists(user._id)){
-                                tree.push(user);
-                            }
+                        Unit.findById(req.params.unitId,function(err ,unit){
+                            function userExists(id) {
+                                return unit.userList.some(function(el) {
+                                    //console.log(el+"===="+id);
+                                    //console.log(el.equals(id));
+                                  return el.equals(id);
+                                }); 
+                              }
+                            var tree = [];
+                            users.forEach(user=>{
+                                if(userExists(user._id)){
+                                    tree.push(user);
+                                }
+                            })
+                            // f2(unit,tree);
+                           // console.log(tree)
+                            var dataa = JSON.stringify(tree);
+                            //console.log(dataa);
+                            Unit.find(function(err ,units){
+    
+                                var A=1;
+                                res.render("charts/orgchart4" ,{dataa: dataa,treee:tree,units:units,A:A,unit:unit,user:user1});
+                            })
                         })
-                        // f2(unit,tree);
-                       // console.log(tree)
-                        var dataa = JSON.stringify(tree);
-                        //console.log(dataa);
-                        Unit.find(function(err ,units){
-
-                            var A=1;
-                            res.render("charts/orgchart4" ,{dataa: dataa,treee:tree,units:units,A:A,unit:unit});
-                        })
+                       
+                       
                     })
-                   
-                   
-                })
+                  }
+          })  
+               
+                
                /* unit.userList.forEach(user1=>{
                     
                     User.findById(user1,function(err,user2){

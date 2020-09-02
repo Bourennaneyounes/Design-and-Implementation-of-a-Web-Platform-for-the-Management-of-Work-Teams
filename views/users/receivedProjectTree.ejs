@@ -70,6 +70,35 @@
     </div>
 </div>
 <!-- SCRIPTS -->
+<script>
+  $('.ui.sidebar').sidebar({
+    context: $('.bottom.segment')
+  })
+  .sidebar('attach events', '#sidebarId');
+
+  /*  function sideT(){
+    $('.ui.sidebar').sidebar('attach events', '.top.ui.menu .item.sidebar');
+  }
+  window.onload = function(){
+    document.getElementsByClassName("view-ui").onclick = function sideT2(){
+      sideT();
+    }
+  }  */ 
+    
+    
+   
+$('.ui.accordion')
+  .accordion()
+;
+$('.trigger.example .accordion')
+  .accordion({
+    selector: {
+      trigger: '.title .icon'
+    }
+  })
+;
+  
+</script>
 <script type="text/javascript" src="/scripts/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
 <script>

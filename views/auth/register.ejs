@@ -42,16 +42,16 @@
   <%- include('../partials/profilHeader.ejs')%>
   
     <div class="container">
-        <div class="row d-flex justify-content-center align-items-center">
+        <div class="row d-flex justify-content-center align-items-center mt-4">
             <dev class="column col-md-8">
-                <h1 class="ui header">Register</h1>
+                <h2 class="ui header"><span class="inputsTitles">Register</span></h2>
                 <form id="register-form" class="ui form" action="/users/<%=currentUser._id%>/profil/gestionUsers/register" method="POST">
                     <div class="field">
-                      <label>Username</label>
+                      <label><span class="inputsTitles">Username</span></label>
                       <input type="text" name="username" placeholder="Username">
                     </div>
                     <div class="field">
-                        <label>Name</label>
+                        <label><span class="inputsTitles">Name</span></label>
                         <div class="two fields">
                           <div class="field">
                             <input type="text" name="firstName" placeholder="First Name">
@@ -61,33 +61,22 @@
                           </div>
                         </div>
                       </div>
-                    <div class="field">
-                        <label>Unit</label>
-                        <select class="ui search dropdown" name="unit">
-                          <option value="">Unit</option>
-                          <% units.forEach(function(unit){ %>
-                              <option value="<%= unit._id%>"><%= unit.value%></option>
-                          <% }) %>
-                        </select>
-                    </div>      
+                        
                     
                     <div class="field">
-                        <label>Password</label>
+                        <label><span class="inputsTitles">Password</span></label>
                         <input type="password" name="password" placeholder="Password">
                     </div>
                     <div class="field">
-                      <div class="ui checkbox">
-                        <input type="checkbox" tabindex="0" class="hidden">
-                        <label>I agree to the Terms and Conditions</label>
-                      </div>
+                      
                     </div>
                     <button class="btn btn-outline-success" type="submit">Submit</button>
-                    <button class="btn btn-outline-danger" style="margin-left: 350px;" href="/user/<%=currentUser._id%>/gestionUser">Cancel</button>
+                    <a class="btn btn-outline-danger" style="margin-left: 350px;" href="/users/<%=currentUser._id%>/profil/gestionUsers">Cancel</a>
                   </form>
             </dev>
         </div>
     </div>
     <script src="/scripts/lib/jquery-3.4.1.min.js"></script>
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
 <!--</html>-->
 <%- include('../partials/profilFooter')%>

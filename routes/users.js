@@ -16,7 +16,7 @@ var middleware = require("../middleware");
 
 ////////////////////////////
 /////// show users templete
-router.get("/users/:id/profil/gestionUsers" ,middleware.isLoggedIn,(req ,res)=>{
+router.get("/users/:id/profil/gestionUsers" ,middleware.checkAdminOwnership,(req ,res)=>{
     //res.send("hhhhhhhhhhhhhh");
     User.find(function(err,users){
         if(err){
@@ -61,7 +61,7 @@ router.get("/users/:id/profil/gestionUsers" ,middleware.isLoggedIn,(req ,res)=>{
 });
 ///////////////////////////////
 ////////////////////logic modifie users
-router.post("/users/:id/profil/gestionUsers" ,middleware.isLoggedIn,(req ,res)=>{
+router.post("/users/:id/profil/gestionUsers" ,middleware.checkAdminOwnership,(req ,res)=>{
     User.find(function(err,users){
         if(err){
           console.log(err);
@@ -183,7 +183,7 @@ router.post("/users/:id/profil/gestionUsers" ,middleware.isLoggedIn,(req ,res)=>
 
 //////////////////////
 //regestering:
-router.get("/users/:id/profil/gestionUsers/register" ,(req ,res)=>{
+router.get("/users/:id/profil/gestionUsers/register" ,middleware.checkAdminOwnership,(req ,res)=>{
     User.findById(req.params.id,function(err,user){
         if(err){
             console.log(err)
@@ -200,7 +200,7 @@ router.get("/users/:id/profil/gestionUsers/register" ,(req ,res)=>{
     })
     
 });
-router.post("/users/:id/profil/gestionUsers/register" , (req ,res)=>{
+router.post("/users/:id/profil/gestionUsers/register" ,middleware.checkAdminOwnership, (req ,res)=>{
 	var newUser = new User({
         username: req.body.username,
         firstName: req.body.firstName,
@@ -244,7 +244,7 @@ router.post("/users/:id/profil/gestionUsers/register" , (req ,res)=>{
 								  user.id = user._id;
 								  user.save(function(err,user){
                                     res.redirect("/users/"+req.params.id+"/profil/gestionUsers");
-									console.log("new child save");
+									//console.log("new child save");
 									/*parent.appendChild(user,function(err){
 										if(err){
 	
@@ -294,7 +294,7 @@ router.get("/users/:id/profil" ,middleware.isLoggedIn,(req ,res)=>{
 });
 ////////////////////////////
 /////show templete to change password
-router.get("/users/:id/profil/settings" ,middleware.isLoggedIn,(req ,res)=>{
+router.get("/users/:id/profil/settings" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -309,7 +309,7 @@ router.get("/users/:id/profil/settings" ,middleware.isLoggedIn,(req ,res)=>{
 });
 /////////////////////////
 //////logic change password
-router.post("/users/:id/profil/settings" ,middleware.isLoggedIn,(req ,res)=>{
+router.post("/users/:id/profil/settings" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;
  
@@ -344,7 +344,7 @@ router.post("/users/:id/profil/settings" ,middleware.isLoggedIn,(req ,res)=>{
 
 ///modifie image profil
 ////////////////////////////////
-router.post("/users/:id/profil/mod" ,middleware.isLoggedIn,(req ,res)=>{
+router.post("/users/:id/profil/mod" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -373,7 +373,7 @@ router.post("/users/:id/profil/mod" ,middleware.isLoggedIn,(req ,res)=>{
 });
 //modifie profil logic
 ///////////////////////////////////////
-router.post("/users/:id/profil" ,middleware.isLoggedIn,(req ,res)=>{
+router.post("/users/:id/profil" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -387,6 +387,7 @@ router.post("/users/:id/profil" ,middleware.isLoggedIn,(req ,res)=>{
                 user.address = req.body.address;
                 user.country= req.body.country;
                 user.city= req.body.city;
+                user.dateNaissance= req.body.dateN;
                 user.codePostal= req.body.codePostal;
                 user.aboutMe = req.body.aboutMe;
                 console.log(req.body.aboutMe);

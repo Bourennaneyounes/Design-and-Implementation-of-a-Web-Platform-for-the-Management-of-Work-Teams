@@ -1,72 +1,156 @@
-<!--<!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/stylesheets/lib/bootstrap.css">
-    <link rel="stylesheet" href="/stylesheets/lib/semantic.min.css">
-    <link rel="stylesheet" href="/stylesheets/forms.css">
-</head>
--->
-  <%- include('../partials/orgchartheader.ejs')%>
-
-<body translate="no" >
-    <p id="gg" style="color: rgb(0, 0, 0, 0); font-size: 0px; display: none;"></p>
+    <title>Society Name</title>
+    <style>
     
-    <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0">
-        <div class="container">
-            <a id="navBrand" href="" class="navbar-brand">Brand</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
-            <span><i class="fas fa-angle-double-down"></i></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                
-                 <ul class="navbar-nav navbar-right">
-                    <%if(!currentUser){%>
-                     <!--  <li class="nav-item">
-                        <a class="nav-link" href="register">Sign In</a>
-                       </li>-->
-                       <li class="nav-item">
-                        <a class="nav-link" href="login">Login</a>
-                       </li>
-                       <% }else{%>
-                       <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                       </li>
-                       <%}%>
-                 </ul>
-              </div>
-        </div>
-    </nav>
-   
+        .hidden.menu {
+      display: none;
+    }
+
+    .masthead.segment {
+      min-height: 700px;
+      padding: 1em 0em;
+    }
+    .masthead .logo.item img {
+      margin-right: 1em;
+    }
+    .masthead .ui.menu .ui.button {
+      margin-left: 0.5em;
+    }
+    .masthead h1.ui.header {
+      margin-top: 3em;
+      margin-bottom: 0em;
+      font-size: 4em;
+      font-weight: normal;
+    }
+    .masthead h2 {
+      font-size: 1.7em;
+      font-weight: normal;
+    }
+
+    .ui.vertical.stripe {
+      padding: 8em 0em;
+    }
+    .ui.vertical.stripe h3 {
+      font-size: 2em;
+    }
+    .ui.vertical.stripe .button + h3,
+    .ui.vertical.stripe p + h3 {
+      margin-top: 3em;
+    }
+    .ui.vertical.stripe .floated.image {
+      clear: both;
+    }
+    .ui.vertical.stripe p {
+      font-size: 1.33em;
+    }
+    .ui.vertical.stripe .horizontal.divider {
+      margin: 3em 0em;
+    }
+
+    .quote.stripe.segment {
+      padding: 0em;
+    }
+    .quote.stripe.segment .grid .column {
+      padding-top: 5em;
+      padding-bottom: 5em;
+    }
+
+    .footer.segment {
+      padding: 5em 0em;
+    }
+
+    .secondary.pointing.menu .toc.item {
+      display: none;
+    }
+
+    @media only screen and (max-width: 700px) {
+      .ui.fixed.menu {
+        display: none !important;
+      }
+      .secondary.pointing.menu .item,
+      .secondary.pointing.menu .menu {
+        display: none;
+      }
+      .secondary.pointing.menu .toc.item {
+        display: block;
+      }
+      .masthead.segment {
+        min-height: 350px;
+      }
+      .masthead h1.ui.header {
+        font-size: 2em;
+        margin-top: 1.5em;
+      }
+      .masthead h2 {
+        margin-top: 0.5em;
+        font-size: 1.5em;
+      }
+
+    }
+    
+.inputsTitles {
+
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #87081e;
+
+}
+</style>
+<link rel="stylesheet" href="/stylesheets/lib/semantic.min.css">
+<link rel="stylesheet" href="/stylesheets/lib/bootstrap.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.min.css" integrity="sha512-8Tb+T7SKUFQWOPIQCaLDWWe1K/SY8hvHl7brOH8Nz5z1VT8fnf8B+9neoUzmFY3OzkWMMs3OjrwZALgB1oXFBg==" crossorigin="anonymous" />
+</head>
+<body >
+    <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0" style="background: linear-gradient(to right, #240b36, #c31432);font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;">
     <div class="container">
-        <div class="row d-flex justify-content-center align-items-center">
+        <a id="navBrand" href="/" class="navbar-brand">Society Name</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
+        <span><i class="fas fa-angle-double-down"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            
+             <ul class="navbar-nav navbar-right">
+                <%if(!currentUser){%>
+                   
+                   <li class="nav-item">
+                    <a class="nav-link"  href="login">Login</a>
+                   </li>
+                   <% }else{%>
+                   <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                   </li>
+                   <%}%>
+             </ul>
+          </div>
+    </div>
+</nav>
+<div class="ui inverted  vertical masthead  aligned segment" style="background:whitesmoke;" >
+    <div class="container">
+        <div class="row d-flex justify-content-center align-items-center mt-4">
             <dev class="column col-md-8">
-                <h1 class="ui header">Login</h1>
+                <h2 class="ui header"><span class="inputsTitles">Login</span></h2>
                 <form id="register-form" class="ui form" action="/login" method="POST">
                     <div class="field">
-                      <label>Username</label>
+                      <label><span class="inputsTitles">Username</span></label>
                       <input type="text" name="username" placeholder="Username">
                     </div>
                    
                      
                     <div class="field">
-                        <label>Password</label>
+                        <label><span class="inputsTitles">Password</span></label>
                         <input type="password" name="password" placeholder="Password">
                     </div>
-                    <div class="field">
-                      <div class="ui checkbox">
-                        <input type="checkbox" tabindex="0" class="hidden">
-                        <label>I agree to the Terms and Conditions</label>
-                      </div>
-                    </div>
-                    <button class="btn btn-outline-success" type="submit">Submit</button>
+                    <button class="btn btn-outline-success" type="submit">Login</button>
                   </form>
             </dev>
         </div>
     </div>
+    </div>
     <script src="/scripts/lib/jquery-3.4.1.min.js"></script>
-<!--</body>
-</html>-->
-<%- include('../partials/orgchartfooter.ejs')%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
+</body>
+</html>

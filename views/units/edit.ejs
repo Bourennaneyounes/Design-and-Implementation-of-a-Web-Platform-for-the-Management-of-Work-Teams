@@ -8,11 +8,11 @@ $('.mdb-select').materialSelect();
 <div class="container">
     <div class="row d-flex justify-content-center align-items-center">
         
-        <dev class="column col-md-8">
-            <h1 class="ui header">Edit unit</h1>
+        <dev class="column col-md-12">
+            <h1 class="ui header mt-2"><span class="inputsTitles">Edit unit</span></h1>
             <form id="register-form" class="ui form" action="/users/<%=user._id%>/units/<%=unit._id%>" method="post">
                 <div class="field">
-                    <label>Unit currentHead</label>
+                    <label><span class="inputsTitles">Unit currentHead</span></label>
                     <!--<input type="text" name="unit[currentHead]" placeholder="First Name">-->
                     <select  name="currentHead">
                       <%if(unit.currentHead){%>
@@ -22,7 +22,7 @@ $('.mdb-select').materialSelect();
                           <option value="<%=u._id%>"  selected hidden ><%=u.name%></option>
                         <%}})%>
                        <%}else{%>
-                        <option  disabled selected hidden >choose</option>
+                        <option  disabled selected hidden >Choose Unit Chef</option>
                        <%}%>
                         <!--<option value="aa" selected disabled hidden>Choose here</option>-->
                       <%users.forEach(u=>{%>
@@ -87,7 +87,7 @@ $('.mdb-select').materialSelect();
                                 
                                     <div class="normalDiv row py-2 px-5 m-2">
                                         <div class="column col-9 d-flex">
-                                            
+                                          <img class="ui avatar image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQMDZH1hAZTs5H364fQPBj33spP6P8mi_CkfmHKcOUYArZ3LYTt">
                                             <p class="mt-1 ml-5"><span class="inputsTitles"><%= user.username%></span></p>
                                         </div>
                                         <div class="column col-3 d-flex justify-content-around text-align-center">
@@ -109,7 +109,7 @@ $('.mdb-select').materialSelect();
                     <%});%>
                 </div>
             
-                <button class="btn btn-outline-success mt-5 mb-5" type="submit">Save Unit</button>
+                <button class="btn btn-outline-success mt-5 mb-5" type="submit" style="margin-left: 200px;">Save Unit</button>
                 <button class="btn btn-outline-danger" style="margin-left: 350px;" href="/users/<%=user._id%>/units">Cancel</button>
               </form>
         </dev>

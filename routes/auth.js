@@ -27,7 +27,7 @@ router.post('/login', function(req, res, next) {
 	  req.logIn(user, function(err) {
 		if (err) { return next(err); }
 		
-		return res.redirect('/orgchart/' + user._id);
+		return res.redirect('/users/' + user._id+'/profil');
 	  });
 	})(req, res, next);
   });

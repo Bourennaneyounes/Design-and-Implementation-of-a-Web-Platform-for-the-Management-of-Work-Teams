@@ -1,9 +1,9 @@
               
-            <!--
-                </div>
+            
+              <!--   </div>
         
-            </div>
-            -->   
+            </div> -->
+             
               
               
               
@@ -13,8 +13,39 @@
             </div>
         </div>
     </div>
+    
+      
+    
+<script>
+  $('.ui.sidebar').sidebar({
+    context: $('.bottom.segment')
+  })
+  .sidebar('attach events', '#sidebarId');
 
-
+  /*  function sideT(){
+    $('.ui.sidebar').sidebar('attach events', '.top.ui.menu .item.sidebar');
+  }
+  window.onload = function(){
+    document.getElementsByClassName("view-ui").onclick = function sideT2(){
+      sideT();
+    }
+  }  */ 
+    
+    
+   
+$('.ui.accordion')
+  .accordion()
+;
+$('.trigger.example .accordion')
+  .accordion({
+    selector: {
+      trigger: '.title .icon'
+    }
+  })
+;
+  
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/sidebar.min.js" integrity="sha512-1tmZBYaLOUohS48wc5egam1rTAIi71yvIpxj0FXHo6FskhgMF3LyCAdLvCFYi4e/L0GfH6BFtDBFD2wVa645Dg==" crossorigin="anonymous"></script>
     <!-- SCRIPTS -->
     <script type="text/javascript" src="/scripts/lib/jquery-3.4.1.min.js"></script>
 

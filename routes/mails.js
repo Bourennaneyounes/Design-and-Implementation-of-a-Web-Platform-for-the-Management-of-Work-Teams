@@ -418,7 +418,7 @@ async function populateMailFiles(mailFiles){
 }
 
 //show a sent mail's content
-router.get("/users/:id/mails/sent/:mailId/content" ,(req ,res)=>{
+router.get("/users/:id/mails/sent/:mailId/content" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,'-children -events' ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -443,7 +443,7 @@ router.get("/users/:id/mails/sent/:mailId/content" ,(req ,res)=>{
 });
 
 //show a received mail's content
-router.get("/users/:id/mails/received/:mailId/content" ,(req ,res)=>{
+router.get("/users/:id/mails/received/:mailId/content" ,middleware.checkOwnership,(req ,res)=>{
     var io = req.app.get('io');
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
@@ -519,7 +519,7 @@ function de_duplicate(array){
     return a;
 }
 //sending new mail
-router.post("/users/:id/mails/sent"  ,arrUpload ,(req ,res)=>{
+router.post("/users/:id/mails/sent"  ,middleware.checkOwnership,arrUpload ,(req ,res)=>{
     var io = req.app.get('io');
     User.findById(req.params.id ,(err ,sender)=>{
         if(err){throw err}
@@ -757,7 +757,7 @@ router.post("/users/:id/mails/sent"  ,arrUpload ,(req ,res)=>{
 
 
 // Re-Sending a sent mail
-router.post("/users/:id/mails/sent/:mailId/reSent" ,(req ,res)=>{
+router.post("/users/:id/mails/sent/:mailId/reSent" ,middleware.checkOwnership,(req ,res)=>{
     var io = req.app.get('io');
     User.findById(req.params.id ,(err ,sender)=>{
         if(err){throw err}
@@ -937,7 +937,7 @@ router.post("/users/:id/mails/sent/:mailId/reSent" ,(req ,res)=>{
 });
 
 //show the templet for replying to a mail
-router.get("/users/:id/mails/received/:mailId/replies/new" ,(req ,res)=>{
+router.get("/users/:id/mails/received/:mailId/replies/new" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,'-children' ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -969,7 +969,7 @@ router.get("/users/:id/mails/received/:mailId/replies/new" ,(req ,res)=>{
         }
     });
 });
-router.get("/users/:id/mails/sent/:mailId/replies/new" ,(req ,res)=>{
+router.get("/users/:id/mails/sent/:mailId/replies/new" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,'-children' ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -1004,7 +1004,7 @@ router.get("/users/:id/mails/sent/:mailId/replies/new" ,(req ,res)=>{
 
 
 //sending a reply
-router.post("/users/:id/mails/received/:mailId/replies" ,arrUpload ,(req ,res)=>{
+router.post("/users/:id/mails/received/:mailId/replies" ,middleware.checkOwnership,arrUpload ,(req ,res)=>{
     var io = req.app.get('io');
     User.findById(req.params.id ,(err ,sender)=>{
         if(err){throw err}
@@ -1165,7 +1165,7 @@ router.post("/users/:id/mails/received/:mailId/replies" ,arrUpload ,(req ,res)=>
         }
     });
 });
-router.post("/users/:id/mails/sent/:mailId/replies" , arrUpload,(req ,res)=>{
+router.post("/users/:id/mails/sent/:mailId/replies" ,middleware.checkOwnership, arrUpload,(req ,res)=>{
     var io = req.app.get('io');
     User.findById(req.params.id ,(err ,sender)=>{
         if(err){throw err}
@@ -1268,7 +1268,7 @@ router.post("/users/:id/mails/sent/:mailId/replies" , arrUpload,(req ,res)=>{
 
 
 //show a sent mail's replies
-router.get("/users/:id/mails/sent/:mailId/replies" ,(req ,res)=>{
+router.get("/users/:id/mails/sent/:mailId/replies" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,'-events' ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -1344,7 +1344,7 @@ router.get("/users/:id/mails/sent/:mailId/replies" ,(req ,res)=>{
 });
 
 //show a received mail's replies
-router.get("/users/:id/mails/received/:mailId/replies" ,(req ,res)=>{
+router.get("/users/:id/mails/received/:mailId/replies" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,'-events' ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -1421,7 +1421,7 @@ router.get("/users/:id/mails/received/:mailId/replies" ,(req ,res)=>{
        
     
 //delete sent Mail
-router.delete("/users/:id/mails/sent/:mailId" ,(req ,res)=>{
+router.delete("/users/:id/mails/sent/:mailId" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         var index = user.sentMails.indexOf(req.params.mailId);
@@ -1453,7 +1453,7 @@ router.delete("/users/:id/mails/sent/:mailId" ,(req ,res)=>{
 });
 
 //delete received mail
-router.delete("/users/:id/mails/received/:mailId" ,(req ,res)=>{
+router.delete("/users/:id/mails/received/:mailId" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         var index = user.receivedMails.indexOf(req.params.mailId);
@@ -1539,7 +1539,7 @@ router.delete("/users/:id/mails/received/:mailId" ,(req ,res)=>{
 });
 
 //delete sent mail reply
-router.delete("/users/:id/mails/sent/:mailId/replies/:replyId" ,(req ,res)=>{
+router.delete("/users/:id/mails/sent/:mailId/replies/:replyId" ,middleware.checkOwnership,(req ,res)=>{
     Mail.findById(req.params.replyId ,(err ,mail)=>{
         if(err){throw err;}
         var index = mail.usersThatDidNotDelete.indexOf(req.params.id);
@@ -1581,7 +1581,7 @@ router.delete("/users/:id/mails/sent/:mailId/replies/:replyId" ,(req ,res)=>{
 
 
 //delete received mail reply
-router.delete("/users/:id/mails/received/:mailId/replies/:replyId" ,(req ,res)=>{
+router.delete("/users/:id/mails/received/:mailId/replies/:replyId" ,middleware.checkOwnership,(req ,res)=>{
     Mail.findById(req.params.replyId ,(err ,mail)=>{
         if(err){throw err;}
         var index = mail.usersThatDidNotDelete.indexOf(req.params.id);

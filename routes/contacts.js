@@ -7,10 +7,11 @@ const Tree = require('../modules/projectTree');
 const Mail = require('../modules/mail');
 const Message = require('../modules/message');
 const mongoose = require('mongoose');
+var middleware = require("../middleware");
 
 
 //show the user's contact list
-router.get("/users/:id/contacts" ,(req ,res)=>{
+router.get("/users/:id/contacts" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,'-events -unit').populate({
         path: 'contacts',
         select: '-events -sentProjects -area -office -tags -firstName -lastName -isLoggedUser -receivedProjects -assignedProjects -sentMails -receivedMails -contacts -unit'
@@ -87,7 +88,7 @@ router.get("/users/:id/contacts" ,(req ,res)=>{
 });
 
 //add new contact
-router.post("/users/:id/contacts" ,(req ,res)=>{
+router.post("/users/:id/contacts" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         User.findById(req.body.newContactId ,(err ,newContact)=>{
@@ -101,7 +102,7 @@ router.post("/users/:id/contacts" ,(req ,res)=>{
 });
 
 //delete a contact
-router.delete("/users/:id/contacts/:contactId" ,(req ,res)=>{
+router.delete("/users/:id/contacts/:contactId" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         const index = user.contacts.indexOf(req.params.contactId);
@@ -117,7 +118,7 @@ router.delete("/users/:id/contacts/:contactId" ,(req ,res)=>{
 
 
 //show chat
-router.get("/users/:id/contacts/:cnctId/chat" ,(req ,res)=>{
+router.get("/users/:id/contacts/:cnctId/chat" ,middleware.checkOwnership,(req ,res)=>{
     // {
     //     path: 'sentMessages'
     // },{

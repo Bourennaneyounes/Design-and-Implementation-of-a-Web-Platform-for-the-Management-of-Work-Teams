@@ -60,7 +60,7 @@
     <div id="receivedMailsContainer">
       <div id="mailsList" class="container scrollDiv p-4">
         <%receivedMails.forEach(function(receivedMail){%>
-          <div onclick='location.href="/users/<%= user._id%>/mails/received/<%= receivedMail._id%>/content"' class="hoverableDiv row d-flex py-2 px-5 m-2">
+          <div onclick='location.href="/users/<%= user._id%>/mails/received/<%= receivedMail._id%>/content"' class="hoverableDiv row d-flex py-2 px-5 m-4 ">
             <div class="column col-5 d-flex align-items-center px-0">
               <span class="bitraf mr-2" style="font-size: 1.5em;">
                 <%if(receivedMail.read == false){%>

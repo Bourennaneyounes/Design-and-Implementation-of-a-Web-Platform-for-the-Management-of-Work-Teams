@@ -3,16 +3,36 @@
   <a id="calendarBtn" class="active item" href="/users/<%= user._id%>/events/calendar">
     <span class="sentReceivedSpan">Calendar</span>
   </a>
+  <%if(user.parentId===null){%>
+    <%if(currentUser && user._id.equals(currentUser._id)){%>
   <a id="plannedEventsBtn" class="item" href="/users/<%= user._id%>/events/planned">
     <span class="sentReceivedSpan">Planned Events</span>
   </a>
+  <%}%>
+    <%}else{%>
+      <%if((currentUser && user._id.equals(currentUser._id))||(user.parentId.equals(currentUser._id))){%>
+        <a id="plannedEventsBtn" class="item" href="/users/<%= user._id%>/events/planned">
+          <span class="sentReceivedSpan">Planned Events</span>
+        <%}%>
+        <%}%>
 </div>
 <p id="events" style="color: rgb(0, 0, 0, 0); font-size: 0px; display: none;"><%= JSON.stringify(events)%></p>
 <div class="container mb-2 mt-3 px-5">
+  <%if(user.parentId===null){%>
+    <%if(currentUser && user._id.equals(currentUser._id)){%>
+      <form action="/users/<%= user._id%>/events/new" method="get">
+        <input type="text" name="addTo" value="self&others" class="d-none">
+        <button id="newEvtBtn" class="d-block standardBtnStyle mt-2 mb-3" style="padding: 7px; width: 100%;">Plan new Event</button>
+      </form>
+      <%}%>
+    <%}else{%>
+  <%if((currentUser && user._id.equals(currentUser._id))||(user.parentId.equals(currentUser._id))){%>
   <form action="/users/<%= user._id%>/events/new" method="get">
     <input type="text" name="addTo" value="self&others" class="d-none">
     <button id="newEvtBtn" class="d-block standardBtnStyle mt-2 mb-3" style="padding: 7px; width: 100%;">Plan new Event</button>
   </form>
+  <%}%>
+  <%}%>
 </div>
 <div id='calendar'></div>
 

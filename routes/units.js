@@ -7,7 +7,7 @@ var middleware = require("../middleware");
 
 /// templete to add untis
 ////////////////////////////////////////////
-router.get("/user/:id/units/new" ,middleware.isLoggedIn,(req ,res)=>{
+router.get("/user/:id/units/new" ,middleware.checkAdminOwnership,(req ,res)=>{
     
     User.findById(req.params.id,function(err,foundUser){
         if(err){
@@ -21,9 +21,9 @@ router.get("/user/:id/units/new" ,middleware.isLoggedIn,(req ,res)=>{
 
 ////// templete gere units
 ////////////////////////////////
-router.get("/users/:userId/units" ,middleware.isLoggedIn,(req ,res)=>{
+router.get("/users/:id/units" ,middleware.checkAdminOwnership,(req ,res)=>{
     
-    User.findById(req.params.userId,function(err,user){
+    User.findById(req.params.id,function(err,user){
       if(err){
         console.log(err);
       }else{
@@ -48,7 +48,7 @@ router.get("/users/:userId/units" ,middleware.isLoggedIn,(req ,res)=>{
 
 
 //////////// logic add units
-router.post("/user/:id/units" ,middleware.isLoggedIn,(req ,res)=>{
+router.post("/user/:id/units" ,middleware.checkAdminOwnership,(req ,res)=>{
     User.findById(req.params.id,function(err,foundUser){
         if(err){
             console.log(err);
@@ -77,13 +77,13 @@ router.post("/user/:id/units" ,middleware.isLoggedIn,(req ,res)=>{
 /////////////////////////
 
 ////////show templete units settings
-router.get("/users/:userId/units/:unitId/settings" ,middleware.isLoggedIn,(req ,res)=>{
+router.get("/users/:id/units/:unitId/settings" ,middleware.checkAdminOwnership,(req ,res)=>{
     
     User.find(function(err,users){
       if(err){
         console.log(err);
       }else{
-        User.findById(req.params.userId,function(err,user){
+        User.findById(req.params.id,function(err,user){
             if(err){
                     console.log(err);
             }else{
@@ -125,7 +125,7 @@ router.get("/users/:userId/units/:unitId/settings" ,middleware.isLoggedIn,(req ,
    
 });
 ////////logic units settings
-router.post("/users/:userId/units/:unitId" ,middleware.isLoggedIn,(req ,res)=>{
+router.post("/users/:id/units/:unitId" ,middleware.checkAdminOwnership,(req ,res)=>{
     
     
     User.find(function(err,users){
@@ -140,7 +140,7 @@ router.post("/users/:userId/units/:unitId" ,middleware.isLoggedIn,(req ,res)=>{
               unit.userList.splice(0,unit.userList.length);
                            
               console.log(req.body.unitE);
-              
+              console.log(req.body.currentHead);
               if(req.body.currentHead!=null){
                 User.findById(req.body.currentHead,function(err,user){
                   if(err){
@@ -152,6 +152,7 @@ router.post("/users/:userId/units/:unitId" ,middleware.isLoggedIn,(req ,res)=>{
                 })
                 
                   unit.currentHead = req.body.currentHead;
+                  unit.userList.push(req.body.currentHead);
                   unit.save()
               }else{
                 unit.save()
@@ -302,7 +303,7 @@ router.post("/users/:userId/units/:unitId" ,middleware.isLoggedIn,(req ,res)=>{
                 //}
                 
                
-              res.redirect("/users/"+req.params.userId+"/units");
+              res.redirect("/users/"+req.params.id+"/units");
             }
         })
        
@@ -310,6 +311,50 @@ router.post("/users/:userId/units/:unitId" ,middleware.isLoggedIn,(req ,res)=>{
     });
    
 });
+ ///////// delete unit
+router.delete("/users/:id/units/:unitId/delete" ,middleware.checkAdminOwnership,(req ,res)=>{
+  User.find((err ,users)=>{
+      if(err){
+        throw err;
+      }else{
+        Unit.findById(req.params.unitId ,(err ,unit)=>{
+          if(err){
+            throw err;
+          }else{
+              users.forEach(user=>{
+                if(unit._id.equals(user.unit)){
+                  User.findById(user.id,function(err,userFound){
+                    if(err){
+                      console.log(err);
+                    }else{
+                      userFound.unit=null;
+                      userFound.save();
+                    }
+                  })
+                }
+              })
+            Unit.findByIdAndRemove(req.params.unitId ,(err)=>{
+              if(err){
+                throw err;
+              }else{
+                res.redirect("/users/"+req.params.id+"/units");
+              }
+              
+          });
+          }
+      })
+      
+      }
+    });
+  })
+      
+                          
+              
+              
+          
+      
+  
+
 
 
 module.exports = router;

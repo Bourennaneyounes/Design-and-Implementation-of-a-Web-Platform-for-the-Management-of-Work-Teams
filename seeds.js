@@ -1,12 +1,21 @@
 const mongoose = require("mongoose");
 const Unit = require("./modules/unit");
 const User = require("./modules/user");
+const Project = require("./modules/project");
+const Tree = require("./modules/projectTree");
 
 function seed(){
 
     Unit.deleteMany({} ,function(err ,result){
         if(err){throw err}
     });
+    Project.deleteMany({} ,function(err ,result){
+        if(err){throw err}
+    });
+    Tree.deleteMany({} ,function(err ,result){
+        if(err){throw err}
+    });
+    
     User.deleteMany({} ,function(err ,result){
         if(err){throw err}
     });

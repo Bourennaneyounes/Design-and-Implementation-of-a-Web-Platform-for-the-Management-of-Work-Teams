@@ -13,7 +13,8 @@ var middleware = require("../middleware");
 
 
 //show the user's calendar
-router.get("/users/:id/events/calendar" ,(req ,res)=>{
+router.get("/users/:id/events/calendar" ,middleware.isLoggedIn,(req ,res)=>{
+    
     User.findById(req.params.id).populate('events assignedProjects').exec((err ,user)=>{
         if(err){throw err;}
         else{
@@ -57,6 +58,7 @@ router.get("/users/:id/events/calendar" ,(req ,res)=>{
                         }
                         events.push(event);
                     });
+                    
                     res.render("users/calendar" ,{user: user ,events: events});
                 });
             });
@@ -65,7 +67,7 @@ router.get("/users/:id/events/calendar" ,(req ,res)=>{
 });
 
 //show the user's planned events
-router.get("/users/:id/events/planned" ,(req ,res)=>{
+router.get("/users/:id/events/planned" ,middleware.checkOwnerAndParentship,(req ,res)=>{
     User.findById(req.params.id,(err ,user)=>{
         if(err){throw err;}
         Event.find({planner: req.params.id}).populate({
@@ -85,7 +87,7 @@ router.get("/users/:id/events/planned" ,(req ,res)=>{
 });
 
 //shows the templet of adding an event to the calendar
-router.get("/users/:id/events/new" ,middleware.checkOwnership,(req ,res)=>{
+router.get("/users/:id/events/new" ,middleware.checkOwnerAndParentship,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -123,7 +125,7 @@ router.get("/users/:id/events/new" ,middleware.checkOwnership,(req ,res)=>{
 
 
 //adding a new event to the calendar
-router.post("/users/:id/events" ,(req ,res)=>{
+router.post("/users/:id/events" ,middleware.checkOwnerAndParentship,(req ,res)=>{
     var io = req.app.get('io');
     User.findById(req.params.id ,(err ,planner) => {
         if(err){throw err;}
@@ -197,7 +199,7 @@ router.post("/users/:id/events" ,(req ,res)=>{
     });
 });
 
-router.post("/users/:id/events/:evtId/rePlan" ,(req ,res)=>{
+router.post("/users/:id/events/:evtId/rePlan" ,middleware.checkOwnerAndParentship,(req ,res)=>{
     var io = req.app.get('io');
     User.findById(req.params.id ,(err ,planner) => {
         if(err){throw err;}
@@ -263,7 +265,7 @@ router.post("/users/:id/events/:evtId/rePlan" ,(req ,res)=>{
 
 
 //show a specific event
-router.get("/users/:id/events/:evtId" ,(req ,res)=>{
+router.get("/users/:id/events/:evtId" ,middleware.checkOwnerAndParentship,(req ,res)=>{
     User.findById(req.params.id ,(err , user)=>{
         if(err){throw err}
         Event.findById(req.params.evtId).populate([{
@@ -336,7 +338,7 @@ router.get("/users/:id/events/:evtId" ,(req ,res)=>{
 });
 
 //shows the templet of updating a specific event
-router.get("/users/:id/events/:evtId/edit" ,(req ,res)=>{
+router.get("/users/:id/events/:evtId/edit" ,middleware.checkOwnerAndParentship,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err}
         Event.findById(req.params.evtId ,(err ,myEvent)=>{
@@ -348,7 +350,7 @@ router.get("/users/:id/events/:evtId/edit" ,(req ,res)=>{
 
 
 //updating a specific event
-router.put("/users/:id/events/:evtId" ,(req ,res)=>{
+router.put("/users/:id/events/:evtId" ,middleware.checkOwnerAndParentship,(req ,res)=>{
     var io = req.app.get('io');
     Event.findById(req.params.evtId ,(err ,event)=>{
         if(err){throw err}
@@ -407,7 +409,7 @@ router.put("/users/:id/events/:evtId" ,(req ,res)=>{
 });
 
 //deleting a specific event
-router.delete("/users/:id/events/:evtId" ,(req ,res)=>{
+router.delete("/users/:id/events/:evtId" ,middleware.checkOwnerAndParentship,(req ,res)=>{
     var io = req.app.get('io');
     Event.findById(req.params.evtId ,(err ,event) => {
         if(err){throw err;}

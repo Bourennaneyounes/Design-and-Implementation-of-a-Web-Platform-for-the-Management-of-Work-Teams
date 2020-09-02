@@ -1,7 +1,10 @@
 <%- include('../partials/profilHeader.ejs')%>
 
 
-<body>
+<!-- <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> -->
+<link href="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css" rel="stylesheet" type="text/css" />
+
+<script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
  <!--<style type="text/css">
     .thumb-image{
      float:left;width:100px;
@@ -50,6 +53,9 @@
         
         $("#input-postal-code").toggleClass("readonly");
         $("#input-postal-code-afficher").toggleClass("readonly");
+        ////////////////////////////////////////
+        $("#example2").toggleClass("readonly");
+        $("#input-dateN-afficher").toggleClass("readonly");
         ////////////////////////////////////////
 
         $("#btnSave").toggleClass("readonly");
@@ -118,7 +124,7 @@
     <!-- Top navbar -->
     
     <!-- Header -->
-    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(https://t8f8b3g9.stackpathcdn.com/wp-content/uploads/2020/04/Why-team-work-matter-most-in-project-management.png); background-size: cover; background-position: center top;">
       <!-- Mask -->
       <span class="mask bg-gradient-default opacity-8"></span>
       <!-- Header container -->
@@ -134,8 +140,8 @@
             <a href="/users/<%=currentUser._id%>/profil/settings" class="btn btn-info mb-5" >Settings</a>
             <%}%>
             <%if(currentUser && user._id.equals(currentUser._id) && currentUser.admin===true){%>
-            <a href="/users/<%= currentUser._id%>/units" class="btn btn-info mb-5">Gestion Units</a>
-            <a href="/users/<%= currentUser._id%>/profil/gestionUsers" class="btn btn-info">Gestion Users</a>
+            <a href="/users/<%= currentUser._id%>/units" class="btn btn-info mb-5">Units Manegement</a>
+            <a href="/users/<%= currentUser._id%>/profil/gestionUsers" class="btn btn-info">Users Manegement</a>
             <%}%>
           </div>
         </div>
@@ -151,9 +157,10 @@
                 <div class="card-profile-image">
                   <div id="image-holder">
                   <a href="#">
-                    <img src="C:\Users\younes\Desktop\<%=currentUser.image%>"  class="rounded-circle">
+                    <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQMDZH1hAZTs5H364fQPBj33spP6P8mi_CkfmHKcOUYArZ3LYTt">
                     
                   </a>
+                 
                 </div>
                 </div>
               </div>
@@ -165,7 +172,7 @@
                       <div id="wrapper" style="margin-top: 20px;">
                       <input type="button" class="btn btn-sm btn-info mr-4" onclick="document.getElementById('fileUpload').click()" value="Change Picture">  
                         <input id="fileUpload" class="btn btn-sm btn-info mr-4 d-none" multiple="multiple" name="imgUrl" type="file"/> 
-                        <button type="submit" class="btn btn-sm btn-info mr-4 float-right">Save Image</button>
+                        <button type="submit" class="btn btn-sm btn-info mr-4 float-right" style="margin-left: 217px;">Save Image</button>
                         
                         </div>
                         
@@ -178,7 +185,7 @@
                 <%}else{%> 
                       <%if(currentUser.contacts.includes(user._id)){%>
                        <form action="/users/<%= currentUser._id%>/contacts/<%= user._id %>?_method=DELETE" method="post">
-                        <button type="submit" class="btn btn-sm btn-info mr-4">Delate Contact</button>
+                        <button type="submit" class="btn btn-sm btn-info mr-4">Delete Contact</button>
                       </form>
                       <%}else{%>
                     <form action="/users/<%=currentUser._id%>/contacts" method="POST">
@@ -202,17 +209,23 @@
               </div>
               <div class="text-center">
                 <h3>
-                  <%=user.name%><span class="font-weight-light">, 27</span>
+                  <%    function getAge(date) { 
+                    var diff = Date.now() - date.getTime();
+                    var age = new Date(diff); 
+                    return Math.abs(age.getUTCFullYear() - 1970);
+                }
+                %>
+                  <%=user.name%><span class="font-weight-light"> ,<%=getAge(new Date(user.dateNaissance))%> age</span>
                 </h3>
-                <div class="h5 font-weight-300">
+                <div class="h3 font-weight-300">
                   <i class="ni location_pin mr-2"></i><%=user.city%>, <%=user.country%>
                 </div>
-                <div class="h5 mt-4">
+                <div class="h3 mt-4">
                   <i class="ni business_briefcase-24 mr-2"></i><%=user.title%> - <%=user.position%>
                 </div>
-                <div>
+                <!-- <div>
                   <i class="ni education_hat mr-2"></i>University of Computer Science
-                </div>
+                </div> -->
                 
               </div>
             </div>
@@ -299,6 +312,36 @@
                         <input type="text" id="input-city" name="city" class="form-control form-control-alternative readonly" placeholder="City" value="<%=user.city%>">
                       </div>
                     </div>
+                    <!--//////////////////////////////////////////////////////-->
+                    <!--<div class="row">
+                      <div class="col-lg-12">
+                        <div class="form-group focused">
+                          <label class="form-control-label" for="input-city">Date de Naissance</label>
+                          <input type="date" id="input-dateN-afficher" class="form-control form-control-alternative" placeholder="jj/mm/aaaa" value="<%=user.dateNaissance%>" readonly>
+                          <input type="text" id="input-dateN" name="city" class="form-control form-control-alternative readonly" placeholder="jj/mm/aaaa" value="<%=user.dateNaissance%>">
+                        </div>
+                      </div>
+                    </div>-->
+                    
+                    
+                      <div class="col-lg-4" >
+                        <div class="form-group focused">
+                          <label class="form-control-label" for="input-city">Date de Naissance</label>
+                          <i class="calendar icon"></i>
+                          <input type="text" id="input-dateN-afficher" class="form-control form-control-alternative" placeholder="jj/mm/aaaa" value="<%=user.dateNaissance%>" readonly>
+                      <div class="ui calendar readonly" id="example2">
+                        <div class="ui input left icon ">
+                          <i class="calendar icon"></i>
+                          <input type="text" id="input-dateN" name="dateN" class="form-control form-control-alternative " placeholder="<%=user.dateNaissance%>" value="<%=user.dateNaissance%>">
+                        </div> 
+                        </div>
+                      </div>
+                    </div>
+                      
+                      </div>
+                    
+                      
+                    <!--////////////////////////////////////////////////-->
                     <div class="col-lg-4">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-country">Country</label>
@@ -333,6 +376,10 @@
     </div>
   </div>
   
-</body>
+<script>
+  $('#example2').calendar({
+  type: 'date'
+});
+</script>
 
 <%- include('../partials/profilFooter')%>

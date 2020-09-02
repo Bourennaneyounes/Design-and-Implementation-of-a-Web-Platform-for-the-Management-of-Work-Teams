@@ -2079,14 +2079,43 @@ p {
 }
          </style>
          <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-    </head>
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/icon.min.css" integrity="sha512-8Tb+T7SKUFQWOPIQCaLDWWe1K/SY8hvHl7brOH8Nz5z1VT8fnf8B+9neoUzmFY3OzkWMMs3OjrwZALgB1oXFBg==" crossorigin="anonymous" />
+    <!--orgchart head-->
+
+    <!--orgchert head fin-->
+    <style>
+      .top.ui.menu {
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2)
+}
+
+.top.ui.menu .item {
+  padding: 20px;
+}
+
+.top.ui.secondary.menu .dropdown.item:hover, .top.ui.secondary.menu .link.item:hover, .top.ui.secondary.menu a.item:hover {
+  background: none;
+}
+
+.ui.sidebar ~ .fixed, .ui.sidebar ~ .pusher {
+  width: 100%;
+}
+
+.ui.visible.left.sidebar ~ .fixed, .ui.visible.left.sidebar ~ .pusher {
+  width: calc(100% - 260px);
+}
+
+.pushable > .pusher {
+  transition: transform 500ms ease, width 800ms ease;
+}
+    </style>
+        </head>
 <body>
  
     <!-- user basic infos -->
     <input type="hidden"  id="userId" value="<%= user._id%>" style="background-color: chartreuse;">
     <input type="hidden"  id="userImg" value="<%= user.imageUrl%>" style="background-color: chartreuse;">
     <input type="hidden"  id="username" value="<%= user.username%>" style="background-color: chartreuse;">
-    <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0">
+  <!--   <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0">
       <div class="container">
           <a id="navBrand" href="" class="navbar-brand">Brand</a>
           <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
@@ -2261,15 +2290,15 @@ p {
                </ul>
             </div>
       </div>
-  </nav>
+  </nav> -->
    
     <!-- ///////////////////////////////////////// version 1 //////////////////////////////////////////////////////////////////// -->
    
-  <div class="container my-5">
-        <div class="ui grid"> 
+  <!-- <div class="container my-5">
+        <div class="ui grid">  -->
 
             <!-- MENU -->
-            <div class="three wide column p-0">
+           <!--  <div class="three wide column p-0">
               <div id="menu" class="ui vertical fluid tabular menu">
                 <a id="showProfil" class="item menuItem" href="/users/<%= user._id%>/profil">
                     Profil
@@ -2297,24 +2326,26 @@ p {
                 </a>
                 <%}%>
               </div>
-            </div>
+            </div> -->
           
             <!-- CONTENTS -->
            
-              <div id="thirteen" class="thirteen wide stretched column p-0" >
-                 <div id="contentContainer" class="ui segment m-0"> 
+              <!-- <div id="thirteen" class="thirteen wide stretched column p-0" >
+                 <div id="contentContainer" class="ui segment m-0">  -->
            
 
       <!--////////////////////////////// fin version 1   //////////////////////////////////////////////////////////////////////  -->
 
       <!-- ///////////////////////////////// vesrion 2 //////////////////////////////////////////////////////////////////////-->
-     <!--
+     
 
-      <div class="ui grid " >
+      <!-- <div class="ui grid " >
         <div class="sixteen wide column pb-0">
+          
           <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0">
             <div class="container">
                 <a id="navBrand" href="" class="navbar-brand">Brand</a>
+                
                 <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
                 <span><i class="fas fa-angle-double-down"></i></span>
                 </button>
@@ -2490,170 +2521,134 @@ p {
         </nav>
     
         </div>
+        
         <div class="two wide column pt-0 pb-0" style="margin-right: 2px;">
-          <div class="ui vertical inverted menu" style="height: 100%;">
-
-            <div class="item">
-              <a class="ui logo icon image" href="/">
-                <img src="/images/logo.png">
-              </a>
-              <a href="/"><b>UI Docs</b></a>
-            </div>
-            <a class="item" href="/introduction/getting-started.html">
-              <b>Getting Started</b>
-            </a>
-            <a class="item" href="/introduction/new.html">
-              <b>New in 2.4</b>
-            </a>
-            <div class="item">
-              <div class="header">Introduction</div>
-              <div class="menu">
-                
-                  <a class="item" href="/introduction/integrations.html">
-                    Integrations
-                  </a>
-                
-                  <a class="item" href="/introduction/build-tools.html">
-                    Build Tools
-                  </a>
-                
-              
-                
-              </div>
-            </div>
-            <div class="item">
-              <div class="header">Usage</div>
-              <div class="menu">
-                
-                  <a class="item" href="/usage/theming.html">
-                    Theming
-                  </a>
-                
-                  <a class="item" href="/usage/layout.html">
-                    Layouts
-                  </a>
-                
-              </div>
-            </div>
-            <div class="item">
-              <div class=" header">Globals</div>
-              <div class="menu">
-                
-                  <a class="item" href="/globals/reset.html">
-                    Reset
-                    
-                  </a>
-                
-                  <a class="item" href="/globals/site.html">
-                    Site
-                    
-                  </a>
-                
-              </div>
-            </div>
-            <div class="item">
-              <div class="active  header">Elements</div>
-              <div class="menu">
-                
-                  <a class="item" href="/elements/button.html">
-                    Button
-                    
-                  </a>
-                
-                  <a class="item" href="/elements/container.html">
-                    Container
-                    
-                  </a>
-                
-                 
-                 
-                
-              </div>
-            </div>
-            <div class="item">
-              <div class=" header">Collections</div>
-              <div class="menu">
-                
-                  <a class="item" href="/collections/breadcrumb.html">
-                    Breadcrumb
-                    
-                  </a>
-                
-                  <a class="item" href="/collections/form.html">
-                    Form
-                    
-                  </a>
-                
-                  <a class="item" href="/collections/grid.html">
-                    Grid
-                    
-                  </a>
-                
-                 
-                
-              </div>
-            </div>
-            <div class="item">
-              <div class=" header">Views</div>
-              <div class="menu">
-                
-                  <a class="item" href="/views/advertisement.html">
-                    Advertisement
-                    
-                  </a>
-                
-                  <a class="item" href="/views/card.html">
-                    Card
-                    
-                  </a>
+          
          
-                
-              </div>
-            </div>
-            <div class="item">
-              <div class=" header">Modules</div>
-              <div class="menu">
-                
-                  <a class="item" href="/modules/accordion.html">
-                    Accordion
-                    
-                  </a>
-              
-                  <a class="item" href="/modules/checkbox.html">
-                    Checkbox
-                    
-                  </a>
-              
-                  <a class="item" href="/modules/dimmer.html">
-                    Dimmer
-                    
-                  </a>
-              
+          <div class="ui left vertical inverted menu" style="height: 100%;">
            
+              <div class="item">
               
+                <a ><b>Society Name</b></a>
+                
+              </div>
+            
+           
+            
+            <a class="item " href="/orgchart/<%= currentUser._id%>">
+              <b>Organigram</b>
+            </a>
+           
+            <div class="item">
+              <div class="header">
+                
+                  Profil
+                
+              </div>
+              <div class="menu" id="showProfil">
+                <a  class="item" href="/users/<%= user._id%>/profil">
+                  Show Profil
+                </a>
+                  <a class="item" href="/users/<%= currentUser._id%>/units">
+                    Units Management
+                  </a>
+                
+                  <a class="item" href="/users/<%= currentUser._id%>/profil/gestionUsers">
+                    Users Management
+                  </a>
+                
               </div>
             </div>
             <div class="item">
-              <div class=" header">Behaviors</div>
-              <div class="menu">
+              <div class=" header">
                 
-                  <a class="item" href="/behaviors/api.html">
-                    API
-                    
-                  </a>
+                Contacts
+
+              </div>
+              <div class="menu" id="showContacts">
                 
-                  <a class="item" href="/behaviors/form.html">
-                    Form Validation
-                    
-                  </a>
-                
-                  <a class="item" href="/behaviors/visibility.html">
-                    Visibility
+                  <a class="item"  href="/users/<%= user._id%>/contacts">
+                    show Contacts
                     
                   </a>
                 
               </div>
             </div>
+            <div class="item">
+              <div class="header">
+                
+                  Calendar
+              </div>
+              <div class="menu" id="showCalendar">
+                
+                  <a class="item"   href="/users/<%= user._id%>/events/calendar">
+                   Show Calendar
+                    
+                  </a>
+                
+                  <a class="item"  href="/users/<%= user._id%>/events/planned">
+                    Planned Events
+                    
+                  </a>
+                
+              </div>
+            </div>
+            <div class="item">
+              <div class=" header" id="showProjects" >
+
+                  Tasks
+              
+              </div>
+              <div class="menu">
+                
+                  <a class="item" href="/users/<%= user._id%>/projects/received">
+                    Received Tasks
+                    
+                  </a>
+                
+                  <a class="item" href="/users/<%= user._id%>/projects/assigned">
+                    Assigned Tasks
+                    
+                  </a>
+                
+                  <a class="item" href="/users/<%= user._id%>/projects/sent">
+                    Sented Tasks 
+                    
+                  </a>
+                  <a class="item" href="/users/<%= user._id%>/projects/new">
+                    Sent New Tasks 
+                    
+                  </a>
+                
+                 
+                
+              </div>
+            </div>
+            <div class="item">
+              <div class=" header" id="showMails">
+                  Mails
+              
+              </div>
+              <div class="menu">
+                
+                  <a class="item" href="/users/<%= user._id%>/mails/received">
+                    Received Mails
+                    
+                  </a>
+                
+                  <a class="item" href="/users/<%= user._id%>/mails/sent">
+                    Sented Mails
+                    
+                  </a>
+                  <a class="item" href="/users/<%= user._id%>/mails/sent/new">
+                    Sent New Mail
+                    
+                  </a>
+                
+              </div>
+            </div>
+            
+            
             
                     </div>
         </div>
@@ -2668,11 +2663,373 @@ p {
 }
         </style>
         <div class="fourteen wide column p-0 ml-4" >
-          <div id="thirteen" class="thirteen wide stretched column p-0" >
+          <div id="thirteen" class="thirteen wide stretched column p-0 pusher" >
+            
+              
             <div id="contentContainer" class="ui segment m-0 p-0" style="border: 0px"> 
-       
-      -->
+        -->
+      
       
       
       
       <!--//////////////////////////////// fin version 2///////////////////////////////////////////////////////////////////////-->
+
+      <!--////////////////////////////////  version 3///////////////////////////////////////////////////////////////////////-->
+      <nav id="mainNavbar" class="navbar navbar-dark navbar-expand-sm py-0">
+        <div class="container">
+            <a id="navBrand" href="/" class="navbar-brand">Society Name</a>
+            
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
+            <span><i class="fas fa-angle-double-down"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <div class="dropdown my-0 py-0">
+                        <button class="dropbtn my-1 ml-3">Units</button>
+                        <div class="dropdown-content">
+                            <a class="dropdown-item" href="/orgchart/<%= currentUser._id%>">All Units</a>
+                            <% units.forEach(function(unit){ %>
+                              <a class="dropdown-item" href="/orgchart/<%= currentUser._id%>/units/<%= unit._id%>"><%= unit.value%></a>
+                            <% }) %>
+                        </div>
+                      </div>
+                 </ul>
+                 <ul class="navbar-nav navbar-right">
+                       <li class="nav-item mr-3">
+                        <!-- <a class="nav-link" href="#"><i class="fa fa-user" aria-hidden="true"></i> Profil</a> -->
+                       </li>
+                       <%if(!currentUser){%>
+                       <li class="nav-item">
+                        <a class="nav-link" href="register">Sign In</a>
+                       </li>
+                       
+                       <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                       </li>
+                    <%}else{%>
+                       <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                       </li>
+                       <%}%>
+                    <li class="nav-item mr-3">
+                     <a class="nav-link" href="/users/<%= currentUser._id%>/profil"><i class="fa fa-user" aria-hidden="true"></i>Profil</a>
+                    </li>
+                    <li class="nav-item mr-3">
+                        <div id="msgNotificationsDropdown" class="notificationDropdown my-0 py-0">
+                            <a class="nav-link"><i class="fas fa-comments"></i></a>
+                            <div class="floating ui red label" style="top: 0em;">
+                                <span id="msgNotifsCount">
+                                    <%if(currentUser.messageNotifications.count > 0){%>
+                                        <%=currentUser.messageNotifications.count%>
+                                    <%}%>
+                                </span>
+                            </div>
+                            <div id="msgNotificationsContent" class="notificationDropdownContent">
+                                <%if(currentUser.messageNotifications.array.length > 0){%>
+                                    <%currentUser.messageNotifications.array.forEach(function(notification){%>
+                                        <%if(notification.count > 1){%>
+                                            <a href="/users/<%=currentUser._id%>/contacts/<%=notification.senderId%>/chat"><strong class="bitraf mr-2"><i class="far fa-comment"></i></strong>You have received <strong class="bitraf" msgfrom="<%=notification.senderId%>"><%=notification.count%></strong> new private messages from <strong class="bitraf"><%=notification.senderUsername%></strong>.</a>
+                                        <%}else{%>
+                                            <a href="/users/<%=currentUser._id%>/contacts/<%=notification.senderId%>/chat"><strong class="bitraf mr-2"><i class="far fa-comment"></i></strong>You have received <strong class="bitraf" msgfrom="<%=notification.senderId%>">1</strong> new private message from <strong class="bitraf"><%=notification.senderUsername%></strong>.</a>
+                                        <%}%>
+                                    <%});%>
+                                <%}else{%>
+                                    <div id="msgEmptyNotifications" class="emptyNotifications">
+                                        <span class="bitraf">Empty</span>
+                                    </div>
+                                <%}%>
+                            </div>
+                        </div>
+                    </li>   
+                    <li class="nav-item mr-3">
+                        <div id="mailNotificationsDropdown" class="notificationDropdown my-0 py-0">
+                            <a class="nav-link"><i class="fas fa-envelope"></i></a>
+                            <div class="floating ui red label" style="top: 0em;">
+                                <span id="mailNotifsCount">
+                                    <%if(currentUser.mailNotifications.count > 0){%>
+                                        <%=currentUser.mailNotifications.count%>
+                                    <%}%>
+                                </span>
+                            </div>
+                            <div id="mailNotificationsContent" class="notificationDropdownContent">
+                                <%if(currentUser.mailNotifications.array.length > 0){%>
+                                    <%currentUser.mailNotifications.array.forEach(function(notification){%>
+                                        <%if(notification.notifType == 'newMail'){%>
+                                            <%if(notification.count > 1){%>
+                                                <a href="/users/<%=currentUser._id%>/mails/received"><strong class="bitraf mr-2"><i class="far fa-envelope"></i></strong>You have received <strong class="bitraf" mailfrom="<%=notification.senderId%>"><%=notification.count%></strong> new mails from <strong class="bitraf"><%=notification.senderUsername%></strong>.</a>
+                                            <%}else{%>
+                                                <a href="/users/<%=currentUser._id%>/mails/received/<%=notification.mailId%>/content"><strong class="bitraf mr-2"><i class="far fa-envelope"></i></strong>You have received <strong class="bitraf" mailfrom="<%=notification.senderId%>">1</strong> new mail from <strong class="bitraf"><%=notification.senderUsername%></strong>.</a>
+                                            <%}%>
+                                        <%}else if(notification.notifType == 'newReply'){%>
+                                            <%if(notification.parentMailSender == user._id){%>
+                                                <a href="/users/<%=currentUser._id%>/mails/received/<%=notification.replyId%>/content"><strong class="bitraf mr-2"><i class="far fa-envelope"></i></strong><strong class="bitraf"><%=notification.senderUsername%></strong> has replied to the sent mail <strong class="bitraf">"<%=notification.parentMailTitle%>"</strong>.</a>
+                                            <%}else{%>
+                                                <a href="/users/<%=currentUser._id%>/mails/received/<%=notification.replyId%>/content"><strong class="bitraf mr-2"><i class="far fa-envelope"></i></strong><strong class="bitraf"><%=notification.senderUsername%></strong> has replied to the received mail <strong class="bitraf">"<%=notification.parentMailTitle%>"</strong>.</a>
+                                            <%}%>
+                                        <%}else if(notification.notifType == 'mailSendFailed'){%>
+                                            <%if(notification.senderId == user._id){%>
+                                                <a><span class="bitraf mr-2"><i class="fas fa-exclamation-triangle"></i></span><strong class="bitraf"><%= notification.userThatDidNotReceiveUsername%></strong> was not able to receive your mail <strong class="bitraf">"<%= notification.mailTitle%>"</strong> due to his full storage.</a>
+                                            <%}else{%>
+                                                <a href="/users/<%=currentUser._id%>/mails/received"><span class="bitraf mr-2"><i class="fas fa-exclamation-triangle"></i></span> you were not able to receive a mail from <strong class="bitraf"><%=notification.senderUsername%></strong> at <strong class="bitraf">"<%=notification.at%>"</strong> due to your full storage.</a>
+                                            <%}%>
+                                        <%}else if(notification.notifType == 'notAbleToSendMailCuzFullSentMailsStorage'){%>
+                                            <a href="/users/<%=currentUser._id%>/mails/sent"><span class="bitraf mr-2"><i class="fas fa-exclamation-triangle"></i></span> the mail <strong class="bitraf">"<%=notification.mailTitle%>"</strong> was not send due to your full sent mails storage.</a>
+                                        <%}else if(notification.notifType == 'almostFullReceivedMailsStorage'){%>
+                                            <a href="/users/<%=currentUser._id%>/mails/received"><span class="bitraf mr-2"><i class="fas fa-exclamation-triangle"></i></span> your received mails storage is almost full ,their is a risk of not being able to receive large mails in the future.</a>
+                                        <%}else if(notification.notifType == 'almostFullSentMailsStorage'){%>
+                                            <a href="/users/<%=currentUser._id%>/mails/sent"><span class="bitraf mr-2"><i class="fas fa-exclamation-triangle"></i></span> your sent mails storage is almost full ,their is a risk of not being able to send large mails in the future.</a>
+                                        <%}%>
+                                    <%});%>
+                                <%}else{%>
+                                    <div id="mailEmptyNotifications" class="emptyNotifications">
+                                        <span class="bitraf">Empty</span>
+                                    </div>
+                                <%}%>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item mr-3">
+                        <div id="bellNotificationsDropdown" class="notificationDropdown my-0 py-0">
+                            <a class="nav-link"><i class="fas fa-bell"></i></a>
+                            <div class="floating ui red label" style="top: 0em;">
+                                <span id="bellNotifsCount">
+                                    <%if(currentUser.bellNotifications.count > 0){%>
+                                        <%=currentUser.bellNotifications.count%>
+                                    <%}%>
+                                </span>
+                            </div>
+                            <div id="bellNotificationsContent" class="notificationDropdownContent">
+                                <%if(currentUser.bellNotifications.array.length > 0){%>
+                                    <%currentUser.bellNotifications.array.forEach(function(notification){%>
+                                        <%if(notification.notifType == 'receivedProject'){%>
+                                            <%if(notification.count > 1){%>
+                                                <a href="/users/<%=currentUser._id%>/projects/received"><strong class="bitraf mr-2"><i class="fas fa-clipboard-list"></i></strong>You have received <strong class="bitraf" projectType="received"><%=notification.count%></strong> new projects.</a>
+                                            <%}else{%>
+                                                <a href="/users/<%=currentUser._id%>/projects/received/<%=notification.projectId%>/detail"><strong class="bitraf mr-2"><i class="fas fa-clipboard-list"></i></strong>You have received <strong class="bitraf" projectType="received">1</strong> new project at <strong class="bitraf"><%=notification.at%></strong>.</a>
+                                            <%}%>
+                                        <%}else if(notification.notifType == 'assignedProject'){%>
+                                            <%if(notification.count > 1){%>
+                                                <a href="/users/<%=currentUser%>/projects/assigned"><strong class="bitraf mr-2"><i class="fas fa-clipboard-list"></i></strong>You have been assigned to <strong class="bitraf" projectType="assigned"><%=notification.count%></strong> projects.</a>
+                                            <%}else{%>
+                                                <a href="/users/<%=currentUser%>/projects/assigned/<%=notification.projectId%>/detail"><strong class="bitraf mr-2"><i class="fas fa-clipboard-list"></i></strong>You have been assigned to <strong class="bitraf" projectType="received">1</strong> project at <strong class="bitraf"><%=notification.at%></strong>.</a>
+                                            <%}%>
+                                        <%}else if(notification.notifType == 'updateProject'){%>
+                                            <%if(notification.projectType == 'assigned'){%>
+                                                <a href="/users/<%=currentUser%>/projects/assigned/<%=notification.projectId%>/detail"><strong class="bitraf mr-2"><i class="fas fa-exclamation-circle"></i></strong> <strong class="bitraf"><%=notification.username%></strong> has updated the project <strong class="bitraf">"<%=notification.projectTitle%>"</strong> at <strong class="bitraf"><%=notification.at%></strong>.</a>
+                                            <%}else{%>
+                                                <a href="/users/<%=currentUser%>/projects/received/<%=notification.projectId%>/detail"><strong class="bitraf mr-2"><i class="fas fa-exclamation-circle"></i></strong> <strong class="bitraf"><%=notification.username%></strong> has updated the project <strong class="bitraf">"<%=notification.projectTitle%>"</strong> at <strong class="bitraf"><%=notification.at%></strong>.</a>
+                                            <%}%>
+                                        <%}else if(notification.notifType == 'unassignProject'){%>
+                                            <a><strong class="bitraf mr-2"><i class="fas fa-exclamation-circle"></i></strong> <strong class="bitraf"><%=notification.username%></strong> has unassigned the project <strong class="bitraf">"<%=notification.projectTitle%>"</strong> at <strong class="bitraf"><%=notification.at%></strong>.</a>
+                                        <%}else if(notification.notifType == 'newEvent'){%>
+                                            <%if(notification.count > 1){%>
+                                                <a href="/users/<%=currentUser._id%>/events"><strong class="bitraf mr-2"><i class="far fa-star"></i></strong> <strong class="bitraf"><%=notification.plannerUsername%></strong> has planned <span class="bitraf" eventFrom="<%=notification.plannerId%>"><%=notification.count%></span> events for you.</a>
+                                            <%}else{%>
+                                                <a href="<%=notification.url%>"><strong class="bitraf mr-2"><i class="far fa-star"></i></strong> <strong class="bitraf"><%=notification.plannerUsername%></strong> has planned <span class="bitraf" eventFrom="<%=notification.plannerId%>">1</span> event <strong class="bitraf">"<%=notification.eventTitle%>"</strong> for you at <strong class="bitraf"><%=notification.at%></strong>.</a>
+                                            <%}%>
+                                        <%}else if(notification.notifType == 'eventUpdate'){%>
+                                            <a href="<%=notification.url%>"><strong class="bitraf mr-2"><i class="fas fa-exclamation-circle"></i></strong> <strong class="bitraf"><%=notification.plannerUsername%></strong> has updated <strong class="bitraf">"<%=notification.eventTitle%>"</strong> at <strong class="bitraf"><%=notification.at%></strong>.</a>
+                                        <%}else if(notification.notifType == 'eventCancellation'){%>
+                                            <a><strong class="bitraf mr-2"><i class="fas fa-exclamation-circle"></i></strong> <strong class="bitraf"><%=notification.plannerUsername%></strong> has canceled your <strong class="bitraf">"<%=notification.eventTitle%>"</strong> at <strong class="bitraf"><%=notification.at%></strong>.</a>
+                                        <%}else if(notification.notifType == 'projectDiscussion'){%>
+                                            <%if(notification.count > 1){%>
+                                                <a href="/users/<%=user._id%>/projects/<%=notification.projectType%>/<%=notification.projectId%>/discussion"><strong class="bitraf mr-2"><i class="far fa-comments"></i></strong> <strong class="bitraf" discussionOf="<%=notification.projectId%>"><%=notification.count%></strong> new messages in <strong class="bitraf"><%=notification.projectTitle%></strong>'s group discussion.</a>
+                                            <%}else{%>
+                                                <a href="/users/<%=user._id%>/projects/<%=notification.projectType%>/<%=notification.projectId%>/discussion"><strong class="bitraf mr-2"><i class="far fa-comments"></i></strong> <strong class="bitraf" discussionOf="<%=notification.projectId%>">1</strong> new message in <strong class="bitraf"><%=notification.projectTitle%></strong>'s group discussion.</a>
+                                            <%}%>
+                                        <%}%>
+                                    <%});%>
+                                <%}else{%>
+                                    <div id="bellEmptyNotifications" class="emptyNotifications">
+                                        <span class="bitraf">Empty</span>
+                                    </div>
+                                <%}%>
+                            </div>
+                        </div>
+                    </li>
+                   
+                 </ul>
+              </div>
+        </div>
+    </nav>
+      <div class="ui top attached menu mt-0">
+        <a id="sidebarId" class="item">
+          <i class="sidebar icon"></i> Menu
+        </a>
+      </div>
+      <div class="ui bottom attached segment mb-0">
+        <div class="ui inverted labeled icon left inline vertical demo sidebar menu">
+          
+          
+          
+          
+          
+          <div class="item">
+              
+            <a ><b>Society Name</b></a>
+            
+          </div>
+        
+       
+        
+        <a class="item " href="/orgchart/<%= currentUser._id%>">
+          <b>Organigram</b>
+        </a>
+       
+        <div class="item">
+          <div class="header">
+            
+              Profil
+            
+          </div>
+          <div class="menu" id="showProfil">
+            <a  class="item" href="/users/<%= user._id%>/profil">
+              Show Profil
+            </a>
+            <%if(currentUser && currentUser.admin===true){%>
+              <a class="item" href="/users/<%= currentUser._id%>/units">
+                Units Management
+              </a>
+            
+              <a class="item" href="/users/<%= currentUser._id%>/profil/gestionUsers">
+                Users Management
+              </a>
+            <%}%>
+          </div>
+        </div>
+        <%if(currentUser && user._id.equals(currentUser._id)){%>
+        <div class="item">
+          <div class=" header">
+            
+            Contacts
+
+          </div>
+          <div class="menu" id="showContacts">
+            
+              <a class="item"  href="/users/<%= user._id%>/contacts">
+                show Contacts
+                
+              </a>
+            
+          </div>
+        </div>
+        <%}%>
+        <div class="item">
+          <div class="header">
+            
+              Calendar
+          </div>
+          <div class="menu" id="showCalendar">
+            
+              <a class="item"   href="/users/<%= user._id%>/events/calendar">
+               Show Calendar
+                
+              </a>
+              <%if(user.parentId===null){%>
+                <%if(currentUser && user._id.equals(currentUser._id)){%>
+              <a class="item"  href="/users/<%= user._id%>/events/planned">
+                Planned Events
+                
+              </a>
+              <%}%>
+              <%}else{%>
+                <%if((currentUser && user._id.equals(currentUser._id))||(user.parentId.equals(currentUser._id))){%>
+                  <a class="item"  href="/users/<%= user._id%>/events/planned">
+                    Planned Events
+                    
+                  </a>
+                  <%}%>
+                  <%}%>
+          </div>
+        </div>
+        <%if(currentUser && user._id.equals(currentUser._id)){%>
+        <div class="item">
+          <div class=" header" id="showProjects" >
+
+              Tasks
+          
+          </div>
+          
+          
+          
+
+            
+          
+          <div class="menu">
+            
+              <a class="item" href="/users/<%= user._id%>/projects/received">
+                Received Tasks
+                
+              </a>
+            
+              <a class="item" href="/users/<%= user._id%>/projects/assigned">
+                Assigned Tasks
+                
+              </a>
+              <% function isLeaf(){
+               Leaf = true;
+               
+              allUsers.forEach(user=>{
+                if(currentUser._id.equals(user.parentId)){
+                   Leaf = false;
+                  return Leaf;
+                  }
+                  
+                })
+                return Leaf;
+              }%>
+                
+               <%if(isLeaf()=== false){ %>
+              <a class="item" href="/users/<%= user._id%>/projects/sent">
+                Sented Tasks 
+                
+              </a>
+              <a class="item" href="/users/<%= user._id%>/projects/new">
+                Sent New Tasks 
+                
+              </a>
+              
+             <%}%>
+            
+          </div>
+        </div>
+        <div class="item">
+          <div class=" header" id="showMails">
+              Mails
+          
+          </div>
+          <div class="menu">
+            
+              <a class="item" href="/users/<%= user._id%>/mails/received">
+                Received Mails
+                
+              </a>
+            
+              <a class="item" href="/users/<%= user._id%>/mails/sent">
+                Sented Mails
+                
+              </a>
+              <a class="item" href="/users/<%= user._id%>/mails/sent/new">
+                Sent New Mail
+                
+              </a>
+            
+          </div>
+
+
+
+        </div>
+        <%}%>
+        <div class="pusher">
+           <div class="ui basic segment">
+           
+         
+          </div> 
+        </div>
+      </div>
+
+
+
+
+
+      <!--//////////////////////////////// fin version 3///////////////////////////////////////////////////////////////////////-->

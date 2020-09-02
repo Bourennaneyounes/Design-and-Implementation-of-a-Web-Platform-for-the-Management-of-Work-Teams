@@ -5,12 +5,12 @@ $(document).ready(function() {
 $('.mdb-select').materialSelect();
 });
         </script>
-<div class="container">
+<div class="container m-0" style="max-width: 100%;">
     <div class="row d-flex justify-content-center align-items-center">
         
-        <dev class="column col-md-8">
-            <h1 class="ui header">Edit Users</h1>
-            <div class="column col-sm-6 d-flex justify-content-center">
+        <dev class="column col-md-12 mt-5 p-0 ml-5 mr-4" style="max-width: 100%;">
+            <h2 class="ui header" style="margin-left: 512px;"><span class="inputsTitles">Edit Users</span></h2>
+            <div class="column col-sm-6 d-flex justify-content-center" style="margin-left: 348px;">
               <a href="/users/<%=currentUser._id%>/profil/gestionUsers/register" class="d-block standardBtnStyle" style="padding: 7px; width: 60% ;height: 37.67px;margin-top: 30px;">New User</a>  
           </div>
             <form id="register-form" class="ui form" action="/users/<%=user._id%>/profil/gestionUsers" method="post">
@@ -68,15 +68,19 @@ $('.mdb-select').materialSelect();
                                 
                                     <div class="normalDiv row py-2 px-5 m-2">
                                         <div class="column col-9 d-flex">
-                                            
+                                          <img class="ui avatar image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQMDZH1hAZTs5H364fQPBj33spP6P8mi_CkfmHKcOUYArZ3LYTt">
                                             <p class="mt-1 ml-5"><span class="inputsTitles"><%= user.username%></span></p>
                                         </div>
                                         <div class="column col-3 d-flex justify-content-around text-align-center">
                                             <div class="ui toggle checkbox">
+                                              
                                               <%if(user.admin===true){%>
+                                                
                                                 <input type="checkbox" name="admin" value="<%=user._id%>"  checked>
+                                                <span>admin</span>
                                                 <%}else{%>
                                                   <input type="checkbox" name="admin" value="<%=user._id%>" >
+                                                  <span>admin</span>
                                                    <%}%>
                                                 <label></label>
                                               </div>
@@ -90,8 +94,8 @@ $('.mdb-select').materialSelect();
                     <%});%>
                 </div>
             
-                <button class="btn btn-outline-success" type="submit">Save Users</button>
-                <button class="btn btn-outline-danger" style="margin-left: 350px;" href="/user/<%=currentUser._id%>/profil">Back</button>
+                <button class="btn btn-outline-success" style="left: 280px;margin-top: 60px; margin-bottom: 100px;" type="submit">Save Users</button>
+                <button class="btn btn-outline-danger" style="margin-left: 890px;margin-top: 60px; margin-bottom: 100px;" href="/user/<%=currentUser._id%>/profil">Back</button>
               </form>
         </dev>
     </div>

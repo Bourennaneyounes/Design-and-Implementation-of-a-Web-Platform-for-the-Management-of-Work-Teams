@@ -27,11 +27,11 @@
     </div>
     <!------------------------------------------------------------------>
     <!-- Contacts List -->
-    <div class="column col-sm-6 d-flex justify-content-center">
+    <div class="column col-sm-6 d-flex justify-content-center" style="margin-left: 27rem;">
         <a href="/user/<%=currentUser._id%>/units/new" class="d-block standardBtnStyle" style="padding: 7px; width: 60% ;height: 37.67px;margin-top: 30px;">new Unit</a>  
     </div>
     
-    <div id="contactsList" class="container scrollDiv p-4">
+    <div id="contactsList" class="container scrollDiv p-4 " style="max-width: 100%;">
         <% units.forEach(function(unit){
           //  console.log(chrArray);
             %>
@@ -46,6 +46,10 @@
                             </div>
                             <div class="column col-3 d-flex justify-content-around text-align-center">
                                 <a href="/users/<%=currentUser._id%>/units/<%=unit._id%>/settings" class="contactsIcons" data-inverted="" data-tooltip="Settings" data-position="top center"><i class="cogs icon"></i></a>  
+                                
+                                <form action="/users/<%=currentUser._id%>/units/<%=unit._id%>/delete?_method=DELETE" method="POST">
+                                <button type="submit" class="contactsIcons" data-inverted="" data-tooltip="Deleting" data-position="top center"><i class="fas fa-trash-alt"></i></button> 
+                                </form>
                             </div>
                         </div>
                     
@@ -54,7 +58,7 @@
             <%}%>
         <%});%>
     </div>
-    <div class="column col-sm-6 d-flex justify-content-center">
+    <div class="column col-sm-6 d-flex justify-content-center" style="margin-left: 27rem;">
         <a href="/users/<%=currentUser._id%>/profil" class="d-block standardBtnStyle" style="padding: 7px; width: 60% ;height: 37.67px;margin-top: 30px;">back</a>  
     </div>
    

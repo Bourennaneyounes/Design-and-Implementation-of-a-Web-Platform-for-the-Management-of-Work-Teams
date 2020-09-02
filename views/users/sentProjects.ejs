@@ -50,7 +50,7 @@
         <span id="helpBlock" class="help-block">At what point does the match algorithm give up. A threshold of <code>0.0</code> requires a perfect match (of both letters and location), a threshold of <code>1.0</code> would match anything.</span>
     </div>
 
-    <div id="ProjectsContainer" class="scrollDiv container mb-4">
+    <div id="ProjectsContainer" class="scrollDiv container mb-4" style="max-width: 100%;">
         <input type="text" id="arrayLength" class="d-none" value="<%= user.sentProjects.length%>">
         <!------------------------------------------------------------------>
         <!------------------------------------------------------------------>
@@ -83,6 +83,6 @@
     </div>
 
     <!--Search results-->
-    <div id="projectsSearchResults" class="container scrollDiv mt-4 p-4 d-none"></div>
+    <div id="projectsSearchResults" class="container scrollDiv mt-4 p-4 d-none" style="max-width: 100%;"></div>
     
 <%- include('../partials/projectsFooter')%>

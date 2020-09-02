@@ -73,7 +73,7 @@
           <%sentMails.forEach(function(sentMail){%>
             <div id="sentMailContainer<%=i%>" >
               <input type="text" id="mail<%=i%>Id" value="<%= sentMail._id%>" class="d-none">
-              <div  onclick='location.href="/users/<%= user._id%>/mails/sent/<%= sentMail._id%>/content"' class="hoverableDiv row d-flex justify-content-between py-2 px-5 m-2">
+              <div  onclick='location.href="/users/<%= user._id%>/mails/sent/<%= sentMail._id%>/content"' class="hoverableDiv row d-flex justify-content-between py-2 px-5 m-4">
                 <div>
                   <span class="bitraf mr-2" style="font-size: 1.3em;">
                     <i class="fas fa-paper-plane"></i>

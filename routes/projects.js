@@ -287,18 +287,14 @@ router.get("/users/:id/projects/assigned" ,middleware.checkOwnership,(req ,res)=
         if(err){throw err;}
         else{
             const assignedProjects = user.assignedProjects;
-           
-           // User.findById(user.parentId,function(err ,children){
             user.getChildren(function(err ,children){
                 if(err){throw err;}
-                //console.log(children);
                 var isLeaf;
                 if(children.length > 0){
                     isLeaf = false;
                 }else{
                     isLeaf = true;
                 }
-                
                 const promise = new Promise((resolve ,reject) => {
                     var removedCount = 0;
                     var updatedBellNotificationsArray = user.bellNotifications.array.filter(notification => {
@@ -335,7 +331,7 @@ router.get("/users/:id/projects/assigned" ,middleware.checkOwnership,(req ,res)=
 });
 
 //shows a specific assigned project's detail
-router.get("/users/:id/projects/assigned/:prjId/detail" ,(req ,res)=>{
+router.get("/users/:id/projects/assigned/:prjId/detail" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -388,7 +384,7 @@ router.get("/users/:id/projects/assigned/:prjId/detail" ,(req ,res)=>{
 });
 
 //shows a specific assigned project's discussion
-router.get("/users/:id/projects/assigned/:prjId/discussion" ,(req ,res)=>{
+router.get("/users/:id/projects/assigned/:prjId/discussion" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -409,7 +405,7 @@ router.get("/users/:id/projects/assigned/:prjId/discussion" ,(req ,res)=>{
 });
 
 //shows a specific assigned project's tree
-router.get("/users/:id/projects/assigned/:prjId/tree" ,(req ,res)=>{
+router.get("/users/:id/projects/assigned/:prjId/tree" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -425,7 +421,7 @@ router.get("/users/:id/projects/assigned/:prjId/tree" ,(req ,res)=>{
 });
 
 //unassign a project
-router.delete("/users/:id/projects/assigned/:prjId" ,(req ,res)=>{
+router.delete("/users/:id/projects/assigned/:prjId" ,middleware.checkOwnership,(req ,res)=>{
     var io = req.app.get('io');
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
@@ -535,7 +531,7 @@ router.get("/users/:id/projects/received" ,middleware.checkOwnership,(req ,res)=
 });
 
 //show a received project's detail
-router.get("/users/:id/projects/received/:prjId/detail" ,(req ,res)=>{
+router.get("/users/:id/projects/received/:prjId/detail" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -588,7 +584,7 @@ router.get("/users/:id/projects/received/:prjId/detail" ,(req ,res)=>{
     });
 });
 //show a received project's discussion
-router.get("/users/:id/projects/received/:prjId/discussion" ,(req ,res)=>{
+router.get("/users/:id/projects/received/:prjId/discussion" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -609,7 +605,7 @@ router.get("/users/:id/projects/received/:prjId/discussion" ,(req ,res)=>{
 });
 
 //show a received project's tree
-router.get("/users/:id/projects/received/:prjId/tree" ,(req ,res)=>{
+router.get("/users/:id/projects/received/:prjId/tree" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -617,6 +613,7 @@ router.get("/users/:id/projects/received/:prjId/tree" ,(req ,res)=>{
                 if(err){throw err;}
                 Tree.GetArrayTree(project.tree ,function(err ,tree){
                     if(err){throw err;}
+                    
                     res.render("users/receivedProjectTree" ,{user: user ,project: project ,tree: JSON.stringify(tree[0])});
                 });
             }); 
@@ -625,7 +622,7 @@ router.get("/users/:id/projects/received/:prjId/tree" ,(req ,res)=>{
 });
 
 //adding a new message to the received project's discussion
-router.post("/users/:id/projects/received/:prjId/discussion" ,(req ,res)=>{
+router.post("/users/:id/projects/received/:prjId/discussion" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -684,7 +681,7 @@ router.get("/users/:id/projects/new" ,middleware.checkOwnership,(req ,res)=>{
 });
 
 //show a specific sent project's detail
-router.get("/users/:id/projects/sent/:prjId/detail" ,(req ,res)=>{
+router.get("/users/:id/projects/sent/:prjId/detail" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -714,7 +711,7 @@ router.get("/users/:id/projects/sent/:prjId/detail" ,(req ,res)=>{
 });
 
 //show sent project's discussion
-router.get("/users/:id/projects/sent/:prjId/discussion" ,(req ,res)=>{
+router.get("/users/:id/projects/sent/:prjId/discussion" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -736,7 +733,7 @@ router.get("/users/:id/projects/sent/:prjId/discussion" ,(req ,res)=>{
 });
 
 //show sent project's tree
-router.get("/users/:id/projects/sent/:prjId/tree" ,(req ,res)=>{
+router.get("/users/:id/projects/sent/:prjId/tree" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -747,6 +744,8 @@ router.get("/users/:id/projects/sent/:prjId/tree" ,(req ,res)=>{
                         if(err){throw err;}
                         Tree.GetArrayTree(project.tree ,function(err ,tree){
                             if(err){throw err;}
+                            //console.log(tree[0]);
+                            //console.log(JSON.stringify(tree[0]));
                             res.render("users/sentProjectTree" ,{user: user ,project: project ,tree: JSON.stringify(tree[0])});
                         });
                     });  
@@ -757,7 +756,7 @@ router.get("/users/:id/projects/sent/:prjId/tree" ,(req ,res)=>{
 });
 
 //adding new message to the sent project's discussion
-router.post("/users/:id/projects/sent/:prjId/discussion" ,(req ,res)=>{
+router.post("/users/:id/projects/sent/:prjId/discussion" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -780,7 +779,7 @@ router.post("/users/:id/projects/sent/:prjId/discussion" ,(req ,res)=>{
 });
 
 //deleting a project
-router.delete("/users/:id/projects/sent/:prjId" ,(req ,res)=>{
+router.delete("/users/:id/projects/sent/:prjId" ,middleware.checkOwnership,(req ,res)=>{
     Project.findById(req.params.prjId ,(err ,project)=>{
         if(err){throw err;}
         project.assignedToList.forEach(function(atid){
@@ -806,7 +805,7 @@ router.delete("/users/:id/projects/sent/:prjId" ,(req ,res)=>{
 });
 
 //show the tempet of updating a project
-router.get("/users/:id/projects/sent/:prjId/edit" ,(req ,res)=>{
+router.get("/users/:id/projects/sent/:prjId/edit" ,middleware.checkOwnership,(req ,res)=>{
     User.findById(req.params.id ,(err ,user)=>{
         if(err){throw err;}
         else{
@@ -837,7 +836,7 @@ function de_duplicate(array){
 }
 
 //updating a project
-router.put("/users/:id/projects/sent/:prjId" ,arrUpload ,(req ,res)=>{
+router.put("/users/:id/projects/sent/:prjId" ,middleware.checkOwnership,arrUpload ,(req ,res)=>{
     var io = req.app.get('io');
     Project.findById(req.params.prjId).populate('createdBy').exec((err ,project)=>{
         if(err){throw err;}
@@ -946,7 +945,7 @@ router.put("/users/:id/projects/sent/:prjId" ,arrUpload ,(req ,res)=>{
 
 
 //updating a project's progress
-router.post("/users/:id/projects/:prjId/progress" ,(req ,res)=>{
+router.post("/users/:id/projects/:prjId/progress" ,middleware.checkOwnership,(req ,res)=>{
     Project.findById(req.params.prjId ,(err ,project)=>{
         if(err){throw err;}
         const oldProgress = project.progress;
@@ -965,7 +964,7 @@ router.post("/users/:id/projects/:prjId/progress" ,(req ,res)=>{
 });
 
 //sending new project
-router.post("/users/:id/projects/sent" ,arrUpload ,(req ,res)=>{
+router.post("/users/:id/projects/sent" ,middleware.checkOwnership,arrUpload ,(req ,res)=>{
     var io = req.app.get('io');
     var assignedTo = [];
     var sentTo = [];
@@ -1090,6 +1089,8 @@ router.post("/users/:id/projects/sent" ,arrUpload ,(req ,res)=>{
                 sentTo: false,
                 head: true
             });
+          //  console.log(project.createdBy._id);
+            //console.log(project.createdBy);
             User.findById(project.createdBy._id ,(err ,user)=>{
                 if(err){throw err;}
                 user.sentProjects.push(project);
@@ -1101,8 +1102,10 @@ router.post("/users/:id/projects/sent" ,arrUpload ,(req ,res)=>{
                     if(err){throw err;}
                     if(req.body.sentTo !== undefined){
                         project.sentTo.forEach(function(st){
+                            //console.log(st.id);
+                            //console.log(st);
                             tree.appendChild({
-                                user: st.id,
+                                user: st._id,
                                 project: project._id,
                                 username: st.username,
                                 name: st.name,
@@ -1132,7 +1135,7 @@ router.post("/users/:id/projects/sent" ,arrUpload ,(req ,res)=>{
                                     else{
                                         if(trv == null){
                                             tree.appendChild({
-                                                user: at.id,
+                                                user: at._id,
                                                 project: project._id,
                                                 username: at.username,
                                                 name: at.name,
@@ -1187,7 +1190,7 @@ router.post("/users/:id/projects/sent" ,arrUpload ,(req ,res)=>{
 });
 
 //re-sending a sent project
-router.post("/users/:id/projects/:prjId/send" ,(req ,res)=>{
+router.post("/users/:id/projects/:prjId/send" ,middleware.checkOwnership,(req ,res)=>{
     var io = req.app.get('io');
     var assignedTo = [];
     var sentTo = [];
@@ -1294,7 +1297,7 @@ router.post("/users/:id/projects/:prjId/send" ,(req ,res)=>{
                                 else{
                                     if(trv == null){
                                         tree.appendChild({
-                                            user: st.id,
+                                            user: st._id,
                                             project: req.params.prjId,
                                             username: st.username,
                                             name: st.name,
@@ -1340,7 +1343,7 @@ router.post("/users/:id/projects/:prjId/send" ,(req ,res)=>{
                                     else{
                                         if(trv == null){
                                             tree.appendChild({
-                                                user: at.id,
+                                                user: at._id,
                                                 project: req.params.prjId,
                                                 username: at.username,
                                                 name: at.name,
@@ -1381,6 +1384,7 @@ router.post("/users/:id/projects/:prjId/send" ,(req ,res)=>{
                                 });    
                             });
                         }
+                        
                         tree.save((err ,tree)=>{
                             if(err){throw err;}
                             User.findById(req.params.id ,(err ,user)=>{
@@ -1391,6 +1395,7 @@ router.post("/users/:id/projects/:prjId/send" ,(req ,res)=>{
                                         trv = true;
                                     }
                                 });
+                                
                                 if(trv == false){
                                     user.sentProjects.push(project);
                                     user.save(function(){
