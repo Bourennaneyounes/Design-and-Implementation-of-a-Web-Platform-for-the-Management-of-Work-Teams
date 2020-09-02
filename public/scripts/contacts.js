@@ -48,7 +48,7 @@ $('#searchTextbox').on('input' ,function(){
             var str = [ 
               '<div class="normalDiv row py-2 px-5 m-2">',
               '  <div class="column col-9 d-flex">',
-              '      <img class="ui avatar image" src="'+ result.imageUrl+'">',
+              '      <img class="ui avatar image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQMDZH1hAZTs5H364fQPBj33spP6P8mi_CkfmHKcOUYArZ3LYTt">',
               '      <p class="mt-1 ml-5"><span class="inputsTitles">'+ result.username+'</span></p>',
               '  </div>',
               '  <div class="column col-3 d-flex justify-content-around text-align-center">',
@@ -110,7 +110,7 @@ $('#searchTextbox').on('input' ,function(){
               var str = [ 
                 '<div class="normalDiv row py-2 px-5 m-2">',
                 '  <div class="column col-9 d-flex">',
-                '      <img class="ui avatar image" src="'+ result.imageUrl+'">',
+                '      <img class="ui avatar image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQMDZH1hAZTs5H364fQPBj33spP6P8mi_CkfmHKcOUYArZ3LYTt">',
                 '      <p class="mt-1 ml-5"><span class="inputsTitles">'+ result.username+'</span></p>',
                 '  </div>',
                 '  <div class="column col-3 d-flex justify-content-around text-align-center">',

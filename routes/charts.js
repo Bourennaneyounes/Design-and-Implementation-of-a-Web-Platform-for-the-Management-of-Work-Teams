@@ -31,10 +31,7 @@ router.get("/orgchart/:userId" ,middleware.isLoggedIn,(req ,res)=>{
                 var dataa = JSON.stringify(tree);
                 //console.log(dataa);
                 var dat =JSON.parse(dataa);
-                fs.outputFile('C:/myapp/master/public/scripts/d2.js', dataa, function(err){
-                    if (err) return console.log(err) // => null
-                    console.log('success!')
-                  })
+                
                 /* fs.writeJson('C:/myapp/master/public/scripts/d1.js', dataa, err => {
                     if (err) return console.error(err)
                     console.log('success!')
